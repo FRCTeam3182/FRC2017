@@ -23,9 +23,6 @@ import org.usfirst.frc.team3182.robot.commands.TimedVariableDrive;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
- */
-
-
 
 public class Robot extends IterativeRobot {
 	
@@ -36,6 +33,7 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
+
 	
 	public static boolean usesPowerGlove = true;
 	
@@ -47,6 +45,13 @@ public class Robot extends IterativeRobot {
 	DriverStation ds;
 	//private double warningTime=0;
 	
+
+  
+	/**        
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */ 
+
 	@Override
 	public void robotInit() {
 		/*drivetrain=new Drivetrain();
@@ -67,7 +72,6 @@ public class Robot extends IterativeRobot {
 		//driveControl=new DriveControl();
 	}
 
-	
 	@Override
 	public void autonomousInit() {
 		autoSelected = chooser.getSelected();
