@@ -97,13 +97,9 @@ public class Robot extends IterativeRobot {
 		case customGear:
 			// Put custom auto code here
 			break;
-		}
-		switch (autoSelected) {
 		case customHigh:
 			// Put custom auto code here
 			break;
-		}
-		switch (autoSelected) {
 		case customLow:
 			// Put custom auto code here
 			break;
