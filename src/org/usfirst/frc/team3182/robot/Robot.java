@@ -10,17 +10,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
- */
+ */ 
 public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
-
-	/**
+  
+	/**        
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
-	 */
+	 */ 
 	@Override
 	public void robotInit() {
 		chooser.addDefault("Default Auto", defaultAuto);
@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", chooser);
 	}
 
-	/**
+	/** 
 	 * This autonomous (along with the chooser code above) shows how to select
 	 * between different autonomous modes using the dashboard. The sendable
 	 * chooser code works with the Java SmartDashboard. If you prefer the
