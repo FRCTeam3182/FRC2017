@@ -3,6 +3,19 @@ package org.usfirst.frc.team3182.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
+/*
+import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team3182.robot.commands.TimedDrive;
+import org.usfirst.frc.team3182.robot.commands.TimedTurn;
+import org.usfirst.frc.team3182.robot.commands.TimedVariableDrive;
+ */
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -10,35 +23,55 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
- */ 
+
 public class Robot extends IterativeRobot {
+	
+	//public static Drivetrain drivetrain;
+	//public static DriveControl driveControl;
+	
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
+
+	
+	public static boolean usesPowerGlove = true;
+	
+	Command autonomousCommand;
+	
+	
+	public static CameraServer server;
+	
+	DriverStation ds;
+	//private double warningTime=0;
+	
+
   
 	/**        
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */ 
+
 	@Override
 	public void robotInit() {
+		/*drivetrain=new Drivetrain();
+		 * driveControl=new DriveControl;
+		 */
+		
+		
+		server=CameraServer.getInstance();
+		server.startAutomaticCapture();
+		
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
+		
 		SmartDashboard.putData("Auto choices", chooser);
 	}
+	
+	public void disabledInit() {
+		//driveControl=new DriveControl();
+	}
 
-	/** 
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the
-	 * switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
 	@Override
 	public void autonomousInit() {
 		autoSelected = chooser.getSelected();
