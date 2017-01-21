@@ -23,14 +23,16 @@ import org.usfirst.frc.team3182.robot.commands.TimedVariableDrive;
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
-
+ */
 public class Robot extends IterativeRobot {
 	
 	//public static Drivetrain drivetrain;
 	//public static DriveControl driveControl;
 	
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
+	final String customGear = "Gear Auto";
+	final String customLow = "High  Goal Auto";
+	final String customHigh = "Low Goal Auto";
+	
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 
@@ -62,10 +64,15 @@ public class Robot extends IterativeRobot {
 		server=CameraServer.getInstance();
 		server.startAutomaticCapture();
 		
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
+		//chooser=new SendableChoooser();
+		//chooser.addDefault("Default", new driveDistance(96));
+		chooser.addObject("Gear Auto", customGear);
+		chooser.addObject("High Goal Auto", customHigh);
+		chooser.addObject("Low Goal Auto", customLow);
 		
 		SmartDashboard.putData("Auto choices", chooser);
+		
+		
 	}
 	
 	public void disabledInit() {
@@ -78,6 +85,7 @@ public class Robot extends IterativeRobot {
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
+		if (autonomousCommand !=null) autonomousCommand.start();
 	}
 
 	/**
@@ -86,12 +94,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		switch (autoSelected) {
-		case customAuto:
+		case customGear:
 			// Put custom auto code here
 			break;
-		case defaultAuto:
-		default:
-			// Put default auto code here
+		case customHigh:
+			// Put custom auto code here
+			break;
+		case customLow:
+			// Put custom auto code here
 			break;
 		}
 	}
