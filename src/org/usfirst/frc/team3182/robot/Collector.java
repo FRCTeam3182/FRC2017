@@ -29,16 +29,39 @@ public class Collector {
 		upperMotor.getSpeed();
 		lowerMotor.getSpeed();
 	}
+	/**
+	 * Activates conveyer belt.
+	 * 
+	 * @return Returns set speed.
+	 */
+	
 	public boolean detectGear() {
 		//FIXME find ultrasonic value for gear
+		double distanceToGear = 0;
 		ultrasonic.ping();
-		ultrasonic.getRangeInches();
-		return false;
+		if (ultrasonic.getRangeInches() == distanceToGear) {
+			return(true);
+		} else {
+			return(false);
+		}
 	}
+	/**
+	 * Determines if the robot has a gear.
+	 * 
+	 * @return True id the robot has a motor.
+	 */
+	
 	public boolean detectMotorJammed() {
 		//FIXME find encoder value for jammed motor
-		encoder.getStopped();
-		return false;
+		if (upperMotor.getSpeed() != 0 && encoder.getStopped() == true) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
+	/**
+	 * Determines if the motor is jammed.
+	 * 
+	 * @return True if the motor is jammed.
+	 */
 }
