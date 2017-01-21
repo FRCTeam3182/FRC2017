@@ -5,25 +5,32 @@ import edu.wpi.first.wpilibj.Joystick;
 public class PowerGlove extends Joystick {
 	
 	
+	//This enumerates the different possible finger positions of the power glove
 	public enum FingerPos {
-		UP, MIDDLE, DOWN
+		UP, MIDDLE, DOWN, NULL
 	}
 	
 	/**
 	 * We still have to figure out which buttons do what, and that is in the arduino code for the power glove. This
 	 * can easily be changed later.
+	 * 
+	 * This method gives the enum value for the finger position of the power glove. If no button is pressed, it returns null.
+	
 	 * @return
 	 */
-	
 	public FingerPos getFinger() {
 		if(this.getRawButton(1)&&this.getRawButton(2))
 			return FingerPos.UP;
 		else if (this.getRawButton(1))
 			return FingerPos.MIDDLE;
-		else
+		else if (this.getRawButton(2))
 			return FingerPos.DOWN;
+		else
+			return null;
 		
 	}
+	
+	//This constructor doesn't need parameters because it only calls the Joystick constructor and that is given the USB #
 	public PowerGlove() {
 		super(IODef.powerGlove);
 	}
