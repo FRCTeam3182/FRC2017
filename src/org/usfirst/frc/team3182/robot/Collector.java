@@ -22,7 +22,11 @@ public class Collector {
 		ultrasonic = new Ultrasonic(0, 0);
 		encoder = new Encoder(0, 0);
 	}
-	
+	/**
+	 * Activates conveyer belt.
+	 * 
+	 * @return Returns set speed.
+	 */
 	public void collect() {
 		upperMotor.set(0.5);
 		lowerMotor.set(0.5);
@@ -30,11 +34,10 @@ public class Collector {
 		lowerMotor.getSpeed();
 	}
 	/**
-	 * Activates conveyer belt.
+	 * Determines if the robot has a gear.
 	 * 
-	 * @return Returns set speed.
+	 * @return True id the robot has a motor.
 	 */
-	
 	public boolean detectGear() {
 		//FIXME find ultrasonic value for gear
 		double distanceToGear = 0;
@@ -46,11 +49,10 @@ public class Collector {
 		}
 	}
 	/**
-	 * Determines if the robot has a gear.
+	 * Determines if the motor is jammed.
 	 * 
-	 * @return True id the robot has a motor.
+	 * @return True if the motor is jammed.
 	 */
-	
 	public boolean detectMotorJammed() {
 		//FIXME find encoder value for jammed motor
 		if (upperMotor.getSpeed() != 0 && encoder.getStopped() == true) {
@@ -59,9 +61,5 @@ public class Collector {
 			return false;
 		}
 	}
-	/**
-	 * Determines if the motor is jammed.
-	 * 
-	 * @return True if the motor is jammed.
-	 */
+	
 }
