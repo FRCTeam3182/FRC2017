@@ -5,9 +5,13 @@ import edu.wpi.first.wpilibj.Joystick;
 public class PowerGlove extends Joystick {
 	
 	
-	//This enumerates the different possible finger positions of the power glove
+	/**This enumerates the different possible finger positions of the power glove
+	 * NOPOS is the same as a null value, in which the powerglove did not return any buttons pressed.
+	 * @author RACE
+	 *
+	 */
 	public enum FingerPos {
-		UP, MIDDLE, DOWN, NULL
+		UP, MIDDLE, DOWN, NOPOS
 	}
 	
 	/**
@@ -26,7 +30,7 @@ public class PowerGlove extends Joystick {
 		else if (this.getRawButton(2))
 			return FingerPos.DOWN;
 		else
-			return null;
+			return FingerPos.NOPOS;
 		
 	}
 	
