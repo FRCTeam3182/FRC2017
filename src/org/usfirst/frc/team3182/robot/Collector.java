@@ -1,4 +1,4 @@
-package src.org.usfirst.frc.team3182.robot;
+package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
