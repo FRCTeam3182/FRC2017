@@ -6,19 +6,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team3182.robot.DriveControl;
-
-/*
-import org.usfirst.frc.team3182.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team3182.robot.commands.TimedDrive;
-import org.usfirst.frc.team3182.robot.commands.TimedTurn;
-import org.usfirst.frc.team3182.robot.commands.TimedVariableDrive;
-
- */
+import org.usfirst.frc.team3182.robot.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -28,29 +18,26 @@ import org.usfirst.frc.team3182.robot.commands.TimedVariableDrive;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
-	//public static Drivetrain drivetrain;
+	public SmartDashboard smartDashboard = new SmartDashboard();
+	DriveTrain drivetrain = new DriveTrain();
 	//public static DriveControl driveControl;
 	
 	final String customGear = "Gear Auto";
 	final String customLow = "High  Goal Auto";
 	final String customHigh = "Low Goal Auto";
+	DriveControl driveControl = new DriveControl();
 	
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
-
 	
 	public static boolean usesPowerGlove = true;
 	
 	Command autonomousCommand;
 	
-	
 	public static CameraServer server;
 	
 	DriverStation ds;
 	//private double warningTime=0;
-	
-
   
 	/**        
 	 * This function is run when the robot is first started up and should be
@@ -63,9 +50,11 @@ public class Robot extends IterativeRobot {
 		 * driveControl=new DriveControl;
 		 */
 		
-		
+		/**
+		 * FIXME: Uncomment when camera is installed
 		server=CameraServer.getInstance();
 		server.startAutomaticCapture();
+		*/
 		
 		//chooser=new SendableChoooser();
 		//chooser.addDefault("Default", new driveDistance(96));
@@ -79,7 +68,6 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void disabledInit() {
-		//driveControl=new DriveControl();
 	}
 
 	@Override
@@ -121,6 +109,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		drivetrain.drive(.5, .5);
 	}
 }
 

@@ -11,7 +11,11 @@ public class IODef {
 	//Climber
 	public static final int winch = 0;
 			
-			
+	//Outputs
+	public static final int driveWheelL = 0;
+	public static final int driveWheelR = 1;
+	public static final int encoderL = 2;
+	public static final int encoderR = 3;
 
 
 }
