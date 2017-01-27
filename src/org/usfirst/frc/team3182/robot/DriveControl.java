@@ -13,12 +13,9 @@ public class DriveControl {
 
 	
 
-    // Init the power glove as a joystick and a few buttons from it as well
-    Joystick powerGlove = new Joystick(IODef.powerGlove);
-    JoystickButton pgButton1 = new JoystickButton(powerGlove, 1);
-    JoystickButton pgButton2 = new JoystickButton(powerGlove, 2);
-    JoystickButton pgButton3 = new JoystickButton(powerGlove, 3);
-    JoystickButton pgButton4 = new JoystickButton(powerGlove, 4);
+    // Init the power glove as a PowerGlove and a few buttons from it as well
+    PowerGlove powerGlove = new PowerGlove();
+    
 
 			
 	public DriveControl() {
@@ -36,7 +33,9 @@ public class DriveControl {
 	 */
 	public double getL() {
 		if(Math.abs(driveControlL.getY())<.15) return 0;
-		return driveControlL.getY();
+		//double temp = driveControlL.getY();
+		//temp = -temp;
+		return -driveControlL.getY();
 		
 	}
 	/**
@@ -44,7 +43,9 @@ public class DriveControl {
 	 */
 	public double getR() {
 		if(Math.abs(driveControlR.getY())<.15) return 0;
-		return driveControlR.getY();
+		//double temp = driveControlR.getY();
+		//temp = -temp;
+		return -driveControlR.getY();
 	
 		
 	}
@@ -74,7 +75,7 @@ public class DriveControl {
 	 * @return the Y value of the power glove
 	 */
 	public double getPowerGloveRoll() {
-		return powerGlove.getY();
+		return powerGlove.getRoll();
 		
 	}
 	

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team3182.robot.DriveControl;
 import org.usfirst.frc.team3182.robot.DriveTrain;
@@ -19,6 +20,7 @@ import org.usfirst.frc.team3182.robot.DriveTrain;
  */
 public class Robot extends IterativeRobot {
 	public SmartDashboard smartDashboard = new SmartDashboard();
+	LiveWindow lw = new LiveWindow();
 	DriveTrain drivetrain = new DriveTrain();
 	//public static DriveControl driveControl;
 	
@@ -27,8 +29,10 @@ public class Robot extends IterativeRobot {
 	final String customHigh = "Low Goal Auto";
 	DriveControl driveControl = new DriveControl();
 	
-	String autoSelected;
+	String autoSelected;	
 	SendableChooser<String> chooser = new SendableChooser<>();
+
+
 	
 	public static boolean usesPowerGlove = true;
 	
@@ -98,18 +102,22 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This function is called periodically during operator control
-	 */
-	@Override
-	public void teleopPeriodic() {
-	}
-
-	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
 	public void testPeriodic() {
 		drivetrain.drive(.5, .5);
+		smartDashboard.putNumber("LeftStickVal", driveControl.getL());
+		smartDashboard.putNumber("RightStickVal", driveControl.getR());
+	}
+	
+	/**
+	 * This function is called during teleop mode
+	 */
+	public void teleopPeriodic() {
+		drivetrain.drive(driveControl.getR(), driveControl.getL());
+		smartDashboard.putNumber("LeftStickVal", driveControl.getL());
+		smartDashboard.putNumber("RightStickVal", driveControl.getR());
 	}
 }
 
