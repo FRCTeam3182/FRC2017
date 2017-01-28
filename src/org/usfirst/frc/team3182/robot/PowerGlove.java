@@ -1,11 +1,18 @@
 package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class PowerGlove extends Joystick {
 	
 	
-	/**This enumerates the different possible finger positions of the power glove
+	//These buttons are properties of any powerglove and will be getted and setted from within this class
+	private JoystickButton pgButton1 = new JoystickButton(this, 1);
+    private JoystickButton pgButton2 = new JoystickButton(this, 2);
+    private JoystickButton pgButton3 = new JoystickButton(this, 3);
+    private JoystickButton pgButton4 = new JoystickButton(this, 4);
+    
+    /**This enumerates the different possible finger positions of the power glove
 	 * NOPOS is the same as a null value, in which the powerglove did not return any buttons pressed.
 	 * @author RACE
 	 *
@@ -52,6 +59,15 @@ public class PowerGlove extends Joystick {
 	public double getYaw() {
 		//Once again, not sure about the axis
 		return this.getZ();
+	}
+	
+	/**
+	 * This method is used for getting the value of a button on the joystick
+	 * @param joystickButton (the name of the button pgButton1...
+	 * @return boolean value for the correct joystickButton
+	 */
+	public boolean getPowerButton(JoystickButton joystickButton) {
+		return joystickButton.get();
 	}
 	
 	

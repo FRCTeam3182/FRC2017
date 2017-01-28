@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3182.robot;
 
+
 public class IODef {
 
 	
@@ -12,8 +13,8 @@ public class IODef {
 	public static final int winch = 0;
 			
 	//Outputs
-	public static final int driveWheelL = 0;
-	public static final int driveWheelR = 1;
+	public static final int driveWheelL = 1;
+	public static final int driveWheelR = 0;
 	public static final int encoderL = 2;
 	public static final int encoderR = 3;
 
