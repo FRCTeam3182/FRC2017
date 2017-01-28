@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team3182.robot.DriveControl;
 import org.usfirst.frc.team3182.robot.DriveTrain;
+import org.usfirst.frc.team3182.robot.RobotConfig;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,6 +20,7 @@ import org.usfirst.frc.team3182.robot.DriveTrain;
  * directory.
  */
 public class Robot extends IterativeRobot {
+
 
 	DriveTrain driveTrain = new DriveTrain();
 	//public static DriveControl driveControl;
@@ -44,6 +46,8 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	SendableChooser<String> configChooser = new SendableChooser<>();
 	SendableChooser<String> distanceChooser = new SendableChooser<>();
+
+
 
 	CameraServo cameraServo = new CameraServo();
 	
@@ -91,12 +95,10 @@ public class Robot extends IterativeRobot {
 		distanceChooser.addObject("Drive 50% Power", distanceC);
 		distanceChooser.addObject("Joystick Drive", distanceD);
 		
-		
-		
-		//runs the setBotConfig method in RobotConfig with the correct parameter
-		RobotConfig.setBotConfig(configChooser.getSelected());
-		
-		
+		SmartDashboard.putData("Distancechoice", distanceChooser);
+			
+		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
+		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 		
 	}
 	
@@ -105,8 +107,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		//runs the setBotConfig method in RobotConfig with the correct parameter
-		RobotConfig.setBotConfig(configChooser.getSelected());
+
+		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
+		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 		autoSelected = autoChooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
@@ -137,12 +140,19 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testInit() {
 		String driveType = distanceChooser.getSelected();
-		//runs the setBotConfig method in RobotConfig with the correct parameter
-		RobotConfig.setBotConfig(configChooser.getSelected());
+		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
+		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
+
 		LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
 		LiveWindow.addActuator("DriveTrain", "right motor", driveTrain.getRightController());
 		LiveWindow.addActuator("Encoders", "left encoder", driveTrain.getLeftEncoder());
 		LiveWindow.addActuator("Encoders", "right encoder", driveTrain.getRightEncoder());
+
+		SmartDashboard.putData("left motor", driveTrain.getLeftController());
+		SmartDashboard.putData("right motor", driveTrain.getRightController());
+		SmartDashboard.putData("left encoder", driveTrain.getLeftEncoder());
+		SmartDashboard.putData("right encoder", driveTrain.getRightEncoder());
+
 		if(driveType == "distanceB") {
 			driveTrain.driveDistance(24);
 		}
@@ -151,6 +161,8 @@ public class Robot extends IterativeRobot {
 		else if(driveType == "distanceD")
 			driveTrain.drive(driveControl.getL(), driveControl.getR());
 		
+		cameraServo.move();
+		
 	}
 
 	/**
@@ -158,6 +170,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+
 		cameraServo.move();
 		LiveWindow.run();
 		SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
@@ -170,8 +183,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called when teleop begins.
 	 */
 	public void teleopInit() {
-		//runs the setBotConfig method in RobotConfig with the correct parameter
-		RobotConfig.setBotConfig(configChooser.getSelected());
+		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
+		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 	}
 	
 	/**

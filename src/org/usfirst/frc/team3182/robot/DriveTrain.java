@@ -57,19 +57,20 @@ public class DriveTrain {
 		drive.stopMotor();
 	}
 
-	public LiveWindowSendable getLeftController() {
+
+	public Talon getLeftController() {
 		return leftController;
 	}
 	
-	public LiveWindowSendable getRightController() {
+	public Talon getRightController() {
 		return rightController;
 	}
 
-	public LiveWindowSendable getRightEncoder() {
+	public Encoder getRightEncoder() {
 		return rightEncoder;
 	}
 	
-	public LiveWindowSendable getLeftEncoder() {
+	public Encoder getLeftEncoder() {
 		return leftEncoder;
 	}
 	

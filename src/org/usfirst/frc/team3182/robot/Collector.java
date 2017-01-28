@@ -14,13 +14,15 @@ public class Collector {
 	private Talon upperMotor;
 	private Talon lowerMotor;
 	private Ultrasonic ultrasonic;
-	private Encoder encoder;
+	private Encoder upperEncoder;
+	private Encoder lowerEncoder;
 	
 	public Collector() {
-		upperMotor = new Talon(2);
-		lowerMotor = new Talon(3);
-		ultrasonic = new Ultrasonic(0, 0);
-		encoder = new Encoder(0, 0);
+		upperMotor = new Talon(RobotConfig.upperMotor);
+		lowerMotor = new Talon(RobotConfig.lowerMotor);
+		ultrasonic = new Ultrasonic(RobotConfig.ultrasonicPing, RobotConfig.ultrasonicEcho);
+		upperEncoder = new Encoder(RobotConfig.encoderUpperA, RobotConfig.encoderUpperB);
+		lowerEncoder = new Encoder(RobotConfig.encoderLowerA, RobotConfig.encoderLowerB);
 	}
 	/**
 	 * Activates conveyer belt.
@@ -55,7 +57,7 @@ public class Collector {
 	 */
 	public boolean detectMotorJammed() {
 		//FIXME find encoder value for jammed motor
-		if (upperMotor.getSpeed() != 0 && encoder.getStopped() == true) {
+		if (upperMotor.getSpeed() != 0 && upperEncoder.getStopped() == true) {
 			return true;
 		} else {
 			return false;
