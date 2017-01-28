@@ -28,9 +28,16 @@ public class Robot extends IterativeRobot {
 	final String customLow = "High  Goal Auto";
 	final String customHigh = "Low Goal Auto";
 	DriveControl driveControl = new DriveControl();
+	/**trueKorea means the competition bot, falseKorea is the demobot
+	 * This is for the sendable chooser we are making that allows you to choose between bots.
+	 */
+	String trueKorea = "trueKorea";
+	String falseKorea = "falseKorea";
+	String robotConfigSelected;
 	
 	String autoSelected;	
 	SendableChooser<String> chooser = new SendableChooser<>();
+	SendableChooser<String> configChooser = new SendableChooser<>();
 
 
 	
@@ -68,6 +75,15 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData("Auto choices", chooser);
 		
+		configChooser.addObject("falseKorea", falseKorea);
+		configChooser.addDefault("default", trueKorea);
+		
+		SmartDashboard.putData("RobotChoice", configChooser);
+		
+		//runs the setBotConfig method in RobotConfig with the correct parameter
+		RobotConfig.setBotConfig(configChooser.getSelected());
+		
+		
 		
 	}
 	
@@ -76,6 +92,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		//runs the setBotConfig method in RobotConfig with the correct parameter
+		RobotConfig.setBotConfig(configChooser.getSelected());
 		autoSelected = chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
@@ -102,6 +120,14 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
+	 * This function is called when test is chosen. 
+	 */
+	public void testInit() {
+		//runs the setBotConfig method in RobotConfig with the correct parameter
+		RobotConfig.setBotConfig(configChooser.getSelected());
+	}
+
+	/**
 	 * This function is called periodically during test mode
 	 */
 	@Override
@@ -109,6 +135,14 @@ public class Robot extends IterativeRobot {
 		drivetrain.drive(.5, .5);
 		smartDashboard.putNumber("LeftStickVal", driveControl.getL());
 		smartDashboard.putNumber("RightStickVal", driveControl.getR());
+	}
+	
+	/**
+	 * This function is called when teleop begins.
+	 */
+	public void teleopInit() {
+		//runs the setBotConfig method in RobotConfig with the correct parameter
+		RobotConfig.setBotConfig(configChooser.getSelected());
 	}
 	
 	/**
