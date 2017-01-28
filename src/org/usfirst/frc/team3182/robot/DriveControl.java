@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveControl {
 
 	//Initialize joystic map
-	Joystick driveControlR = new Joystick(IODef.driveControlR);
-	Joystick driveControlL = new Joystick(IODef.driveControlL);		
+	Joystick driveControlR = new Joystick(RobotConfig.driveControlR);
+	Joystick driveControlL = new Joystick(RobotConfig.driveControlL);		
 
 	
 
@@ -35,6 +35,7 @@ public class DriveControl {
 		if(Math.abs(driveControlL.getY())<.15) return 0;
 		//double temp = driveControlL.getY();
 		//temp = -temp;
+		//Inverses the joystick output to make forward positive
 		return -driveControlL.getY();
 		
 	}
@@ -45,6 +46,7 @@ public class DriveControl {
 		if(Math.abs(driveControlR.getY())<.15) return 0;
 		//double temp = driveControlR.getY();
 		//temp = -temp;
+		//Inverses the joystick output to make forward positive
 		return -driveControlR.getY();
 	
 		

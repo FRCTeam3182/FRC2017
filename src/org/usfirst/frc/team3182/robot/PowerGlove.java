@@ -43,7 +43,7 @@ public class PowerGlove extends Joystick {
 	
 	//This constructor doesn't need parameters because it only calls the Joystick constructor and that is given the USB #
 	public PowerGlove() {
-		super(IODef.powerGlove);
+		super(RobotConfig.powerGlove);
 	}
 	
 	public double getRoll() {

@@ -19,14 +19,14 @@ public class DriveTrain {
 	 * DriveTrain constructor, creates a DriveTrain
 	 */
 	public DriveTrain(){
-		leftController = new Talon(IODef.encoderL);
-		rightController = new Talon(IODef.encoderR);
+		leftController = new Talon(RobotConfig.encoderL);
+		rightController = new Talon(RobotConfig.encoderR);
 		drive = new RobotDrive(leftController, rightController);
 		leftController.setInverted(true);
 		rightController.setInverted(true);
-		encoder = new Encoder(IODef.encoderL, IODef.encoderR);
-		// FIXME: Find out the actual value for setdistanceperpulse! 
-		encoder.setDistancePerPulse(12.00);
+		encoder = new Encoder(RobotConfig.encoderL, RobotConfig.encoderR);
+		//This takes the value for distancePerPulse from the RobotConfig class
+		encoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 	}
 	
 	/**
@@ -41,6 +41,7 @@ public class DriveTrain {
 	/**
 	 * Method for making robot drive to a distance, takes in distance and makes robot drive at half speed to that distance
 	 * @param inches
+	 * FIXME: use the setDistancePerPulse() method to be able to accurately calculate distance
 	 */
 	public void driveDistance(double inches){
 		encoder.reset();
