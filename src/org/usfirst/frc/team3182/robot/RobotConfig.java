@@ -20,10 +20,12 @@ public class RobotConfig {
 	//Outputs
 	public static int driveWheelL;
 	public static int driveWheelR;
-	public static int encoderL;
-	public static int encoderR;
 	public static int servoP;
 	public static int servoT;
+	public static int encoderLA;
+	public static int encoderRA;
+	public static int encoderLB;
+	public static int encoderRB;
 	
 	//Encoder set distance per pulse
 	public static double distancePerPulse;
@@ -44,9 +46,11 @@ public class RobotConfig {
 			servoP = 2;
 			servoT = 3;
 			
-			//DIO
-			encoderL = 2;
-			encoderR = 3;		
+			//DIO	
+			encoderLA = 0;
+			encoderRA = 1;
+			encoderLB = 2;
+			encoderRB = 3;
 			distancePerPulse = 0.013089969;
 		}
 		else if (string == "falseKorea") {
@@ -64,8 +68,10 @@ public class RobotConfig {
 			servoT = 3;
 			
 			//DIO
-			encoderL = 2;
-			encoderR = 3;
+			encoderLA = 0;
+			encoderRA = 1;
+			encoderLB = 2;
+			encoderRB = 3;
 			distancePerPulse = 0.008726646;
 		}
 	}

@@ -3,6 +3,7 @@ package org.usfirst.frc.team3182.robot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
 /** 
  * Class for basic driving functions including basic drive and drive to distance
@@ -12,21 +13,24 @@ import edu.wpi.first.wpilibj.Talon;
  */
 public class DriveTrain {
 	private RobotDrive drive;
-	private Encoder encoder;
+	private Encoder leftEncoder, rightEncoder;
 	private Talon leftController, rightController;
 	
 	/**
 	 * DriveTrain constructor, creates a DriveTrain
 	 */
 	public DriveTrain(){
-		leftController = new Talon(RobotConfig.encoderL);
-		rightController = new Talon(RobotConfig.encoderR);
+		leftController = new Talon(RobotConfig.driveWheelL);
+		rightController = new Talon(RobotConfig.driveWheelR);
 		drive = new RobotDrive(leftController, rightController);
 		leftController.setInverted(true);
 		rightController.setInverted(true);
-		encoder = new Encoder(RobotConfig.encoderL, RobotConfig.encoderR);
+		leftEncoder = new Encoder(RobotConfig.encoderLA, RobotConfig.encoderLB);
+		rightEncoder = new Encoder(RobotConfig.encoderRA, RobotConfig.encoderRB);
 		//This takes the value for distancePerPulse from the RobotConfig class
-		encoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		
 	}
 	
 	/**
@@ -44,11 +48,36 @@ public class DriveTrain {
 	 * FIXME: use the setDistancePerPulse() method to be able to accurately calculate distance
 	 */
 	public void driveDistance(double inches){
-		encoder.reset();
-		while(encoder.getDistance()<inches){
+		leftEncoder.reset();
+		rightEncoder.reset();
+		while(leftEncoder.getDistance()<inches && rightEncoder.getDistance()<inches){
 			drive.setLeftRightMotorOutputs(.5,.5);
+			
 		}
 		drive.stopMotor();
 	}
+
+	public LiveWindowSendable getLeftController() {
+		return leftController;
+	}
 	
+	public LiveWindowSendable getRightController() {
+		return rightController;
+	}
+
+	public LiveWindowSendable getRightEncoder() {
+		return rightEncoder;
+	}
+	
+	public LiveWindowSendable getLeftEncoder() {
+		return leftEncoder;
+	}
+	
+	public double getLDistance() {
+		return leftEncoder.getDistance();
+	}
+	
+	public double getRDistance() {
+		return rightEncoder.getDistance();
+	}
 }
