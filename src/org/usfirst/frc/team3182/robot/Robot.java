@@ -161,6 +161,8 @@ public class Robot extends IterativeRobot {
 		else if(driveType == "distanceD")
 			driveTrain.drive(driveControl.getL(), driveControl.getR());
 		
+		cameraServo.move();
+		
 	}
 
 	/**
