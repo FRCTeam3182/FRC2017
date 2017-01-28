@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 	SendableChooser<String> configChooser = new SendableChooser<>();
 
-
+	CameraServo cameraServo = new CameraServo();
 	
 	public static boolean usesPowerGlove = true;
 	
@@ -135,6 +135,7 @@ public class Robot extends IterativeRobot {
 		drivetrain.drive(.5, .5);
 		smartDashboard.putNumber("LeftStickVal", driveControl.getL());
 		smartDashboard.putNumber("RightStickVal", driveControl.getR());
+		cameraServo.move();
 	}
 	
 	/**
