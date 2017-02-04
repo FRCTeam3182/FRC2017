@@ -165,7 +165,7 @@ public class Robot extends IterativeRobot {
 			driveTrain.drive(driveControl.getL(), driveControl.getR());
 		*/
 		
-		cameraServo.move();
+		//cameraServo.move();
 		
 	}
 
@@ -177,10 +177,11 @@ public class Robot extends IterativeRobot {
 
 		cameraServo.move();
 		LiveWindow.run();
-		SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
+		/*SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
 		SmartDashboard.putNumber("RightStickVal", driveControl.getR());
 		SmartDashboard.putNumber("Left Distance", driveTrain.getLDistance());
 		SmartDashboard.putNumber("Right Distance", driveTrain.getRDistance());
+		*/
 	}
 	
 	/**
