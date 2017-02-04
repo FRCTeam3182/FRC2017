@@ -24,17 +24,21 @@ public class DriveTrain {
 	public DriveTrain(){
 		leftController = new Talon(RobotConfig.driveWheelL);
 		rightController = new Talon(RobotConfig.driveWheelR);
+		//leftController.setInverted(true);
+		//rightController.setInverted(true);
+		
 		drive = new RobotDrive(leftController, rightController);
-		leftController.setInverted(true);
-		rightController.setInverted(true);
-		leftEncoder = new Encoder(RobotConfig.encoderLA, RobotConfig.encoderLB);
+		
+		leftEncoder = new Encoder(RobotConfig.encoderLA, RobotConfig.encoderLB, true);
 		rightEncoder = new Encoder(RobotConfig.encoderRA, RobotConfig.encoderRB);
 		//This takes the value for distancePerPulse from the RobotConfig class
 		leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		
 		leftPIDController = new PIDController(0, 0, 0, 1, leftEncoder, leftController);
 		rightPIDController = new PIDController(0, 0, 0, 1, rightEncoder, rightController);
-		
+		leftPIDController.enable();
+		rightPIDController.enable();
 	}
 	
 	/**
@@ -85,5 +89,19 @@ public class DriveTrain {
 	
 	public double getRDistance() {
 		return rightEncoder.getDistance();
+	}
+
+	/**
+	 * @return the leftPIDController
+	 */
+	public PIDController getLeftPIDController() {
+		return leftPIDController;
+	}
+
+	/**
+	 * @return the rightPIDController
+	 */
+	public PIDController getRightPIDController() {
+		return rightPIDController;
 	}
 }

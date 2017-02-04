@@ -105,6 +105,8 @@ public class Robot extends IterativeRobot {
 		LiveWindow.addActuator("DriveTrain", "right motor", driveTrain.getRightController());
 		LiveWindow.addActuator("Encoders", "left encoder", driveTrain.getLeftEncoder());
 		LiveWindow.addActuator("Encoders", "right encoder", driveTrain.getRightEncoder());
+		LiveWindow.addActuator("PID", "Left Drivetrain", driveTrain.getLeftPIDController());
+		LiveWindow.addActuator("PID", "Right Drivetrain", driveTrain.getRightPIDController());
 
 	}
 	
@@ -175,6 +177,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 
+		driveTrain.drive(driveControl.getL(), driveControl.getR());
 		cameraServo.move();
 		LiveWindow.run();
 		/*SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
