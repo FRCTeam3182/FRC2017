@@ -76,6 +76,8 @@ public class Robot extends IterativeRobot {
 		server=CameraServer.getInstance();
 		server.startAutomaticCapture();
 		*/
+		server = CameraServer.getInstance();
+		server.startAutomaticCapture();
 		
 		//autoChooser=new SendableChoooser();
 		//autoChooser.addDefault("Default", new driveDistance(96));
