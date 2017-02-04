@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
 		
 		//autoChooser=new SendableChoooser();
 		//autoChooser.addDefault("Default", new driveDistance(96));
-		autoChooser.addObject("Gear Auto", customGear);
+		/**autoChooser.addObject("Gear Auto", customGear);
 		autoChooser.addObject("High Goal Auto", customHigh);
 		autoChooser.addObject("Low Goal Auto", customLow);
 		
@@ -99,7 +99,13 @@ public class Robot extends IterativeRobot {
 			
 		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
 		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
+		*/
 		
+		LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
+		LiveWindow.addActuator("DriveTrain", "right motor", driveTrain.getRightController());
+		LiveWindow.addActuator("Encoders", "left encoder", driveTrain.getLeftEncoder());
+		LiveWindow.addActuator("Encoders", "right encoder", driveTrain.getRightEncoder());
+
 	}
 	
 	public void disabledInit() {
@@ -139,19 +145,16 @@ public class Robot extends IterativeRobot {
 	 * This function is called when test is chosen. 
 	 */
 	public void testInit() {
-		String driveType = distanceChooser.getSelected();
+		//String driveType = distanceChooser.getSelected();
 		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
+		//RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 
-		LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
-		LiveWindow.addActuator("DriveTrain", "right motor", driveTrain.getRightController());
-		LiveWindow.addActuator("Encoders", "left encoder", driveTrain.getLeftEncoder());
-		LiveWindow.addActuator("Encoders", "right encoder", driveTrain.getRightEncoder());
-
-		SmartDashboard.putData("left motor", driveTrain.getLeftController());
+		
+		/*SmartDashboard.putData("left motor", driveTrain.getLeftController());
 		SmartDashboard.putData("right motor", driveTrain.getRightController());
 		SmartDashboard.putData("left encoder", driveTrain.getLeftEncoder());
 		SmartDashboard.putData("right encoder", driveTrain.getRightEncoder());
+		
 
 		if(driveType == "distanceB") {
 			driveTrain.driveDistance(24);
@@ -160,6 +163,7 @@ public class Robot extends IterativeRobot {
 			driveTrain.drive(.5, .5);
 		else if(driveType == "distanceD")
 			driveTrain.drive(driveControl.getL(), driveControl.getR());
+		*/
 		
 		cameraServo.move();
 		
