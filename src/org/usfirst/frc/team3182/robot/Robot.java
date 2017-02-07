@@ -194,7 +194,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopInit() {
 		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
+		//RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 	}
 	
 	/**

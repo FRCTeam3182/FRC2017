@@ -2,6 +2,7 @@ package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
@@ -25,7 +26,7 @@ public class DriveTrain {
 		leftController = new Talon(RobotConfig.driveWheelL);
 		rightController = new Talon(RobotConfig.driveWheelR);
 		//leftController.setInverted(true);
-		//rightController.setInverted(true);
+		rightController.setInverted(true);
 		
 		drive = new RobotDrive(leftController, rightController);
 		
@@ -33,10 +34,15 @@ public class DriveTrain {
 		rightEncoder = new Encoder(RobotConfig.encoderRA, RobotConfig.encoderRB);
 		//This takes the value for distancePerPulse from the RobotConfig class
 		leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
+		rightEncoder.setPIDSourceType(PIDSourceType.kRate);
 		rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		
 		
 		leftPIDController = new PIDController(0, 0, 0, 1, leftEncoder, leftController);
 		rightPIDController = new PIDController(0, 0, 0, 1, rightEncoder, rightController);
+		leftPIDController.setContinuous();
+		rightPIDController.setContinuous();
 		leftPIDController.enable();
 		rightPIDController.enable();
 	}
@@ -49,6 +55,7 @@ public class DriveTrain {
 	public void drive(double left, double right){
 		leftPIDController.setSetpoint(left);
 		rightPIDController.setSetpoint(right);
+		//drive.tankDrive(left, right);
 	}
 	
 	/**
