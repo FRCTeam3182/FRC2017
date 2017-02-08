@@ -18,6 +18,7 @@ public class DriveTrain {
 	private Encoder leftEncoder, rightEncoder;
 	private Talon leftController, rightController;
 	private PIDController leftPIDController, rightPIDController;
+	private double maxSpeed_inPs;
 	
 	/**
 	 * DriveTrain constructor, creates a DriveTrain
@@ -25,6 +26,7 @@ public class DriveTrain {
 	public DriveTrain(){
 		leftController = new Talon(RobotConfig.driveWheelL);
 		rightController = new Talon(RobotConfig.driveWheelR);
+		
 		//leftController.setInverted(true);
 		rightController.setInverted(true);
 		
@@ -32,19 +34,25 @@ public class DriveTrain {
 		
 		leftEncoder = new Encoder(RobotConfig.encoderLA, RobotConfig.encoderLB, true);
 		rightEncoder = new Encoder(RobotConfig.encoderRA, RobotConfig.encoderRB);
+		
 		//This takes the value for distancePerPulse from the RobotConfig class
 		leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
-		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
-		rightEncoder.setPIDSourceType(PIDSourceType.kRate);
 		rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		
+		leftEncoder.setPIDSourceType(PIDSourceType.kRate);
+		rightEncoder.setPIDSourceType(PIDSourceType.kRate);
 		
-		leftPIDController = new PIDController(0, 0, 0, 1, leftEncoder, leftController);
-		rightPIDController = new PIDController(0, 0, 0, 1, rightEncoder, rightController);
+		double Kp = 0.01, Ki = 0.001, Kd = 0.001, Kf = 0;
+		leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, leftEncoder,  leftController);
+		rightPIDController = new PIDController(Kp, Ki, Kd, Kf, rightEncoder, rightController);
+		
 		leftPIDController.setContinuous();
 		rightPIDController.setContinuous();
+		
 		leftPIDController.enable();
 		rightPIDController.enable();
+		
+		maxSpeed_inPs = 50;
 	}
 	
 	/**
@@ -53,8 +61,8 @@ public class DriveTrain {
 	 * @param right  value for right wheels, from -1 to 1
 	 */
 	public void drive(double left, double right){
-		leftPIDController.setSetpoint(left);
-		rightPIDController.setSetpoint(right);
+		leftPIDController.setSetpoint(left * maxSpeed_inPs);
+		rightPIDController.setSetpoint(right * maxSpeed_inPs);
 		//drive.tankDrive(left, right);
 	}
 	

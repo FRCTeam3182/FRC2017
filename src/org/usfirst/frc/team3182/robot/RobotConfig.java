@@ -29,7 +29,6 @@ public class RobotConfig {
 		public static int ultrasonicEcho = 2;
 		public static int potentiometer = 3;
 		
-		
 		//DIO
 		public static int encoderLA = 0;
 		public static int encoderRA = 1;
@@ -41,7 +40,8 @@ public class RobotConfig {
 		public static int encoderUpperB = 7;
 		
 		//Default distancePerPulse value, can be changed with the chooseDistancePerPulse method
-		public static double distancePerPulse = 0.013089969;
+		// 1440 (p/r) * (1/2*pi*2) (r/in) = 114.591 (p/in) = 0.008726646 (in/p)
+		public static double distancePerPulse = 0.008726646;
 		
 		public static void chooseDistancePerPulse(String string) {
 			if(string == "trueKorea")	distancePerPulse = 0.013089969;

@@ -179,7 +179,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 
-		driveTrain.drive(driveControl.getL(), driveControl.getR());
 		cameraServo.move();
 		LiveWindow.run();
 		/*SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
