@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
-
 import org.opencv.core.*;
 import org.opencv.core.Core.*;
 import org.opencv.features2d.FeatureDetector;
@@ -23,7 +21,7 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class GripPipelineTargetJava implements VisionPipeline {
+public class GripPipelineTargetJava {
 
 	//Outputs
 	private Mat cvResizeOutput = new Mat();
@@ -39,7 +37,7 @@ public class GripPipelineTargetJava implements VisionPipeline {
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
-	@Override	public void process(Mat source0) {
+	public void process(Mat source0) {
 		// Step CV_resize0:
 		Mat cvResizeSrc = source0;
 		Size cvResizeDsize = new Size(0, 0);
