@@ -1,0 +1,131 @@
+// Do not mess with the following 6 lines
+plugins {
+  id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+
+// This is where you select which operating system to build for.
+
+// Uncomment the line below to build for windows
+//ext.buildType = "windows"
+
+// Uncomment the line below to build for a Raspberry Pi running raspbian
+ext.buildType = "arm-raspbian"
+
+// Uncomment the line below to build for an armhf device such as a Jetson or a Beaglebone Black
+//ext.buildType = "armhf"
+
+// Change the line below if you change the name of your main Java class
+mainClassName = 'Main'
+// Change the line below to change the name of the output jar
+def projectName = 'CameraVision'
+
+// Shouldn't need to change anything below this point
+apply from: 'dependencies.gradle'
+
+repositories {
+    mavenCentral()
+    maven {
+      url "http://first.wpi.edu/FRC/roborio/maven/release"
+    }
+}
+
+dependencies {
+  compile ntcoreDep()
+  compile cscoreDep()
+  compile 'org.opencv:opencv-java:+'
+}
+
+jar {
+  baseName = projectName
+}
+
+shadowJar {
+  baseName = projectName
+}
+
+distributions {
+  main {
+    baseName = projectName
+    contents {
+      from (openCvUnzipLocation) {
+        exclude 'META-INF'
+        exclude '**/MANIFEST.MF'
+        into 'bin/'
+      }
+    }
+  }
+}
+
+def outputDirectory = file("${rootDir}/output")
+
+task writeExecuteScript() {
+  dependsOn jar
+  doLast {
+    if (buildType == "windows") {
+      def runFile = new File("${buildDir}/run${projectName}.bat")
+      runFile.write "java -Djava.library.path=. -jar ${projectName}-all.jar"
+    } else {
+      def runFile = new File("${buildDir}/run${projectName}")
+      runFile.write "java -Djava.library.path=. -jar ${projectName}-all.jar"
+    }
+  }
+}
+
+task copyToOutput(type: Copy) {
+  dependsOn shadowJar
+  dependsOn unzipOpenCv
+  dependsOn writeExecuteScript
+  destinationDir = outputDirectory
+  from (file(shadowJar.archivePath)) {
+  }
+  from (openCvUnzipLocation) {
+    exclude 'META-INF'
+    exclude '**/MANIFEST.MF'
+  }
+  if (buildType == "windows") {
+    from (file("${buildDir}/run${projectName}.bat")) {
+    }
+  } else {
+    from (file("${buildDir}/run${projectName}")) {
+    }
+  }
+}
+
+task zipOutput(type: Zip) {
+  baseName = projectName
+  duplicatesStrategy = 'exclude'
+  dependsOn shadowJar
+  dependsOn unzipOpenCv
+  destinationDir = outputDirectory
+  from (file(shadowJar.archivePath)) {
+  }
+  from (openCvUnzipLocation) {
+    exclude 'META-INF'
+    exclude '**/MANIFEST.MF'
+  }
+  if (buildType == "windows") {
+    from (file("${buildDir}/run${projectName}.bat")) {
+    }
+  } else {
+    from (file("${buildDir}/run${projectName}")) {
+      fileMode 0777
+    }
+  }
+}
+
+distZip.dependsOn unzipOpenCv
+distTar.dependsOn unzipOpenCv
+
+applicationDefaultJvmArgs = ["-Djava.library.path=${openCvUnzipLocation}"]
+
+build.dependsOn copyToOutput
+build.dependsOn zipOutput
+run.dependsOn unzipOpenCv
+
+clean {
+    delete outputDirectory
+}
