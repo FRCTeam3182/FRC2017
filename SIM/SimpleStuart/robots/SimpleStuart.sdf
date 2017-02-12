@@ -2,7 +2,7 @@
 <sdf version="1.5">
   <model name="SimpleStuart">
     <pose>0 0 0 0 0 0</pose>
-    <plugin name="clock" filename="libgz_clock.so">
+    <plugin name="clock" filename="libclock.so">
       <topic>/gazebo/frc/time</topic>
     </plugin>
     <link name="Chassis">
@@ -480,42 +480,42 @@
         </limit>
       </axis>
     </joint>
-    <plugin name="Chassis-FR_motor" filename="libgz_dc_motor.so">
+    <plugin name="Chassis-FR_motor" filename="libdc_motor.so">
       <joint>Chassis-FR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-MR_motor" filename="libgz_dc_motor.so">
+    <plugin name="Chassis-MR_motor" filename="libdc_motor.so">
       <joint>Chassis-MR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-MR_encoder" filename="libgz_encoder.so">
+    <plugin name="Chassis-MR_encoder" filename="libencoder.so">
       <joint>Chassis-MR</joint>
       <topic>/gazebo/frc/simulator/dio/1/3</topic>
       <units>degrees</units>
     </plugin>
-    <plugin name="Chassis-BR_motor" filename="libgz_dc_motor.so">
+    <plugin name="Chassis-BR_motor" filename="libdc_motor.so">
       <joint>Chassis-BR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-FL_motor" filename="libgz_dc_motor.so">
+    <plugin name="Chassis-FL_motor" filename="libdc_motor.so">
       <joint>Chassis-FL</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-ML_motor" filename="libgz_dc_motor.so">
+    <plugin name="Chassis-ML_motor" filename="libdc_motor.so">
       <joint>Chassis-ML</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-ML_encoder" filename="libgz_encoder.so">
+    <plugin name="Chassis-ML_encoder" filename="libencoder.so">
       <joint>Chassis-ML</joint>
       <topic>/gazebo/frc/simulator/dio/0/2</topic>
       <units>degrees</units>
     </plugin>
-    <plugin name="Chassis-BL_motor" filename="libgz_dc_motor.so">
+    <plugin name="Chassis-BL_motor" filename="libdc_motor.so">
       <joint>Chassis-BL</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
       <multiplier>0</multiplier>
