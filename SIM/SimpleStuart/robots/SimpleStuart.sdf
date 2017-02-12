@@ -2,13 +2,13 @@
 <sdf version="1.5">
   <model name="SimpleStuart">
     <pose>0 0 0 0 0 0</pose>
-    <plugin name="clock" filename="libclock.so">
+    <plugin name="clock" filename="libgz_clock.so">
       <topic>/gazebo/frc/time</topic>
     </plugin>
     <link name="Chassis">
       <gravity>1</gravity>
       <self_collide>0</self_collide>
-      <pose>-5.34776544322077E-17 -7.23460322934589E-18 0.0762 0 0 3.14159265358979</pose>
+      <pose>-5.44895173181886E-17 -7.23460322934589E-18 0.0762 0 0 3.14159265358979</pose>
       <must_be_base_link>1</must_be_base_link>
       <velocity_decay>
         <linear>0</linear>
@@ -27,7 +27,7 @@
         </inertia>
       </inertial>
       <collision name="Chassis_collision">
-        <pose>9.91780114537514E-17 1.0378769923317E-16 -0.0762 0 0 0</pose>
+        <pose>9.81661485677704E-17 1.0378769923317E-16 -0.0762 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -47,7 +47,7 @@
         </surface>
       </collision>
       <visual name="Chassis_visual">
-        <pose>9.91780114537514E-17 1.0378769923317E-16 -0.0762 0 0 0</pose>
+        <pose>9.81661485677704E-17 1.0378769923317E-16 -0.0762 0 0 0</pose>
         <material>
           <ambient>1 0 0 1</ambient>
           <diffuse>1 0 0 1</diffuse>
@@ -63,26 +63,26 @@
     <link name="FR">
       <gravity>1</gravity>
       <self_collide>0</self_collide>
-      <pose>0.254 -0.3857625 0.0761999999999999 0 0 3.14159265358979</pose>
+      <pose>0.253835982855687 -0.3857625 0.0762071611431738 0 0 3.14159265358979</pose>
       <must_be_base_link>0</must_be_base_link>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
       <inertial>
-        <mass>0.458359121993234</mass>
+        <mass>0.457331279947093</mass>
         <pose>0 0 0 0 0 0</pose>
         <inertia>
-          <ixx>0.000700601944737935</ixx>
-          <ixy>8.78433554043944E-20</ixy>
-          <ixz>2.85767825467785E-35</ixz>
-          <iyy>0.00134794493918422</iyy>
-          <iyz>8.36737210135568E-20</iyz>
-          <izz>0.000700601944737935</izz>
+          <ixx>0.000700532742273407</ixx>
+          <ixy>8.61136052604577E-20</ixy>
+          <ixz>2.39540711703553E-07</ixz>
+          <iyy>0.00134244112895742</iyy>
+          <iyz>8.94541283530298E-20</iyz>
+          <izz>0.000695056816546582</izz>
         </inertia>
       </inertial>
       <collision name="FR_collision">
-        <pose>0.254 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <pose>0.253835982855687 -0.3857625 -0.0762071611431738 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -102,7 +102,7 @@
         </surface>
       </collision>
       <visual name="FR_visual">
-        <pose>0.254 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <pose>0.253835982855687 -0.3857625 -0.0762071611431738 0 0 0</pose>
         <material>
           <ambient>1 0 0 1</ambient>
           <diffuse>1 0 0 1</diffuse>
@@ -118,7 +118,7 @@
     <joint name="Chassis-FR" type="revolute">
       <parent>Chassis</parent>
       <child>FR</child>
-      <pose>1.11022302462516E-16 0 8.32667268468867E-17 0 0 0</pose>
+      <pose>-0.000164017144313133 -5.55111512312578E-17 -7.16114317381167E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
@@ -133,26 +133,26 @@
     <link name="MR">
       <gravity>1</gravity>
       <self_collide>0</self_collide>
-      <pose>-9.05489897051649E-17 -0.3857625 0.0761999999999999 0 0 3.14159265358979</pose>
+      <pose>-0.000164017144313362 -0.3857625 0.0762071611431738 0 0 3.14159265358979</pose>
       <must_be_base_link>0</must_be_base_link>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
       <inertial>
-        <mass>0.458359121993234</mass>
+        <mass>0.457331279947093</mass>
         <pose>0 0 0 0 0 0</pose>
         <inertia>
-          <ixx>0.000700601944737935</ixx>
-          <ixy>8.53730939595505E-20</ixy>
-          <ixz>2.57661466595645E-35</ixz>
-          <iyy>0.00134794493918422</iyy>
-          <iyz>8.42665672861293E-20</iyz>
-          <izz>0.000700601944737935</izz>
+          <ixx>0.000700532742273407</ixx>
+          <ixy>8.333035409659E-20</ixy>
+          <ixz>2.39540711703591E-07</ixz>
+          <iyy>0.00134244112895742</iyy>
+          <iyz>9.00470984092093E-20</iyz>
+          <izz>0.000695056816546582</izz>
         </inertia>
       </inertial>
       <collision name="MR_collision">
-        <pose>1.09347397037435E-16 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <pose>-0.000164017144313162 -0.3857625 -0.0762071611431738 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -172,7 +172,7 @@
         </surface>
       </collision>
       <visual name="MR_visual">
-        <pose>1.09347397037435E-16 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <pose>-0.000164017144313162 -0.3857625 -0.0762071611431738 0 0 0</pose>
         <material>
           <ambient>1 0 0 1</ambient>
           <diffuse>1 0 0 1</diffuse>
@@ -188,7 +188,7 @@
     <joint name="Chassis-MR" type="revolute">
       <parent>Chassis</parent>
       <child>MR</child>
-      <pose>1.09347397037435E-16 0 8.32667268468867E-17 0 0 0</pose>
+      <pose>-0.000164017144313162 -5.55111512312578E-17 -7.16114317379779E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
@@ -203,26 +203,26 @@
     <link name="BR">
       <gravity>1</gravity>
       <self_collide>0</self_collide>
-      <pose>-0.254 -0.3857625 0.0761999999999999 0 0 3.14159265358979</pose>
+      <pose>-0.254164017144313 -0.3857625 0.0762071611431738 0 0 3.14159265358979</pose>
       <must_be_base_link>0</must_be_base_link>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
       <inertial>
-        <mass>0.458359121993234</mass>
+        <mass>0.457331279947093</mass>
         <pose>0 0 0 0 0 0</pose>
         <inertia>
-          <ixx>0.000700601944737935</ixx>
-          <ixy>8.78433554043944E-20</ixy>
-          <ixz>2.85767825467785E-35</ixz>
-          <iyy>0.00134794493918422</iyy>
-          <iyz>8.36737210135567E-20</iyz>
-          <izz>0.000700601944737935</izz>
+          <ixx>0.000700532742273407</ixx>
+          <ixy>8.59067347942241E-20</ixy>
+          <ixz>2.39540711703577E-07</ixz>
+          <iyy>0.00134244112895742</iyy>
+          <iyz>8.91439898481533E-20</iyz>
+          <izz>0.000695056816546582</izz>
         </inertia>
       </inertial>
       <collision name="BR_collision">
-        <pose>-0.254 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <pose>-0.254164017144313 -0.3857625 -0.0762071611431738 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -242,7 +242,7 @@
         </surface>
       </collision>
       <visual name="BR_visual">
-        <pose>-0.254 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <pose>-0.254164017144313 -0.3857625 -0.0762071611431738 0 0 0</pose>
         <material>
           <ambient>1 0 0 1</ambient>
           <diffuse>1 0 0 1</diffuse>
@@ -258,7 +258,7 @@
     <joint name="Chassis-BR" type="revolute">
       <parent>Chassis</parent>
       <child>BR</child>
-      <pose>1.11022302462516E-16 0 9.71445146547012E-17 0 0 0</pose>
+      <pose>-0.000164017144313133 -5.55111512312578E-17 -7.16114317381167E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
@@ -273,26 +273,26 @@
     <link name="FL">
       <gravity>1</gravity>
       <self_collide>0</self_collide>
-      <pose>0.254 0.3857625 0.0762 0 0 3.14159265358979</pose>
+      <pose>0.253835982855687 0.3857625 0.0761928388568262 0 0 3.14159265358979</pose>
       <must_be_base_link>0</must_be_base_link>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
       <inertial>
-        <mass>0.458359121993234</mass>
+        <mass>0.457331279947093</mass>
         <pose>0 0 0 0 0 0</pose>
         <inertia>
-          <ixx>0.000700601944737935</ixx>
-          <ixy>9.53381895474126E-37</ixy>
-          <ixz>9.55453858882214E-40</ixz>
-          <iyy>0.00134794493918422</iyy>
-          <iyz>1.47913128414282E-21</iyz>
-          <izz>0.000700601944737935</izz>
+          <ixx>0.000700532742273406</ixx>
+          <ixy>8.28824938453414E-22</ixy>
+          <ixz>2.39540711703549E-07</ixz>
+          <iyy>0.00134244112895742</iyy>
+          <iyz>1.49946539289685E-21</iyz>
+          <izz>0.000695056816546581</izz>
         </inertia>
       </inertial>
       <collision name="FL_collision">
-        <pose>0.254 0.3857625 -0.0762 0 0 0</pose>
+        <pose>0.253835982855687 0.3857625 -0.0761928388568262 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -312,7 +312,7 @@
         </surface>
       </collision>
       <visual name="FL_visual">
-        <pose>0.254 0.3857625 -0.0762 0 0 0</pose>
+        <pose>0.253835982855687 0.3857625 -0.0761928388568262 0 0 0</pose>
         <material>
           <ambient>1 0 0 1</ambient>
           <diffuse>1 0 0 1</diffuse>
@@ -328,7 +328,7 @@
     <joint name="Chassis-FL" type="revolute">
       <parent>Chassis</parent>
       <child>FL</child>
-      <pose>0 5.55111512312578E-17 0 0 0 0</pose>
+      <pose>-0.0001640171443133 -5.55111512312578E-17 7.16114317386718E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
@@ -343,26 +343,26 @@
     <link name="ML">
       <gravity>1</gravity>
       <self_collide>0</self_collide>
-      <pose>-1.05414945029319E-16 0.3857625 0.0762 0 0 3.14159265358979</pose>
+      <pose>-0.000164017144313377 0.3857625 0.0761928388568261 0 0 3.14159265358979</pose>
       <must_be_base_link>0</must_be_base_link>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
       <inertial>
-        <mass>0.458359121993234</mass>
+        <mass>0.457331279947093</mass>
         <pose>0 0 0 0 0 0</pose>
         <inertia>
-          <ixx>0.000700601944737935</ixx>
-          <ixy>9.53381895474126E-37</ixy>
-          <ixz>9.55453858882214E-40</ixz>
-          <iyy>0.00134794493918422</iyy>
-          <iyz>1.47913128414282E-21</iyz>
-          <izz>0.000700601944737935</izz>
+          <ixx>0.000700532742273406</ixx>
+          <ixy>1.04402934768352E-21</ixy>
+          <ixz>2.39540711703589E-07</ixz>
+          <iyy>0.00134244112895742</iyy>
+          <iyz>1.50048295851981E-21</iyz>
+          <izz>0.000695056816546581</izz>
         </inertia>
       </inertial>
       <collision name="ML_collision">
-        <pose>-1.09723035850243E-35 0.3857625 -0.0762 0 0 0</pose>
+        <pose>-0.000164017144313272 0.3857625 -0.0761928388568261 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -382,7 +382,7 @@
         </surface>
       </collision>
       <visual name="ML_visual">
-        <pose>-1.09723035850243E-35 0.3857625 -0.0762 0 0 0</pose>
+        <pose>-0.000164017144313272 0.3857625 -0.0761928388568261 0 0 0</pose>
         <material>
           <ambient>1 0 0 1</ambient>
           <diffuse>1 0 0 1</diffuse>
@@ -398,7 +398,7 @@
     <joint name="Chassis-ML" type="revolute">
       <parent>Chassis</parent>
       <child>ML</child>
-      <pose>-1.09723035850243E-35 0 1.38777878078145E-17 0 0 0</pose>
+      <pose>-0.000164017144313272 0 7.16114317386718E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
@@ -413,26 +413,26 @@
     <link name="BL">
       <gravity>1</gravity>
       <self_collide>0</self_collide>
-      <pose>-0.254 0.3857625 0.0761999999999999 0 0 3.14159265358979</pose>
+      <pose>-0.254164017144313 0.3857625 0.0761928388568261 0 0 3.14159265358979</pose>
       <must_be_base_link>0</must_be_base_link>
       <velocity_decay>
         <linear>0</linear>
         <angular>0</angular>
       </velocity_decay>
       <inertial>
-        <mass>0.458359121993234</mass>
+        <mass>0.457331279947093</mass>
         <pose>0 0 0 0 0 0</pose>
         <inertia>
-          <ixx>0.000700601944737935</ixx>
-          <ixy>9.53381895474126E-37</ixy>
-          <ixz>9.55453858882142E-40</ixz>
-          <iyy>0.00134794493918422</iyy>
-          <iyz>1.47913128414282E-21</iyz>
-          <izz>0.000700601944737935</izz>
+          <ixx>0.000700532742273406</ixx>
+          <ixy>8.24209701562649E-22</ixy>
+          <ixz>2.39540711703574E-07</ixz>
+          <iyy>0.00134244112895742</iyy>
+          <iyz>1.49921791419709E-21</iyz>
+          <izz>0.000695056816546581</izz>
         </inertia>
       </inertial>
       <collision name="BL_collision">
-        <pose>-0.254 0.3857625 -0.0761999999999999 0 0 0</pose>
+        <pose>-0.254164017144313 0.3857625 -0.0761928388568261 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -452,7 +452,7 @@
         </surface>
       </collision>
       <visual name="BL_visual">
-        <pose>-0.254 0.3857625 -0.0761999999999999 0 0 0</pose>
+        <pose>-0.254164017144313 0.3857625 -0.0761928388568261 0 0 0</pose>
         <material>
           <ambient>1 0 0 1</ambient>
           <diffuse>1 0 0 1</diffuse>
@@ -468,7 +468,7 @@
     <joint name="Chassis-BL" type="revolute">
       <parent>Chassis</parent>
       <child>BL</child>
-      <pose>0 0 1.38777878078145E-17 0 0 0</pose>
+      <pose>-0.000164017144313244 0 7.16114317386718E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
@@ -480,42 +480,42 @@
         </limit>
       </axis>
     </joint>
-    <plugin name="Chassis-FR_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-FR_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-FR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-MR_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-MR_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-MR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-MR_encoder" filename="libencoder.so">
+    <plugin name="Chassis-MR_encoder" filename="libgz_encoder.so">
       <joint>Chassis-MR</joint>
       <topic>/gazebo/frc/simulator/dio/1/3</topic>
       <units>degrees</units>
     </plugin>
-    <plugin name="Chassis-BR_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-BR_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-BR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-FL_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-FL_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-FL</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-ML_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-ML_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-ML</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
       <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-ML_encoder" filename="libencoder.so">
+    <plugin name="Chassis-ML_encoder" filename="libgz_encoder.so">
       <joint>Chassis-ML</joint>
       <topic>/gazebo/frc/simulator/dio/0/2</topic>
       <units>degrees</units>
     </plugin>
-    <plugin name="Chassis-BL_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-BL_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-BL</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
       <multiplier>0</multiplier>
