@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdf version="1.5">
+  <model name="SimpleStuart">
+    <pose>0 0 0 0 0 0</pose>
+    <plugin name="clock" filename="libgz_clock.so">
+      <topic>/gazebo/frc/time</topic>
+    </plugin>
+    <link name="Chassis">
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <pose>-5.34397424635223E-17 -7.2290303719041E-18 0.0762 0 0 3.14159265358979</pose>
+      <must_be_base_link>1</must_be_base_link>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
+      <inertial>
+        <mass>39.9274140786862</mass>
+        <pose>0 0 0 0 0 0</pose>
+        <inertia>
+          <ixx>1.82524963543948</ixx>
+          <ixy>1.70483805918591E-16</ixy>
+          <ixz>2.30985295761967E-17</ixz>
+          <iyy>1.82830112935258</iyy>
+          <iyz>1.88765550142291E-16</iyz>
+          <izz>3.61368462103833</izz>
+        </inertia>
+      </inertial>
+      <collision name="Chassis_collision">
+        <pose>9.92159234224367E-17 1.03793272090612E-16 -0.0762 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/Chassis_col.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode />
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="Chassis_visual">
+        <pose>9.92159234224367E-17 1.03793272090612E-16 -0.0762 0 0 0</pose>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/Chassis.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <link name="FR">
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <pose>0.254 -0.3857625 0.0761999999999999 0 0 3.14159265358979</pose>
+      <must_be_base_link>0</must_be_base_link>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
+      <inertial>
+        <mass>0.458359121993234</mass>
+        <pose>0 0 0 0 0 0</pose>
+        <inertia>
+          <ixx>0.000700601944737935</ixx>
+          <ixy>8.78433554043944E-20</ixy>
+          <ixz>2.85767825467785E-35</ixz>
+          <iyy>0.00134794493918422</iyy>
+          <iyz>8.36737210135567E-20</iyz>
+          <izz>0.000700601944737935</izz>
+        </inertia>
+      </inertial>
+      <collision name="FR_collision">
+        <pose>0.254 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/FR_col.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode />
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="FR_visual">
+        <pose>0.254 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/FR.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="Chassis-FR" type="revolute">
+      <parent>Chassis</parent>
+      <child>FR</child>
+      <pose>1.11022302462516E-16 0 8.32667268468867E-17 0 0 0</pose>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <dynamics>
+          <damping>0</damping>
+          <friction>0</friction>
+        </dynamics>
+        <limit>
+          <effort>1</effort>
+        </limit>
+      </axis>
+    </joint>
+    <link name="MR">
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <pose>-9.05489897051649E-17 -0.3857625 0.0761999999999999 0 0 3.14159265358979</pose>
+      <must_be_base_link>0</must_be_base_link>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
+      <inertial>
+        <mass>0.458359121993234</mass>
+        <pose>0 0 0 0 0 0</pose>
+        <inertia>
+          <ixx>0.000700601944737935</ixx>
+          <ixy>8.53730939595505E-20</ixy>
+          <ixz>2.57661466595645E-35</ixz>
+          <iyy>0.00134794493918422</iyy>
+          <iyz>8.42665672861292E-20</iyz>
+          <izz>0.000700601944737935</izz>
+        </inertia>
+      </inertial>
+      <collision name="MR_collision">
+        <pose>1.09347397037435E-16 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/MR_col.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode />
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="MR_visual">
+        <pose>1.09347397037435E-16 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/MR.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="Chassis-MR" type="revolute">
+      <parent>Chassis</parent>
+      <child>MR</child>
+      <pose>1.09347397037435E-16 0 9.71445146547012E-17 0 0 0</pose>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <dynamics>
+          <damping>0</damping>
+          <friction>0</friction>
+        </dynamics>
+        <limit>
+          <effort>1</effort>
+        </limit>
+      </axis>
+    </joint>
+    <link name="BR">
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <pose>-0.254 -0.3857625 0.0761999999999999 0 0 3.14159265358979</pose>
+      <must_be_base_link>0</must_be_base_link>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
+      <inertial>
+        <mass>0.458359121993234</mass>
+        <pose>0 0 0 0 0 0</pose>
+        <inertia>
+          <ixx>0.000700601944737935</ixx>
+          <ixy>8.78433554043944E-20</ixy>
+          <ixz>2.85767825467785E-35</ixz>
+          <iyy>0.00134794493918422</iyy>
+          <iyz>8.36737210135567E-20</iyz>
+          <izz>0.000700601944737935</izz>
+        </inertia>
+      </inertial>
+      <collision name="BR_collision">
+        <pose>-0.254 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/BR_col.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode />
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="BR_visual">
+        <pose>-0.254 -0.3857625 -0.0761999999999999 0 0 0</pose>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/BR.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="Chassis-BR" type="revolute">
+      <parent>Chassis</parent>
+      <child>BR</child>
+      <pose>1.11022302462516E-16 0 9.71445146547012E-17 0 0 0</pose>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <dynamics>
+          <damping>0</damping>
+          <friction>0</friction>
+        </dynamics>
+        <limit>
+          <effort>1</effort>
+        </limit>
+      </axis>
+    </joint>
+    <link name="FL">
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <pose>0.254 0.3857625 0.0762 0 0 3.14159265358979</pose>
+      <must_be_base_link>0</must_be_base_link>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
+      <inertial>
+        <mass>0.458359121993234</mass>
+        <pose>0 0 0 0 0 0</pose>
+        <inertia>
+          <ixx>0.000700601944737935</ixx>
+          <ixy>9.53381895474126E-37</ixy>
+          <ixz>9.55453858882214E-40</ixz>
+          <iyy>0.00134794493918422</iyy>
+          <iyz>1.47913128414282E-21</iyz>
+          <izz>0.000700601944737935</izz>
+        </inertia>
+      </inertial>
+      <collision name="FL_collision">
+        <pose>0.254 0.3857625 -0.0762 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/FL_col.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode />
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="FL_visual">
+        <pose>0.254 0.3857625 -0.0762 0 0 0</pose>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/FL.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="Chassis-FL" type="revolute">
+      <parent>Chassis</parent>
+      <child>FL</child>
+      <pose>0 0 0 0 0 0</pose>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <dynamics>
+          <damping>0</damping>
+          <friction>0</friction>
+        </dynamics>
+        <limit>
+          <effort>1</effort>
+        </limit>
+      </axis>
+    </joint>
+    <link name="ML">
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <pose>-1.05414945029319E-16 0.3857625 0.0762 0 0 3.14159265358979</pose>
+      <must_be_base_link>0</must_be_base_link>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
+      <inertial>
+        <mass>0.458359121993234</mass>
+        <pose>0 0 0 0 0 0</pose>
+        <inertia>
+          <ixx>0.000700601944737935</ixx>
+          <ixy>9.53381895474126E-37</ixy>
+          <ixz>9.55453858882214E-40</ixz>
+          <iyy>0.00134794493918422</iyy>
+          <iyz>1.47913128414282E-21</iyz>
+          <izz>0.000700601944737935</izz>
+        </inertia>
+      </inertial>
+      <collision name="ML_collision">
+        <pose>-1.09723035850243E-35 0.3857625 -0.0762 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/ML_col.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode />
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="ML_visual">
+        <pose>-1.09723035850243E-35 0.3857625 -0.0762 0 0 0</pose>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/ML.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="Chassis-ML" type="revolute">
+      <parent>Chassis</parent>
+      <child>ML</child>
+      <pose>-1.09723035850243E-35 0 1.38777878078145E-17 0 0 0</pose>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <dynamics>
+          <damping>0</damping>
+          <friction>0</friction>
+        </dynamics>
+        <limit>
+          <effort>1</effort>
+        </limit>
+      </axis>
+    </joint>
+    <link name="BL">
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <pose>-0.254 0.3857625 0.0761999999999999 0 0 3.14159265358979</pose>
+      <must_be_base_link>0</must_be_base_link>
+      <velocity_decay>
+        <linear>0</linear>
+        <angular>0</angular>
+      </velocity_decay>
+      <inertial>
+        <mass>0.458359121993234</mass>
+        <pose>0 0 0 0 0 0</pose>
+        <inertia>
+          <ixx>0.000700601944737935</ixx>
+          <ixy>9.53381895474126E-37</ixy>
+          <ixz>9.55453858882216E-40</ixz>
+          <iyy>0.00134794493918422</iyy>
+          <iyz>1.47913128414282E-21</iyz>
+          <izz>0.000700601944737935</izz>
+        </inertia>
+      </inertial>
+      <collision name="BL_collision">
+        <pose>-0.254 0.3857625 -0.0761999999999999 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/BL_col.STL</uri>
+          </mesh>
+        </geometry>
+        <surface>
+          <contact>
+            <ode />
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="BL_visual">
+        <pose>-0.254 0.3857625 -0.0761999999999999 0 0 0</pose>
+        <material>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+        </material>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://SimpleStuart/meshes/BL.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="Chassis-BL" type="revolute">
+      <parent>Chassis</parent>
+      <child>BL</child>
+      <pose>0 0 0 0 0 0</pose>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <dynamics>
+          <damping>0</damping>
+          <friction>0</friction>
+        </dynamics>
+        <limit>
+          <effort>1</effort>
+        </limit>
+      </axis>
+    </joint>
+    <plugin name="Chassis-FR_motor" filename="libgz_dc_motor.so">
+      <joint>Chassis-FR</joint>
+      <topic>/gazebo/frc/simulator/pwm/2</topic>
+      <multiplier>0</multiplier>
+    </plugin>
+    <plugin name="Chassis-MR_motor" filename="libgz_dc_motor.so">
+      <joint>Chassis-MR</joint>
+      <topic>/gazebo/frc/simulator/pwm/2</topic>
+      <multiplier>0</multiplier>
+    </plugin>
+    <plugin name="Chassis-BR_motor" filename="libgz_dc_motor.so">
+      <joint>Chassis-BR</joint>
+      <topic>/gazebo/frc/simulator/pwm/2</topic>
+      <multiplier>0</multiplier>
+    </plugin>
+    <plugin name="Chassis-FL_motor" filename="libgz_dc_motor.so">
+      <joint>Chassis-FL</joint>
+      <topic>/gazebo/frc/simulator/pwm/3</topic>
+      <multiplier>0</multiplier>
+    </plugin>
+    <plugin name="Chassis-ML_motor" filename="libgz_dc_motor.so">
+      <joint>Chassis-ML</joint>
+      <topic>/gazebo/frc/simulator/pwm/3</topic>
+      <multiplier>0</multiplier>
+    </plugin>
+    <plugin name="Chassis-BL_motor" filename="libgz_dc_motor.so">
+      <joint>Chassis-BL</joint>
+      <topic>/gazebo/frc/simulator/pwm/3</topic>
+      <multiplier>0</multiplier>
+    </plugin>
+  </model>
+</sdf>
