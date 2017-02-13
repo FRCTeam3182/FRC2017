@@ -2,13 +2,13 @@
 <sdf version="1.5">
   <model name="SimpleStuart">
     <pose>0 0 0 0 0 0</pose>
-    <plugin name="clock" filename="libclock.so">
+    <plugin name="clock" filename="libgz_clock.so">
       <topic>/gazebo/frc/time</topic>
     </plugin>
     <link name="Chassis">
       <gravity>1</gravity>
       <self_collide>0</self_collide>
-      <pose>-5.44895173181886E-17 -7.23460322934589E-18 0.0762 0 0 3.14159265358979</pose>
+      <pose>-5.24950953688064E-17 -7.91438036766167E-18 0.0762 0 0 3.14159265358979</pose>
       <must_be_base_link>1</must_be_base_link>
       <velocity_decay>
         <linear>0</linear>
@@ -27,7 +27,7 @@
         </inertia>
       </inertial>
       <collision name="Chassis_collision">
-        <pose>9.81661485677704E-17 1.0378769923317E-16 -0.0762 0 0 0</pose>
+        <pose>1.00160570517153E-16 1.03107922094854E-16 -0.0762 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -47,7 +47,7 @@
         </surface>
       </collision>
       <visual name="Chassis_visual">
-        <pose>9.81661485677704E-17 1.0378769923317E-16 -0.0762 0 0 0</pose>
+        <pose>1.00160570517153E-16 1.03107922094854E-16 -0.0762 0 0 0</pose>
         <material>
           <ambient>1 0 0 1</ambient>
           <diffuse>1 0 0 1</diffuse>
@@ -74,10 +74,10 @@
         <pose>0 0 0 0 0 0</pose>
         <inertia>
           <ixx>0.000700532742273407</ixx>
-          <ixy>8.61136052604577E-20</ixy>
+          <ixy>8.61127243540891E-20</ixy>
           <ixz>2.39540711703553E-07</ixz>
           <iyy>0.00134244112895742</iyy>
-          <iyz>8.94541283530298E-20</iyz>
+          <iyz>8.94542055616815E-20</iyz>
           <izz>0.000695056816546582</izz>
         </inertia>
       </inertial>
@@ -95,8 +95,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>0</mu>
-              <mu2>0</mu2>
+              <mu>0.55</mu>
+              <mu2>0.55</mu2>
             </ode>
           </friction>
         </surface>
@@ -121,15 +121,12 @@
       <pose>-0.000164017144313133 -5.55111512312578E-17 -7.16114317381167E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
-        <!-- Added these dynamics to all chassis joints -->
         <dynamics>
-          <damping>2</damping>
-          <friction>.4</friction>
+          <damping>0</damping>
+          <friction>0</friction>
         </dynamics>
-        <!-- Added these limits to all chassis joints -->
         <limit>
-          <effort>-1</effort>
-          <velocity>-1</velocity>
+          <effort>1</effort>
         </limit>
       </axis>
     </joint>
@@ -147,10 +144,10 @@
         <pose>0 0 0 0 0 0</pose>
         <inertia>
           <ixx>0.000700532742273407</ixx>
-          <ixy>8.333035409659E-20</ixy>
+          <ixy>8.33339144837938E-20</ixy>
           <ixz>2.39540711703591E-07</ixz>
           <iyy>0.00134244112895742</iyy>
-          <iyz>9.00470984092093E-20</iyz>
+          <iyz>9.00471260398201E-20</iyz>
           <izz>0.000695056816546582</izz>
         </inertia>
       </inertial>
@@ -168,8 +165,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>0</mu>
-              <mu2>0</mu2>
+              <mu>0.55</mu>
+              <mu2>0.55</mu2>
             </ode>
           </friction>
         </surface>
@@ -191,16 +188,15 @@
     <joint name="Chassis-MR" type="revolute">
       <parent>Chassis</parent>
       <child>MR</child>
-      <pose>-0.000164017144313162 -5.55111512312578E-17 -7.16114317379779E-06 0 0 0</pose>
+      <pose>-0.000164017144313162 -5.55111512312578E-17 -7.16114317381167E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
-          <damping>2</damping>
-          <friction>.4</friction>
+          <damping>0</damping>
+          <friction>0</friction>
         </dynamics>
         <limit>
-          <effort>-1</effort>
-          <velocity>-1</velocity>
+          <effort>1</effort>
         </limit>
       </axis>
     </joint>
@@ -218,10 +214,10 @@
         <pose>0 0 0 0 0 0</pose>
         <inertia>
           <ixx>0.000700532742273407</ixx>
-          <ixy>8.59067347942241E-20</ixy>
+          <ixy>8.59156508192713E-20</ixy>
           <ixz>2.39540711703577E-07</ixz>
           <iyy>0.00134244112895742</iyy>
-          <iyz>8.91439898481533E-20</iyz>
+          <iyz>8.9144548917466E-20</iyz>
           <izz>0.000695056816546582</izz>
         </inertia>
       </inertial>
@@ -239,8 +235,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>0</mu>
-              <mu2>0</mu2>
+              <mu>0.55</mu>
+              <mu2>0.55</mu2>
             </ode>
           </friction>
         </surface>
@@ -266,12 +262,11 @@
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
-          <damping>2</damping>
-          <friction>.4</friction>
+          <damping>0</damping>
+          <friction>0</friction>
         </dynamics>
         <limit>
-          <effort>-1</effort>
-          <velocity>-1</velocity>
+          <effort>1</effort>
         </limit>
       </axis>
     </joint>
@@ -310,8 +305,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>0</mu>
-              <mu2>0</mu2>
+              <mu>0.55</mu>
+              <mu2>0.55</mu2>
             </ode>
           </friction>
         </surface>
@@ -337,12 +332,11 @@
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
-          <damping>2</damping>
-          <friction>.4</friction>
+          <damping>0</damping>
+          <friction>0</friction>
         </dynamics>
         <limit>
-          <effort>-1</effort>
-          <velocity>-1</velocity>
+          <effort>1</effort>
         </limit>
       </axis>
     </joint>
@@ -360,10 +354,10 @@
         <pose>0 0 0 0 0 0</pose>
         <inertia>
           <ixx>0.000700532742273406</ixx>
-          <ixy>1.04402934768352E-21</ixy>
+          <ixy>1.03397576569128E-21</ixy>
           <ixz>2.39540711703589E-07</ixz>
           <iyy>0.00134244112895742</iyy>
-          <iyz>1.50048295851981E-21</iyz>
+          <iyz>1.49926486025236E-21</iyz>
           <izz>0.000695056816546581</izz>
         </inertia>
       </inertial>
@@ -381,8 +375,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>0</mu>
-              <mu2>0</mu2>
+              <mu>0.55</mu>
+              <mu2>0.55</mu2>
             </ode>
           </friction>
         </surface>
@@ -404,16 +398,15 @@
     <joint name="Chassis-ML" type="revolute">
       <parent>Chassis</parent>
       <child>ML</child>
-      <pose>-0.000164017144313272 0 7.16114317386718E-06 0 0 0</pose>
+      <pose>-0.000164017144313272 0 7.16114317388106E-06 0 0 0</pose>
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
-          <damping>2</damping>
-          <friction>.4</friction>
+          <damping>0</damping>
+          <friction>0</friction>
         </dynamics>
         <limit>
-          <effort>-1</effort>
-          <velocity>-1</velocity>
+          <effort>1</effort>
         </limit>
       </axis>
     </joint>
@@ -431,10 +424,10 @@
         <pose>0 0 0 0 0 0</pose>
         <inertia>
           <ixx>0.000700532742273406</ixx>
-          <ixy>8.24209701562649E-22</ixy>
+          <ixy>8.33166436114286E-22</ixy>
           <ixz>2.39540711703574E-07</ixz>
           <iyy>0.00134244112895742</iyy>
-          <iyz>1.49921791419709E-21</iyz>
+          <iyz>1.50008947509389E-21</iyz>
           <izz>0.000695056816546581</izz>
         </inertia>
       </inertial>
@@ -452,8 +445,8 @@
           </contact>
           <friction>
             <ode>
-              <mu>0</mu>
-              <mu2>0</mu2>
+              <mu>0.55</mu>
+              <mu2>0.55</mu2>
             </ode>
           </friction>
         </surface>
@@ -479,55 +472,53 @@
       <axis>
         <xyz>0 -1 0</xyz>
         <dynamics>
-          <damping>2</damping>
-          <friction>.4</friction>
+          <damping>0</damping>
+          <friction>0</friction>
         </dynamics>
         <limit>
-          <effort>-1</effort>
-          <velocity>-1</velocity>
+          <effort>1</effort>
         </limit>
       </axis>
     </joint>
-    <plugin name="Chassis-FR_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-FR_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-FR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
-      <!-- Added this multiplier to all chassis joint plugins -->
-      <multiplier>20</multiplier>
+      <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-MR_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-MR_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-MR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
-      <multiplier>20</multiplier>
+      <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-MR_encoder" filename="libencoder.so">
+    <plugin name="Chassis-MR_encoder" filename="libgz_encoder.so">
       <joint>Chassis-MR</joint>
       <topic>/gazebo/frc/simulator/dio/1/3</topic>
       <units>degrees</units>
     </plugin>
-    <plugin name="Chassis-BR_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-BR_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-BR</joint>
       <topic>/gazebo/frc/simulator/pwm/2</topic>
-      <multiplier>20</multiplier>
+      <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-FL_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-FL_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-FL</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
-      <multiplier>20</multiplier>
+      <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-ML_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-ML_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-ML</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
-      <multiplier>20</multiplier>
+      <multiplier>0</multiplier>
     </plugin>
-    <plugin name="Chassis-ML_encoder" filename="libencoder.so">
+    <plugin name="Chassis-ML_encoder" filename="libgz_encoder.so">
       <joint>Chassis-ML</joint>
       <topic>/gazebo/frc/simulator/dio/0/2</topic>
       <units>degrees</units>
     </plugin>
-    <plugin name="Chassis-BL_motor" filename="libdc_motor.so">
+    <plugin name="Chassis-BL_motor" filename="libgz_dc_motor.so">
       <joint>Chassis-BL</joint>
       <topic>/gazebo/frc/simulator/pwm/3</topic>
-      <multiplier>20</multiplier>
+      <multiplier>0</multiplier>
     </plugin>
   </model>
 </sdf>
