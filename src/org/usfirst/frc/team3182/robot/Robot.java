@@ -103,12 +103,12 @@ public class Robot extends IterativeRobot {
 		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 		*/
 		
-		LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
-		LiveWindow.addActuator("DriveTrain", "right motor", driveTrain.getRightController());
-		LiveWindow.addActuator("Encoders", "left encoder", driveTrain.getLeftEncoder());
-		LiveWindow.addActuator("Encoders", "right encoder", driveTrain.getRightEncoder());
-		LiveWindow.addActuator("PID", "Left Drivetrain", driveTrain.getLeftPIDController());
-		LiveWindow.addActuator("PID", "Right Drivetrain", driveTrain.getRightPIDController());
+		//LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
+		//LiveWindow.addActuator("DriveTrain", "right motor", RobotConfig.TalonR1);
+		LiveWindow.addActuator("Encoders", "left encoder", RobotConfig.leftEncoder);
+		LiveWindow.addActuator("Encoders", "right encoder", RobotConfig.rightEncoder);
+		//LiveWindow.addActuator("PID", "Left Drivetrain", driveTrain.getLeftPIDController());
+		//LiveWindow.addActuator("PID", "Right Drivetrain", driveTrain.getRightPIDController());
 
 	}
 	
