@@ -14,31 +14,25 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
  */
 public class DriveTrain {
 	private RobotDrive drive;
-	private Encoder leftEncoder, rightEncoder;
-	private Talon leftController, rightController;
 	private PIDController leftPIDController, rightPIDController;
 	
 	/**
 	 * DriveTrain constructor, creates a DriveTrain
 	 */
 	public DriveTrain(){
-		leftController = new Talon(RobotConfig.driveWheelL);
-		rightController = new Talon(RobotConfig.driveWheelR);
-		//leftController.setInverted(true);
-		//rightController.setInverted(true);
+		//We are not sure whether the 1 talons are on the front or if the 2 talons are on the front.
+		drive = new RobotDrive(RobotConfig.CANTalonL1, RobotConfig.CANTalonL2, RobotConfig.CANTalonR1, RobotConfig.CANTalonR2);
 		
-		drive = new RobotDrive(leftController, rightController);
-		
-		leftEncoder = new Encoder(RobotConfig.encoderLA, RobotConfig.encoderLB, true);
-		rightEncoder = new Encoder(RobotConfig.encoderRA, RobotConfig.encoderRB);
+	
 		//This takes the value for distancePerPulse from the RobotConfig class
-		leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
-		rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		
-		leftPIDController = new PIDController(0, 0, 0, 1, leftEncoder, leftController);
-		rightPIDController = new PIDController(0, 0, 0, 1, rightEncoder, rightController);
-		leftPIDController.enable();
-		rightPIDController.enable();
+		//FIXME: Fix the PID so that it can output to two different talons per encoder.
+		//leftPIDController = new PIDController(0, 0, 0, 1, leftEncoder, leftController);
+		//rightPIDController = new PIDController(0, 0, 0, 1, rightEncoder, rightController);
+		//leftPIDController.enable();
+		//rightPIDController.enable();
 	}
 	
 	/**
@@ -57,51 +51,38 @@ public class DriveTrain {
 	 * FIXME: use the setDistancePerPulse() method to be able to accurately calculate distance
 	 */
 	public void driveDistance(double inches){
-		leftEncoder.reset();
-		rightEncoder.reset();
+		RobotConfig.leftEncoder.reset();
+		RobotConfig.rightEncoder.reset();
 		while(getLDistance()<inches && getRDistance()<inches){
 			drive.setLeftRightMotorOutputs(.5,.5);
 			
 		}
 		drive.stopMotor();
 	}
-
-
-	public Talon getLeftController() {
-		return leftController;
-	}
-	
-	public Talon getRightController() {
-		return rightController;
-	}
-
-	public Encoder getRightEncoder() {
-		return rightEncoder;
-	}
-	
-	public Encoder getLeftEncoder() {
-		return leftEncoder;
-	}
 	
 	public double getLDistance() {
-		return leftEncoder.getDistance();
+		return RobotConfig.leftEncoder.getDistance();
 	}
 	
 	public double getRDistance() {
-		return rightEncoder.getDistance();
+		return RobotConfig.rightEncoder.getDistance();
 	}
 
+	
+
+/*
 	/**
 	 * @return the leftPIDController
-	 */
+	 *
 	public PIDController getLeftPIDController() {
 		return leftPIDController;
 	}
 
 	/**
 	 * @return the rightPIDController
-	 */
+	 *
 	public PIDController getRightPIDController() {
 		return rightPIDController;
 	}
+	*/
 }
