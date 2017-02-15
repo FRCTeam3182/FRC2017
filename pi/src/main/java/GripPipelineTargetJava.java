@@ -14,6 +14,8 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
 
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 /**
 * GripPipelineTargetJava class.
 *
@@ -29,7 +31,9 @@ public class GripPipelineTargetJava {
 	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
-
+    private NetworkTable table = NetworkTable.getTable("MyContoursReport");
+    
+	
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
@@ -82,6 +86,8 @@ public class GripPipelineTargetJava {
 		double filterContoursMaxRatio = 1000.0;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
+		// Network table
+		table.putValue("contours", filterContoursOutput);
 	}
 
 	/**
