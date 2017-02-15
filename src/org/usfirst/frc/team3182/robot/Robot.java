@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+import java.io.File;
+
 import org.usfirst.frc.team3182.robot.DriveControl;
 import org.usfirst.frc.team3182.robot.DriveTrain;
 import org.usfirst.frc.team3182.robot.RobotConfig;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,7 +24,11 @@ import org.usfirst.frc.team3182.robot.RobotConfig;
  */
 public class Robot extends IterativeRobot {
 
-
+	//We started trying to read the contents of the botType.txt
+	//file from the roboRIO.
+	//File botType = new File("botType.txt");
+	//FileInputStream fis = new FileInputStream
+	
 	DriveTrain driveTrain = new DriveTrain();
 	//public static DriveControl driveControl;
 	
