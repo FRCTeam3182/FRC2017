@@ -1,5 +1,7 @@
 package org.usfirst.frc.team3182.robot;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -16,12 +18,17 @@ public class DriveTrain {
 	private RobotDrive drive;
 	private PIDController leftPIDController, rightPIDController;
 	
+	
 	/**
 	 * DriveTrain constructor, creates a DriveTrain
 	 */
 	public DriveTrain(){
+		RobotConfig.CANTalonRSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+		RobotConfig.CANTalonRSlave.set(RobotConfig.CANTalonR.getDeviceID());
+		RobotConfig.CANTalonLSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+		RobotConfig.CANTalonLSlave.set(RobotConfig.CANTalonL.getDeviceID());
 		//We are not sure whether the 1 talons are on the front or if the 2 talons are on the front.
-		drive = new RobotDrive(RobotConfig.CANTalonL1, RobotConfig.CANTalonL2, RobotConfig.CANTalonR1, RobotConfig.CANTalonR2);
+		drive = new RobotDrive(RobotConfig.CANTalonL,RobotConfig.CANTalonR);
 		
 	
 		//This takes the value for distancePerPulse from the RobotConfig class
@@ -29,10 +36,10 @@ public class DriveTrain {
 		RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		
 		//FIXME: Fix the PID so that it can output to two different talons per encoder.
-		//leftPIDController = new PIDController(0, 0, 0, 1, leftEncoder, leftController);
-		//rightPIDController = new PIDController(0, 0, 0, 1, rightEncoder, rightController);
-		//leftPIDController.enable();
-		//rightPIDController.enable();
+		leftPIDController = new PIDController(0, 0, 0, 1, RobotConfig.leftEncoder, RobotConfig.CANTalonL);
+		rightPIDController = new PIDController(0, 0, 0, 1, RobotConfig.rightEncoder, RobotConfig.CANTalonR);
+		leftPIDController.enable();
+		rightPIDController.enable();
 	}
 	
 	/**

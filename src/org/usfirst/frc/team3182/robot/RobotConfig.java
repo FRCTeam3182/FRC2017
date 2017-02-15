@@ -24,15 +24,17 @@ public class RobotConfig {
 		public static int cameraJoystickChannel = 3;
 		public static Joystick cameraJoystick = new Joystick(cameraJoystickChannel);
 				
-		//PWM 
-		public static int talonR1Number = 0;
-		public static CANTalon CANTalonR1 = new CANTalon(talonR1Number);
-		public static int talonL1Number = 1;
-		public static CANTalon CANTalonL1 = new CANTalon(talonL1Number);
-		public static int talonR2Number = 2;
-		public static CANTalon CANTalonR2 = new CANTalon(talonR2Number);
-		public static int talonL2Number = 3;
-		public static CANTalon CANTalonL2 = new CANTalon(talonL2Number);
+		//CAN
+		public static int talonRNumber = 0;
+		public static CANTalon CANTalonR = new CANTalon(talonRNumber);
+		public static int talonLNumber = 1;
+		public static CANTalon CANTalonL = new CANTalon(talonLNumber);
+		public static int talonRSlaveNumber = 2;
+		public static CANTalon CANTalonRSlave = new CANTalon(talonRSlaveNumber);
+		public static int talonLSlaveNumber = 3;
+		public static CANTalon CANTalonLSlave = new CANTalon(talonLSlaveNumber);
+		
+		//PWM
 		public static int winch = 0;
 		public static Talon winchTalon = new Talon(winch);
 		public static int upperMotor = 1;

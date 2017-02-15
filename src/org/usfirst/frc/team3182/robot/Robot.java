@@ -67,15 +67,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		/*driveTrain=new Drivetrain();
-		 * driveControl=new DriveControl;
-		 */
 		
-		/**
-		 * FIXME: Uncomment when camera is installed
-		server=CameraServer.getInstance();
-		server.startAutomaticCapture();
-		*/
 		server = CameraServer.getInstance();
 		server.startAutomaticCapture();
 		
