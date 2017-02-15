@@ -87,7 +87,7 @@ public class GripPipelineTargetJava {
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 		// Network table
-		table.putValue("contours", filterContoursOutput);
+		table.putValue("contours", (Object) filterContoursOutput);
 	}
 
 	/**
