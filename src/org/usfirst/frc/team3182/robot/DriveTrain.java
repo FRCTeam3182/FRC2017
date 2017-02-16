@@ -1,12 +1,7 @@
 package org.usfirst.frc.team3182.robot;
 
-import com.ctre.CANTalon;
-
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
 /** 
  * Class for basic driving functions including basic drive and drive to distance
@@ -15,29 +10,59 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
  * 
  */
 public class DriveTrain {
-	private RobotDrive drive;
 	private PIDController leftPIDController, rightPIDController;
+	private RobotDrive drive;
 	
 	
 	/**
 	 * DriveTrain constructor, creates a DriveTrain
 	 */
 	public DriveTrain(){
-		RobotConfig.CANTalonRSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
-		RobotConfig.CANTalonRSlave.set(RobotConfig.CANTalonR.getDeviceID());
-		RobotConfig.CANTalonLSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
-		RobotConfig.CANTalonLSlave.set(RobotConfig.CANTalonL.getDeviceID());
-		//We are not sure whether the 1 talons are on the front or if the 2 talons are on the front.
-		drive = new RobotDrive(RobotConfig.CANTalonL,RobotConfig.CANTalonR);
+		// Set this class's RobotDrive to the same from the RobotConfig
+		drive = RobotConfig.robotDrive;
 		
-	
-		//This takes the value for distancePerPulse from the RobotConfig class
+		// This takes the value for distancePerPulse from the RobotConfig class
 		RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		
-		//FIXME: Fix the PID so that it can output to two different talons per encoder.
-		leftPIDController = new PIDController(0, 0, 0, 1, RobotConfig.leftEncoder, RobotConfig.CANTalonL);
-		rightPIDController = new PIDController(0, 0, 0, 1, RobotConfig.rightEncoder, RobotConfig.CANTalonR);
+		// Set the gains for the CompetitionBot
+		double Kp, Ki, Kd, Kf;
+
+		// Depending on the Robot's configuration...
+		switch (RobotConfig.config) {
+		
+		// If we are the CompetitionBot, use the CAN-based Talons 
+		case CompetitionBot:
+
+			// Set the gains for the CompetitionBot
+			Kp = 0;
+			Ki = 0;
+			Kd = 0;
+			Kf = 1;
+			
+			// Initialize the PID controllers to use the CAN Talons
+			leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.canTalonL);
+			rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.canTalonR);
+			break;
+
+		// If we are the CompetitionBot, use the PWM-based Talons
+		case TestBot:
+			
+			// Set the gains for the TestBot
+			Kp = 0;
+			Ki = 0;
+			Kd = 0;
+			Kf = 1;
+			
+			// Initialize the PID controllers to use the PWM Talons
+			leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.pwmTalonL);
+			rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.pwmTalonR);
+			break;
+			
+		default:
+			throw new IllegalArgumentException("Unknown RobotConfig provided to the DriveTrain");
+		}
+		
 		leftPIDController.enable();
 		rightPIDController.enable();
 	}
