@@ -9,6 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.usfirst.frc.team3182.robot.DriveControl;
 import org.usfirst.frc.team3182.robot.DriveTrain;
@@ -26,8 +31,17 @@ public class Robot extends IterativeRobot {
 
 	//We started trying to read the contents of the botType.txt
 	//file from the roboRIO.
-	//File botType = new File("botType.txt");
-	//FileInputStream fis = new FileInputStream
+	Path path = FileSystems.getDefault().getPath("lvuser", "botType.txt");
+	String botType; {
+		try{
+			botType = Files.readAllLines(path).get(0);
+			if(botType.equals("testBot"))
+				System.out.println("We set the variable botType to testBot!");
+			else
+				System.out.println("The variable botType does not have the correct value");
+		}
+		catch(IOException ex){}
+	}
 	
 	DriveTrain driveTrain = new DriveTrain();
 	//public static DriveControl driveControl;
