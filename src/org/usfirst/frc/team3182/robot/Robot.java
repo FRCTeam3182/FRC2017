@@ -8,11 +8,20 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.usfirst.frc.team3182.robot.DriveControl;
 import org.usfirst.frc.team3182.robot.DriveTrain;
 import org.usfirst.frc.team3182.robot.RobotConfig;
 
-/**
+
+/** 
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
@@ -20,16 +29,14 @@ import org.usfirst.frc.team3182.robot.RobotConfig;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
-
-	DriveTrain driveTrain = new DriveTrain();
-	//public static DriveControl driveControl;
+	
+	DriveTrain driveTrain;
 	
 	final String customGear = "Gear Auto";
 	final String customLow = "High  Goal Auto";
 	final String customHigh = "Low Goal Auto";
 	String autoSelected;	
-	DriveControl driveControl = new DriveControl();
+	DriveControl driveControl;
 	/**trueKorea means the competition bot, falseKorea is the demobot
 	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
 	 */
@@ -49,7 +56,7 @@ public class Robot extends IterativeRobot {
 
 
 
-	CameraServo cameraServo = new CameraServo();
+	CameraServo cameraServo;
 	
 	public static boolean usesPowerGlove = true;
 	
@@ -67,15 +74,31 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		/*driveTrain=new Drivetrain();
-		 * driveControl=new DriveControl;
-		 */
+
+		//We started trying to read the contents of the botType.txt
+		//file from the roboRIO.
+		Path path = Paths.get("/home/lvuser/botType.txt");
+		String botType; 
+		try{
+			botType = Files.readAllLines(path).get(0);
+			if(botType.equals("testBot")){
+				System.out.println("We set the variable botType to testBot!");
+				RobotConfig.configureRobot(RobotConfig.Configs.TestBot);
+			}
+			else{
+				System.out.println("The variable botType does not have the correct value");
+				RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
+			}
+		}
+		catch(IOException ex){
+			System.out.println("WHAT?!");
+		}
 		
-		/**
-		 * FIXME: Uncomment when camera is installed
-		server=CameraServer.getInstance();
-		server.startAutomaticCapture();
-		*/
+		
+		driveTrain = new DriveTrain();
+		driveControl = new DriveControl();
+		cameraServo = new CameraServo();
+		
 		server = CameraServer.getInstance();
 		server.startAutomaticCapture();
 		
@@ -103,12 +126,12 @@ public class Robot extends IterativeRobot {
 		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 		*/
 		
-		LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
-		LiveWindow.addActuator("DriveTrain", "right motor", driveTrain.getRightController());
-		LiveWindow.addActuator("Encoders", "left encoder", driveTrain.getLeftEncoder());
-		LiveWindow.addActuator("Encoders", "right encoder", driveTrain.getRightEncoder());
-		LiveWindow.addActuator("PID", "Left Drivetrain", driveTrain.getLeftPIDController());
-		LiveWindow.addActuator("PID", "Right Drivetrain", driveTrain.getRightPIDController());
+		//LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
+		//LiveWindow.addActuator("DriveTrain", "right motor", RobotConfig.TalonR1);
+		LiveWindow.addActuator("Encoders", "left encoder", RobotConfig.leftEncoder);
+		LiveWindow.addActuator("Encoders", "right encoder", RobotConfig.rightEncoder);
+		//LiveWindow.addActuator("PID", "Left Drivetrain", driveTrain.getLeftPIDController());
+		//LiveWindow.addActuator("PID", "Right Drivetrain", driveTrain.getRightPIDController());
 
 	}
 	
@@ -119,7 +142,6 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 
 		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 		autoSelected = autoChooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
@@ -193,8 +215,6 @@ public class Robot extends IterativeRobot {
 	 * This function is called when teleop begins.
 	 */
 	public void teleopInit() {
-		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 	}
 	
 	/**
