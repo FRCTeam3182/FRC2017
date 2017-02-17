@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class RobotConfig {
 	
@@ -115,6 +116,11 @@ public class RobotConfig {
 			
 			canTalonRSlave.set(canTalonR.getDeviceID());
 			canTalonLSlave.set(canTalonL.getDeviceID());
+
+			LiveWindow.addActuator("DriveTrain", "Right Pri. Talon", canTalonR);
+			LiveWindow.addActuator("DriveTrain", "Right Sl. Talon",  canTalonRSlave);
+			LiveWindow.addActuator("DriveTrain", "Left Pri. Talon",  canTalonL);
+			LiveWindow.addActuator("DriveTrain", "Left Sl. Talon",   canTalonLSlave);
 			
 			robotDrive = new RobotDrive(canTalonL, canTalonR);
 			
