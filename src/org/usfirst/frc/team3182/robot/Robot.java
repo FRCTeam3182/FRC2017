@@ -50,11 +50,11 @@ public class Robot extends IterativeRobot {
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 
-	CameraServo cameraServo;
+	//CameraServo cameraServo;
 	
-	public static boolean usesPowerGlove = true;
+	//public static boolean usesPowerGlove = true;
 	
-	public static CameraServer server;
+	//public static CameraServer server;
 	
 	Timer timer;
   
@@ -89,12 +89,12 @@ public class Robot extends IterativeRobot {
 		
 		driveTrain = new DriveTrain();
 		driveControl = new DriveControl();
-		cameraServo = new CameraServo();
+		//cameraServo = new CameraServo();
 		collector = new Collector();
 		
 		
-		server = CameraServer.getInstance();
-		server.startAutomaticCapture();
+		//server = CameraServer.getInstance();
+		//server.startAutomaticCapture();
 		
 		
 		autoChooser.addDefault("Do nothing", null);
@@ -180,32 +180,31 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 
-    driveTrain.drive(driveControl.getL(), driveControl.getR());
-		SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
-		SmartDashboard.putNumber("RightStickVal", driveControl.getR());
-		if(RobotConfig.joystickL.getRawButton(1)==true){
-			collector.collect();
-		}
-		if(RobotConfig.joystickR.getRawButton(1)==true){
-			collector.collectReverse();
-		}
-		if(RobotConfig.joystickL.getRawButton(2)==true){
-			collector.arm();
-		}
-		if(RobotConfig.joystickR.getRawButton(2)==true){
-			collector.armReverse();
-		}
-		if(RobotConfig.joystickR.getRawButton(3)==true){
-			RobotConfig.winchTalon.set(.1);
-		}
-		if(RobotConfig.joystickR.getRawButton(4)==true){
-			RobotConfig.winchTalon.set(-.1);
-		}
-
+		driveTrain.drive(driveControl.getL(), driveControl.getR());
 		
-		//SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
-		//SmartDashboard.putNumber("RightStickVal", driveControl.getR());
-
+		if (RobotConfig.joystickL.getRawButton(1)==true) {
+			collector.collect();
+		} else if (RobotConfig.joystickR.getRawButton(1)==true) {
+			collector.collectReverse();
+		} else {
+			collector.collectStop();
+		}
+		
+		if (RobotConfig.joystickL.getRawButton(2)==true) {
+			collector.arm();
+		} else if (RobotConfig.joystickR.getRawButton(2)==true) {
+			collector.armReverse();
+		} else {
+			collector.armStop();
+		}
+		
+		if (RobotConfig.joystickR.getRawButton(3)==true) {
+			RobotConfig.winchTalon.set(.1);
+		} else if (RobotConfig.joystickR.getRawButton(4)==true) {
+			RobotConfig.winchTalon.set(-.1);
+		} else {
+			RobotConfig.winchTalon.set(0);
+		}
 	}
 }
 

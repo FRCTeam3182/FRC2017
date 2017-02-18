@@ -28,8 +28,7 @@ public class Collector {
 		
 		//ultrasonic = new Ultrasonic(RobotConfig.ultrasonicPing, RobotConfig.ultrasonicEcho);
 		//upperEncoder = new Encoder(RobotConfig.encoderUpperA, RobotConfig.encoderUpperB);
-		//lowerEncoder = new Encoder(RobotConfig.encoderLowerA, RobotConfig.encoderLowerB);
-		
+		//lowerEncoder = new Encoder(RobotConfig.encoderLowerA, RobotConfig.encoderLowerB);	
 
 		LiveWindow.addActuator("Collector", "lower motor", lowerMotorTalon);
 		LiveWindow.addActuator("Collector", "upper motor",  upperMotorTalon);
@@ -45,14 +44,23 @@ public class Collector {
 	 * 
 	 * @return Returns set speed.
 	 */
+	public void collectStop() {
+		upperMotorTalon.set(0);
+		lowerMotorTalon.set(0);
+	}
+	
 	public void collect() {
-		upperMotorTalon.set(0.5);
-		lowerMotorTalon.set(0.9);
+		upperMotorTalon.set(-0.5);
+		lowerMotorTalon.set(-0.5);
 	}
 	
 	public void collectReverse() {
-		upperMotorTalon.set(-0.5);
-		lowerMotorTalon.set(-0.5);
+		upperMotorTalon.set(0.3);
+		lowerMotorTalon.set(0.4);
+	}
+
+	public void armStop() {
+		armMotorTalon.set(0);
 	}
 	
 	public void arm() {
