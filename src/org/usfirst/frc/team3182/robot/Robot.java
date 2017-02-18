@@ -86,12 +86,12 @@ public class Robot extends IterativeRobot {
 				RobotConfig.configureRobot(RobotConfig.Configs.TestBot);
 			}
 			else{
-				System.out.println("The variable botType does not have the correct value");
-				RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
+				System.out.println("WHAT?!");
 			}
 		}
 		catch(IOException ex){
-			System.out.println("WHAT?!");
+			System.out.println("The variable botType does not have the correct value");
+			RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
 		}
 		
 		
@@ -128,8 +128,8 @@ public class Robot extends IterativeRobot {
 		
 		//LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
 		//LiveWindow.addActuator("DriveTrain", "right motor", RobotConfig.TalonR1);
-		LiveWindow.addActuator("Encoders", "left encoder", RobotConfig.leftEncoder);
-		LiveWindow.addActuator("Encoders", "right encoder", RobotConfig.rightEncoder);
+		//LiveWindow.addActuator("Encoders", "left encoder", RobotConfig.leftEncoder);
+		//LiveWindow.addActuator("Encoders", "right encoder", RobotConfig.rightEncoder);
 		//LiveWindow.addActuator("PID", "Left Drivetrain", driveTrain.getLeftPIDController());
 		//LiveWindow.addActuator("PID", "Right Drivetrain", driveTrain.getRightPIDController());
 
@@ -200,15 +200,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-
-		driveTrain.drive(driveControl.getL(), driveControl.getR());
-		cameraServo.move();
 		LiveWindow.run();
-		/*SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
-		SmartDashboard.putNumber("RightStickVal", driveControl.getR());
-		SmartDashboard.putNumber("Left Distance", driveTrain.getLDistance());
-		SmartDashboard.putNumber("Right Distance", driveTrain.getRDistance());
-		*/
 	}
 	
 	/**
