@@ -63,8 +63,9 @@ public class DriveTrain {
 			throw new IllegalArgumentException("Unknown RobotConfig provided to the DriveTrain");
 		}
 		
-		leftPIDController.enable();
-		rightPIDController.enable();
+		/** FIXME: Re-enable PID when it is available */
+		//leftPIDController.enable();
+		//rightPIDController.enable();
 	}
 	
 	/**

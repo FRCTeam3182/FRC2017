@@ -90,6 +90,8 @@ public class Robot extends IterativeRobot {
 		driveTrain = new DriveTrain();
 		driveControl = new DriveControl();
 		cameraServo = new CameraServo();
+		collector = new Collector();
+		
 		
 		server = CameraServer.getInstance();
 		server.startAutomaticCapture();
@@ -184,32 +186,20 @@ public class Robot extends IterativeRobot {
 		if(RobotConfig.joystickL.getRawButton(1)==true){
 			collector.collect();
 		}
-		else{
-		}
 		if(RobotConfig.joystickR.getRawButton(1)==true){
 			collector.collectReverse();
 		}
-		else{
-		}
 		if(RobotConfig.joystickL.getRawButton(2)==true){
-			RobotConfig.armMotorTalon.set(.3);
-		}
-		else{
+			collector.arm();
 		}
 		if(RobotConfig.joystickR.getRawButton(2)==true){
-			RobotConfig.armMotorTalon.set(-.3);
-		}
-		else{
+			collector.armReverse();
 		}
 		if(RobotConfig.joystickR.getRawButton(3)==true){
 			RobotConfig.winchTalon.set(.1);
 		}
-		else{
-		}
-		if(RobotConfig.joystickR.getRawButton(3)==true){
+		if(RobotConfig.joystickR.getRawButton(4)==true){
 			RobotConfig.winchTalon.set(-.1);
-		}
-		else{
 		}
 
 		
