@@ -11,18 +11,15 @@ import edu.wpi.first.wpilibj.Ultrasonic;
  */
 public class Collector {
 	
-	private Talon upperMotor;
-	private Talon lowerMotor;
 	private Ultrasonic ultrasonic;
 	private Encoder upperEncoder;
 	private Encoder lowerEncoder;
 	
 	public Collector() {
-		upperMotor = new Talon(RobotConfig.upperMotor);
-		lowerMotor = new Talon(RobotConfig.lowerMotor);
-		ultrasonic = new Ultrasonic(RobotConfig.ultrasonicPing, RobotConfig.ultrasonicEcho);
-		upperEncoder = new Encoder(RobotConfig.encoderUpperA, RobotConfig.encoderUpperB);
-		lowerEncoder = new Encoder(RobotConfig.encoderLowerA, RobotConfig.encoderLowerB);
+		
+		//ultrasonic = new Ultrasonic(RobotConfig.ultrasonicPing, RobotConfig.ultrasonicEcho);
+		//upperEncoder = new Encoder(RobotConfig.encoderUpperA, RobotConfig.encoderUpperB);
+		//lowerEncoder = new Encoder(RobotConfig.encoderLowerA, RobotConfig.encoderLowerB);
 	}
 	/**
 	 * Activates conveyer belt.
@@ -30,16 +27,17 @@ public class Collector {
 	 * @return Returns set speed.
 	 */
 	public void collect() {
-		upperMotor.set(0.5);
-		lowerMotor.set(0.5);
-		upperMotor.getSpeed();
-		lowerMotor.getSpeed();
+		
+		RobotConfig.upperMotorTalon.set(0.5);
+		RobotConfig.lowerMotorTalon.set(0.5);
+		
 	}
 	/**
 	 * Determines if the robot has a gear.
 	 * 
 	 * @return True id the robot has a motor.
 	 */
+	/*
 	public boolean detectGear() {
 		//FIXME find ultrasonic value for gear
 		double distanceToGear = 0;
@@ -50,11 +48,14 @@ public class Collector {
 			return(false);
 		}
 	}
+	*/
 	/**
 	 * Determines if the motor is jammed.
 	 * 
 	 * @return True if the motor is jammed.
 	 */
+	/*
+	
 	public boolean detectMotorJammed() {
 		//FIXME find encoder value for jammed motor
 		if (upperMotor.getSpeed() != 0 && upperEncoder.getStopped() == true) {
@@ -63,5 +64,6 @@ public class Collector {
 			return false;
 		}
 	}
+	*/
 	
 }

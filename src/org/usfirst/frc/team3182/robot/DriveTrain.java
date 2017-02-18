@@ -22,8 +22,8 @@ public class DriveTrain {
 		drive = RobotConfig.robotDrive;
 		
 		// This takes the value for distancePerPulse from the RobotConfig class
-		RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
-		RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		//RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		//RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		
 		// Set the gains for the CompetitionBot
 		double Kp, Ki, Kd, Kf;
@@ -40,9 +40,9 @@ public class DriveTrain {
 			Kd = 0;
 			Kf = 1;
 			
-			// Initialize the PID controllers to use the CAN Talons
-			leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.canTalonL);
-			rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.canTalonR);
+			//Initialize the PID controllers to use the CAN Talons
+			//leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.canTalonL);
+			//rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.canTalonR);
 			break;
 
 		// If we are the CompetitionBot, use the PWM-based Talons
@@ -55,8 +55,8 @@ public class DriveTrain {
 			Kf = 1;
 			
 			// Initialize the PID controllers to use the PWM Talons
-			leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.pwmTalonL);
-			rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.pwmTalonR);
+			//leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.pwmTalonL);
+			//rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.pwmTalonR);
 			break;
 			
 		default:
@@ -73,8 +73,9 @@ public class DriveTrain {
 	 * @param right  value for right wheels, from -1 to 1
 	 */
 	public void drive(double left, double right){
-		leftPIDController.setSetpoint(left);
-		rightPIDController.setSetpoint(right);
+		//leftPIDController.setSetpoint(left);
+		//rightPIDController.setSetpoint(right);
+		drive.setLeftRightMotorOutputs(left, right);
 	}
 	
 	/**
@@ -82,6 +83,8 @@ public class DriveTrain {
 	 * @param inches
 	 * FIXME: use the setDistancePerPulse() method to be able to accurately calculate distance
 	 */
+	/**
+	
 	public void driveDistance(double inches){
 		RobotConfig.leftEncoder.reset();
 		RobotConfig.rightEncoder.reset();
@@ -117,4 +120,5 @@ public class DriveTrain {
 		return rightPIDController;
 	}
 	*/
+	
 }
