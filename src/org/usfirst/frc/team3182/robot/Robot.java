@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -32,40 +33,28 @@ public class Robot extends IterativeRobot {
 	
 	DriveTrain driveTrain;
 	
-	final String customGear = "Gear Auto";
-	final String customLow = "High  Goal Auto";
-	final String customHigh = "Low Goal Auto";
+	final String auto4S = "4sec";
+	final String auto2S = "2sec";
 	String autoSelected;	
+	int currentTime;
+	int targetTime;
 	DriveControl driveControl;
 	/**trueKorea means the competition bot, falseKorea is the demobot
 	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
 	 */
-	String trueKorea = "trueKorea";
-	String falseKorea = "falseKorea";
-	String robotConfigSelected;
 	
-	//These are variables used in the distanceChooser sendable chooser
-	String distanceA = "distanceA";
-	String distanceB = "distanceB";
-	String distanceC = "distanceC";
-	String distanceD = "distanceD";
+	
+	
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-	SendableChooser<String> configChooser = new SendableChooser<>();
-	SendableChooser<String> distanceChooser = new SendableChooser<>();
-
-
 
 	CameraServo cameraServo;
 	
 	public static boolean usesPowerGlove = true;
 	
-	Command autonomousCommand;
-	
 	public static CameraServer server;
 	
-	DriverStation ds;
-	//private double warningTime=0;
+	Timer timer;
   
 	/**        
 	 * This function is run when the robot is first started up and should be
@@ -87,6 +76,7 @@ public class Robot extends IterativeRobot {
 			}
 			else{
 				System.out.println("WHAT?!");
+				RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
 			}
 		}
 		catch(IOException ex){
@@ -102,37 +92,13 @@ public class Robot extends IterativeRobot {
 		server = CameraServer.getInstance();
 		server.startAutomaticCapture();
 		
-		//autoChooser=new SendableChoooser();
-		//autoChooser.addDefault("Default", new driveDistance(96));
-		/**autoChooser.addObject("Gear Auto", customGear);
-		autoChooser.addObject("High Goal Auto", customHigh);
-		autoChooser.addObject("Low Goal Auto", customLow);
+		
+		autoChooser.addDefault("Do nothing", null);
+		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4S);
+		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2S);
 		
 		SmartDashboard.putData("Auto choices", autoChooser);
 		
-		configChooser.addObject("falseKorea", falseKorea);
-		configChooser.addDefault("default", trueKorea);
-		
-		SmartDashboard.putData("RobotChoice", configChooser);
-		
-		distanceChooser.addDefault("Drive 0ft", distanceA);
-		distanceChooser.addObject("Drive 2ft", distanceB);
-		distanceChooser.addObject("Drive 50% Power", distanceC);
-		distanceChooser.addObject("Joystick Drive", distanceD);
-		
-		SmartDashboard.putData("Distancechoice", distanceChooser);
-			
-		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
-		*/
-		
-		//LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
-		//LiveWindow.addActuator("DriveTrain", "right motor", RobotConfig.TalonR1);
-		//LiveWindow.addActuator("Encoders", "left encoder", RobotConfig.leftEncoder);
-		//LiveWindow.addActuator("Encoders", "right encoder", RobotConfig.rightEncoder);
-		//LiveWindow.addActuator("PID", "Left Drivetrain", driveTrain.getLeftPIDController());
-		//LiveWindow.addActuator("PID", "Right Drivetrain", driveTrain.getRightPIDController());
-
 	}
 	
 	public void disabledInit() {
@@ -143,10 +109,12 @@ public class Robot extends IterativeRobot {
 
 		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
 		autoSelected = autoChooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
-		if (autonomousCommand !=null) autonomousCommand.start();
+		if(autoSelected==null)	targetTime = 0;
+		else if (autoSelected.equals("4sec"))	targetTime = 4;
+		else if (autoSelected.equals("2sec"))	targetTime = 2;
+		else targetTime = 0;
+		timer.start();
+
 	}
 
 	/**
@@ -154,17 +122,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customGear:
-			// Put custom auto code here
-			break;
-		case customHigh:
-			// Put custom auto code here
-			break;
-		case customLow:
-			// Put custom auto code here
-			break;
-		}
+		
+		if(!timer.hasPeriodPassed(targetTime))
+			driveTrain.drive(.25, .25);
 	}
 
 	/**
@@ -207,15 +167,17 @@ public class Robot extends IterativeRobot {
 	 * This function is called when teleop begins.
 	 */
 	public void teleopInit() {
+		
+		
 	}
 	
 	/**
 	 * This function is called during teleop mode
 	 */
 	public void teleopPeriodic() {
-		driveTrain.drive(driveControl.getR(), driveControl.getL());
-		SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
-		SmartDashboard.putNumber("RightStickVal", driveControl.getR());
+		driveTrain.drive(driveControl.getL(), driveControl.getR());
+		//SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
+		//SmartDashboard.putNumber("RightStickVal", driveControl.getR());
 	}
 }
 

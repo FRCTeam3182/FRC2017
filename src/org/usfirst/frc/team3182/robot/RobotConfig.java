@@ -73,13 +73,15 @@ public class RobotConfig {
 	/** The left primary drivetrain PWM Talon. This will be NULL for the CompetitionBot. */
 	public static Talon pwmTalonL;
 	
+	/*
 	//Analog In
 	public static int gyroscope = 0;
 	public static int ultrasonicPing = 1;
 	public static int ultrasonicEcho = 2;
 	public static int potentiometer = 3;
+	*/
 	
-	
+	/*
 	//DIO
 	public static int encoderLA = 0;
 	public static int encoderRA = 1;
@@ -93,6 +95,7 @@ public class RobotConfig {
 	public static int encoderUpperB = 7;
 	public static Encoder lowerEncoder = new Encoder(encoderLowerA, encoderLowerB);
 	public static Encoder upperEncoder = new Encoder(encoderUpperA, encoderUpperB);
+	*/
 	
 	/** The linear distance in inches traveled by the robot per pulse of the encoders */ 
 	public static double distancePerPulse;
