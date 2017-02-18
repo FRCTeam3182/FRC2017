@@ -20,6 +20,7 @@ public class Collector {
 		//ultrasonic = new Ultrasonic(RobotConfig.ultrasonicPing, RobotConfig.ultrasonicEcho);
 		//upperEncoder = new Encoder(RobotConfig.encoderUpperA, RobotConfig.encoderUpperB);
 		//lowerEncoder = new Encoder(RobotConfig.encoderLowerA, RobotConfig.encoderLowerB);
+
 	}
 	/**
 	 * Activates conveyer belt.
@@ -27,10 +28,13 @@ public class Collector {
 	 * @return Returns set speed.
 	 */
 	public void collect() {
-		
 		RobotConfig.upperMotorTalon.set(0.5);
-		RobotConfig.lowerMotorTalon.set(0.5);
-		
+		RobotConfig.lowerMotorTalon.set(0.9);
+	}
+	
+	public void collectReverse() {
+		RobotConfig.upperMotorTalon.set(-0.5);
+		RobotConfig.lowerMotorTalon.set(-0.5);
 	}
 	/**
 	 * Determines if the robot has a gear.

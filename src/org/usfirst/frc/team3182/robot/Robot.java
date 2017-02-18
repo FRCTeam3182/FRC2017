@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import org.usfirst.frc.team3182.robot.DriveControl;
 import org.usfirst.frc.team3182.robot.DriveTrain;
 import org.usfirst.frc.team3182.robot.RobotConfig;
+import org.usfirst.frc.team3182.robot.Collector;
 
 
 /** 
@@ -39,6 +40,7 @@ public class Robot extends IterativeRobot {
 	int currentTime;
 	int targetTime;
 	DriveControl driveControl;
+	Collector collector;
 	/**trueKorea means the competition bot, falseKorea is the demobot
 	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
 	 */
@@ -175,9 +177,45 @@ public class Robot extends IterativeRobot {
 	 * This function is called during teleop mode
 	 */
 	public void teleopPeriodic() {
-		driveTrain.drive(driveControl.getL(), driveControl.getR());
+
+    driveTrain.drive(driveControl.getL(), driveControl.getR());
+		SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
+		SmartDashboard.putNumber("RightStickVal", driveControl.getR());
+		if(RobotConfig.joystickL.getRawButton(1)==true){
+			collector.collect();
+		}
+		else{
+		}
+		if(RobotConfig.joystickR.getRawButton(1)==true){
+			collector.collectReverse();
+		}
+		else{
+		}
+		if(RobotConfig.joystickL.getRawButton(2)==true){
+			RobotConfig.armMotorTalon.set(.3);
+		}
+		else{
+		}
+		if(RobotConfig.joystickR.getRawButton(2)==true){
+			RobotConfig.armMotorTalon.set(-.3);
+		}
+		else{
+		}
+		if(RobotConfig.joystickR.getRawButton(3)==true){
+			RobotConfig.winchTalon.set(.1);
+		}
+		else{
+		}
+		if(RobotConfig.joystickR.getRawButton(3)==true){
+			RobotConfig.winchTalon.set(-.1);
+		}
+		else{
+		}
+
+		
 		//SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
 		//SmartDashboard.putNumber("RightStickVal", driveControl.getR());
+
 	}
 }
 
