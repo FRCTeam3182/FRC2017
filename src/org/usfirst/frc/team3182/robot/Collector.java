@@ -35,7 +35,7 @@ public class Collector {
 		LiveWindow.addActuator("Collector", "arm",  armMotorTalon);
 		
 		/** FIXME: Move this to the climber class after suff shake. */
-		LiveWindow.addActuator("Collector", "winch", winchTalon);
+		
 
 	}
 	

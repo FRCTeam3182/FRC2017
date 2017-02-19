@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 	int targetTime;
 	DriveControl driveControl;
 	Collector collector;
+	Winch winch;
 	/**trueKorea means the competition bot, falseKorea is the demobot
 	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
 	 */
@@ -91,7 +92,8 @@ public class Robot extends IterativeRobot {
 		driveControl = new DriveControl();
 		//cameraServo = new CameraServo();
 		collector = new Collector();
-		
+		winch = new Winch();
+		timer = new Timer();
 		
 		//server = CameraServer.getInstance();
 		//server.startAutomaticCapture();
@@ -117,6 +119,7 @@ public class Robot extends IterativeRobot {
 		else if (autoSelected.equals("4sec"))	targetTime = 4;
 		else if (autoSelected.equals("2sec"))	targetTime = 2;
 		else targetTime = 0;
+		timer.reset();
 		timer.start();
 
 	}
@@ -127,8 +130,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		
-		if(!timer.hasPeriodPassed(targetTime))
+		if(timer.get() < targetTime)
 			driveTrain.drive(.25, .25);
+		else {
+			driveTrain.drive(0, 0);
+			timer.stop();
+		}
+		
 	}
 
 	/**
@@ -180,7 +188,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 
-		driveTrain.drive(driveControl.getL(), driveControl.getR());
+		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
 		
 		if (RobotConfig.joystickL.getRawButton(1)==true) {
 			collector.collect();
@@ -199,12 +207,14 @@ public class Robot extends IterativeRobot {
 		}
 		
 		if (RobotConfig.joystickR.getRawButton(3)==true) {
-			RobotConfig.winchTalon.set(.1);
+			//adding 1 and dividing by 2 makes the scale from 0 to 1 instead of -1 to 1
+			winch.climb(false, driveControl.getClimbSpeed());
 		} else if (RobotConfig.joystickR.getRawButton(4)==true) {
-			RobotConfig.winchTalon.set(-.1);
+			winch.climb(true, driveControl.getClimbSpeed());
 		} else {
-			RobotConfig.winchTalon.set(0);
+			winch.climbStop();
 		}
+		
 	}
 }
 

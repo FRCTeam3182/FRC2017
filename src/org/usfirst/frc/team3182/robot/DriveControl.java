@@ -70,5 +70,9 @@ public class DriveControl {
 		
 	}
 	
+	public double getClimbSpeed() {
+		return (1+RobotConfig.joystickL.getThrottle())/2;
+	}
+	
 
 }
