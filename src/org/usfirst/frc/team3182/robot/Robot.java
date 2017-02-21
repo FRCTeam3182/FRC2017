@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 	int targetTime;
 	DriveControl driveControl;
 	Collector collector;
+	Winch winch;
 	/**trueKorea means the competition bot, falseKorea is the demobot
 	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
 	 */
@@ -50,11 +51,11 @@ public class Robot extends IterativeRobot {
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 
-	CameraServo cameraServo;
+	//CameraServo cameraServo;
 	
-	public static boolean usesPowerGlove = true;
+	//public static boolean usesPowerGlove = true;
 	
-	public static CameraServer server;
+	//public static CameraServer server;
 	
 	Timer timer;
   
@@ -89,10 +90,13 @@ public class Robot extends IterativeRobot {
 		
 		driveTrain = new DriveTrain();
 		driveControl = new DriveControl();
-		cameraServo = new CameraServo();
+		//cameraServo = new CameraServo();
+		collector = new Collector();
+		winch = new Winch();
+		timer = new Timer();
 		
-		server = CameraServer.getInstance();
-		server.startAutomaticCapture();
+		//server = CameraServer.getInstance();
+		//server.startAutomaticCapture();
 		
 		
 		autoChooser.addDefault("Do nothing", null);
@@ -115,6 +119,7 @@ public class Robot extends IterativeRobot {
 		else if (autoSelected.equals("4sec"))	targetTime = 4;
 		else if (autoSelected.equals("2sec"))	targetTime = 2;
 		else targetTime = 0;
+		timer.reset();
 		timer.start();
 
 	}
@@ -125,8 +130,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		
-		if(!timer.hasPeriodPassed(targetTime))
+		if(timer.get() < targetTime)
 			driveTrain.drive(.25, .25);
+		else {
+			driveTrain.drive(0, 0);
+			timer.stop();
+		}
+		
 	}
 
 	/**
@@ -178,44 +188,33 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 
-    driveTrain.drive(driveControl.getL(), driveControl.getR());
-		SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
-		SmartDashboard.putNumber("RightStickVal", driveControl.getR());
-		if(RobotConfig.joystickL.getRawButton(1)==true){
-			collector.collect();
-		}
-		else{
-		}
-		if(RobotConfig.joystickR.getRawButton(1)==true){
-			collector.collectReverse();
-		}
-		else{
-		}
-		if(RobotConfig.joystickL.getRawButton(2)==true){
-			RobotConfig.armMotorTalon.set(.3);
-		}
-		else{
-		}
-		if(RobotConfig.joystickR.getRawButton(2)==true){
-			RobotConfig.armMotorTalon.set(-.3);
-		}
-		else{
-		}
-		if(RobotConfig.joystickR.getRawButton(3)==true){
-			RobotConfig.winchTalon.set(.1);
-		}
-		else{
-		}
-		if(RobotConfig.joystickR.getRawButton(3)==true){
-			RobotConfig.winchTalon.set(-.1);
-		}
-		else{
-		}
-
+		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
 		
-		//SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
-		//SmartDashboard.putNumber("RightStickVal", driveControl.getR());
-
+		if (RobotConfig.joystickL.getRawButton(1)==true) {
+			collector.collect();
+		} else if (RobotConfig.joystickR.getRawButton(1)==true) {
+			collector.collectReverse();
+		} else {
+			collector.collectStop();
+		}
+		
+		if (RobotConfig.joystickL.getRawButton(2)==true) {
+			collector.arm();
+		} else if (RobotConfig.joystickR.getRawButton(2)==true) {
+			collector.armReverse();
+		} else {
+			collector.armStop();
+		}
+		
+		if (RobotConfig.joystickR.getRawButton(3)==true) {
+			//adding 1 and dividing by 2 makes the scale from 0 to 1 instead of -1 to 1
+			winch.climb(false, driveControl.getClimbSpeed());
+		} else if (RobotConfig.joystickR.getRawButton(4)==true) {
+			winch.climb(true, driveControl.getClimbSpeed());
+		} else {
+			winch.climbStop();
+		}
+		
 	}
 }
 

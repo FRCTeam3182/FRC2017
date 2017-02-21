@@ -11,7 +11,7 @@ public class DriveControl {
 		
 		System.out.println("Drive Control Initialized");
 		//this tells Robot that the robot is using power glove
-		Robot.usesPowerGlove = true; //Implement this in Robot class
+		//Robot.usesPowerGlove = true; //Implement this in Robot class
 		System.out.println("PowerGlove used");
 		
 		
@@ -68,6 +68,10 @@ public class DriveControl {
 	public double getPowerGloveRoll() {
 		return RobotConfig.powerGlove.getRoll();
 		
+	}
+	
+	public double getClimbSpeed() {
+		return (1+RobotConfig.joystickL.getThrottle())/2;
 	}
 	
 
