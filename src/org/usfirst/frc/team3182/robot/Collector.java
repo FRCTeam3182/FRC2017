@@ -19,9 +19,6 @@ public class Collector {
 	Talon lowerMotorTalon = RobotConfig.lowerMotorTalon;
 	Talon upperMotorTalon = RobotConfig.upperMotorTalon;
 	Talon armMotorTalon = RobotConfig.armMotorTalon;
-	
-	/** FIXME: Move this to the climber class after suff shake. */
-	Talon winchTalon = RobotConfig.winchTalon;
 
 	
 	public Collector() {
@@ -33,10 +30,6 @@ public class Collector {
 		LiveWindow.addActuator("Collector", "lower motor", lowerMotorTalon);
 		LiveWindow.addActuator("Collector", "upper motor",  upperMotorTalon);
 		LiveWindow.addActuator("Collector", "arm",  armMotorTalon);
-		
-		/** FIXME: Move this to the climber class after suff shake. */
-		
-
 	}
 	
 	/**
