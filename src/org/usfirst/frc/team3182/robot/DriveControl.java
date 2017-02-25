@@ -35,9 +35,6 @@ public class DriveControl {
 	 * The standard get left power method, linear with .15 deadzone
 	 */
 	public double getL() {
-		if(Math.abs(RobotConfig.joystickL.getY())<.15) return 0;
-		//double temp = driveControlL.getY();
-		//temp = -temp;
 		//Inverses the joystick output to make forward positive
 		return -RobotConfig.joystickL.getY();
 		
@@ -46,9 +43,6 @@ public class DriveControl {
 	 * The standard get right power method, linear with .15 deadzone
 	 */
 	public double getR() {
-		if(Math.abs(RobotConfig.joystickR.getY())<.15) return 0;
-		//double temp = driveControlR.getY();
-		//temp = -temp;
 		//Inverses the joystick output to make forward positive
 		return -RobotConfig.joystickR.getY();
 	}
@@ -108,7 +102,6 @@ public class DriveControl {
 	 * @return square rule of getY() for left joystick
 	 */
 	public double getLExp() { //"ramps up"
-    	if(Math.abs(getL())<.1)return 0; // Deadzone
     	if (getL() > 0) return Math.pow(getL(), 2);
         else return -Math.abs(Math.pow(getL(), 2));
     }
@@ -118,7 +111,6 @@ public class DriveControl {
 	 * @return square rule of getY() for right joystick
 	 */
 	public double getRExp() {
-    	if(Math.abs(getR())<.1) return 0; // Deadzone
         if (getR() > 0) return Math.pow(getR(), 2);
         else return -Math.abs(Math.pow(getR(), 2));
     }
@@ -134,8 +126,11 @@ public class DriveControl {
 	
 	//Converts the throttle from 1 to -1 to 1 to 0. -1 is top, 1 is bottom.
 	public double getClimbSpeed() {
-		return (1.0+RobotConfig.joystickL.getThrottle())/2.0;
+
+		System.out.println((1-RobotConfig.joystickL.getThrottle())/2.0);
+		return (1.0-RobotConfig.joystickL.getThrottle())/2.0;
 	}
+	
 	
 
 }
