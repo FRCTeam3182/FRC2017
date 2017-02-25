@@ -13,9 +13,10 @@ public class Winch {
 		
 	}
 	
+	//Method for climbing, takes a boolean indicating direction and a speed double
 	public void climb(boolean clockwise, double speed) {
 		
-		if(clockwise){
+		if(clockwise==true){
 			winchTalon.set(speed);
 		}
 		else {
@@ -23,6 +24,7 @@ public class Winch {
 		}
 	}
 	
+	//Stops climbing
 	public void climbStop() {
 		winchTalon.set(0);
 	}
