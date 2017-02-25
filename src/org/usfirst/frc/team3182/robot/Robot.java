@@ -33,7 +33,6 @@ import org.usfirst.frc.team3182.robot.Collector;
 public class Robot extends IterativeRobot {
 	
 	DriveTrain driveTrain;
-	boolean autoWentForward;
 	
 	final String auto4S = "4sec";
 	final String auto2S = "2sec";
@@ -73,7 +72,6 @@ public class Robot extends IterativeRobot {
 		//file from the roboRIO.
 		Path path = Paths.get("/home/lvuser/botType.txt");
 		String botType; 
-		autoWentForward = false;
 		try{
 			botType = Files.readAllLines(path).get(0);
 			if(botType.equals("testBot")){
