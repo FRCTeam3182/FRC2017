@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
 	DriveControl driveControl;
 	Collector collector;
 	Winch winch;
+	int targetDistance;
 	/**trueKorea means the competition bot, falseKorea is the demobot
 	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
 	 */
@@ -94,6 +95,7 @@ public class Robot extends IterativeRobot {
 		collector = new Collector();
 		winch = new Winch();
 		timer = new Timer();
+		targetDistance = 72;
 		
 		//server = CameraServer.getInstance();
 		//server.startAutomaticCapture();
@@ -113,7 +115,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 
-		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
 		autoSelected = autoChooser.getSelected();
 		if(autoSelected==null)	targetTime = 0;
 		else if (autoSelected.equals("4sec"))	targetTime = 4;
@@ -121,6 +122,9 @@ public class Robot extends IterativeRobot {
 		else targetTime = 0;
 		timer.reset();
 		timer.start();
+		RobotConfig.leftEncoder.reset();
+		RobotConfig.rightEncoder.reset();			
+			
 
 	}
 
@@ -129,13 +133,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+
+		if(driveTrain.getLDistance()<targetDistance)	
+			driveTrain.getLeftPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
+		else
+			driveTrain.getLeftPIDController().setSetpoint(0);
+		if(driveTrain.getRDistance()<targetDistance)	
+			driveTrain.getRightPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
+		else
+			driveTrain.getRightPIDController().setSetpoint(0);
 		
-		if(timer.get() < targetTime)
-			driveTrain.drive(.25, .25);
-		else {
-			driveTrain.drive(0, 0);
-			timer.stop();
-		}
+		   
+		
 		
 	}
 
@@ -143,27 +152,15 @@ public class Robot extends IterativeRobot {
 	 * This function is called when test is chosen. 
 	 */
 	public void testInit() {
-		//String driveType = distanceChooser.getSelected();
-		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		//RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
-
-		
+	
 		/*SmartDashboard.putData("left motor", driveTrain.getLeftController());
 		SmartDashboard.putData("right motor", driveTrain.getRightController());
 		SmartDashboard.putData("left encoder", driveTrain.getLeftEncoder());
 		SmartDashboard.putData("right encoder", driveTrain.getRightEncoder());
 		
-
-		if(driveType == "distanceB") {
-			driveTrain.driveDistance(24);
-		}
-		else if(driveType == "distanceC")
-			driveTrain.drive(.5, .5);
-		else if(driveType == "distanceD")
-			driveTrain.drive(driveControl.getL(), driveControl.getR());
-		*/
-		
 		//cameraServo.move();
+		 
+		 */
 		
 	}
 
@@ -190,31 +187,37 @@ public class Robot extends IterativeRobot {
 
 		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
 		
-		if (RobotConfig.joystickL.getRawButton(1)==true) {
+		if (RobotConfig.joystickL.getRawButton(1)) {
 			collector.collect();
-		} else if (RobotConfig.joystickR.getRawButton(1)==true) {
+		} else if (RobotConfig.joystickR.getRawButton(1)) {
 			collector.collectReverse();
 		} else {
 			collector.collectStop();
 		}
 		
-		if (RobotConfig.joystickL.getRawButton(2)==true) {
+		if (RobotConfig.joystickL.getRawButton(2)) {
 			collector.arm();
-		} else if (RobotConfig.joystickR.getRawButton(2)==true) {
+		} else if (RobotConfig.joystickR.getRawButton(2)) {
 			collector.armReverse();
 		} else {
 			collector.armStop();
 		}
 		
-		if (RobotConfig.joystickR.getRawButton(3)==true) {
+		if (RobotConfig.joystickR.getRawButton(3)) {
 			//adding 1 and dividing by 2 makes the scale from 0 to 1 instead of -1 to 1
 			winch.climb(false, driveControl.getClimbSpeed());
-		} else if (RobotConfig.joystickR.getRawButton(4)==true) {
+		} else if (RobotConfig.joystickR.getRawButton(4)) {
 			winch.climb(true, driveControl.getClimbSpeed());
 		} else {
 			winch.climbStop();
 		}
 		
+		if (RobotConfig.joystickR.getRawButton(7)) {
+			if(driveTrain.pidEnabled)
+				driveTrain.disablePID();
+			else
+				driveTrain.enablePID();
+		}
 	}
 }
 

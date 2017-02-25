@@ -81,7 +81,7 @@ public class RobotConfig {
 	public static int potentiometer = 3;
 	*/
 	
-	/*
+	
 	//DIO
 	public static int encoderLA = 0;
 	public static int encoderRA = 1;
@@ -95,7 +95,7 @@ public class RobotConfig {
 	public static int encoderUpperB = 7;
 	public static Encoder lowerEncoder = new Encoder(encoderLowerA, encoderLowerB);
 	public static Encoder upperEncoder = new Encoder(encoderUpperA, encoderUpperB);
-	*/
+	
 	
 	/** The linear distance in inches traveled by the robot per pulse of the encoders */ 
 	public static double distancePerPulse;
@@ -114,17 +114,18 @@ public class RobotConfig {
 			canTalonRSlave = new CANTalon(canTalonRSlaveNumber);
 			canTalonLSlave = new CANTalon(canTalonLSlaveNumber);
 			
-			//canTalonRSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
-			//canTalonLSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+			canTalonRSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
+			canTalonLSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
 			
-			//canTalonRSlave.set(canTalonR.getDeviceID());
-			//canTalonLSlave.set(canTalonL.getDeviceID());
+			canTalonRSlave.set(canTalonR.getDeviceID());
+			canTalonLSlave.set(canTalonL.getDeviceID());
 
 			LiveWindow.addActuator("DriveTrain", "Right Pri. Talon", canTalonR);
 			LiveWindow.addActuator("DriveTrain", "Right Sl. Talon",  canTalonRSlave);
 			LiveWindow.addActuator("DriveTrain", "Left Pri. Talon",  canTalonL);
 			LiveWindow.addActuator("DriveTrain", "Left Sl. Talon",   canTalonLSlave);
 			
+			//We may not be able to use this constructor when we have PID and follower can talons
 			robotDrive = new RobotDrive(canTalonL, canTalonLSlave, canTalonR, canTalonRSlave);
 			
 			distancePerPulse = 0.013089969;

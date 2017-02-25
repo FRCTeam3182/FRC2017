@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.RobotDrive;
 public class DriveTrain {
 	private PIDController leftPIDController, rightPIDController;
 	private RobotDrive drive;
+	public int maxSpeed_inPs;
+	boolean pidEnabled;
 	
 	
 	/**
@@ -22,8 +24,8 @@ public class DriveTrain {
 		drive = RobotConfig.robotDrive;
 		
 		// This takes the value for distancePerPulse from the RobotConfig class
-		//RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
-		//RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		
 		// Set the gains for the CompetitionBot
 		double Kp, Ki, Kd, Kf;
@@ -41,22 +43,22 @@ public class DriveTrain {
 			Kf = 1;
 			
 			//Initialize the PID controllers to use the CAN Talons
-			//leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.canTalonL);
-			//rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.canTalonR);
+			leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.canTalonL);
+			rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.canTalonR);
 			break;
 
 		// If we are the CompetitionBot, use the PWM-based Talons
 		case TestBot:
 			
 			// Set the gains for the TestBot
-			Kp = 0;
-			Ki = 0;
-			Kd = 0;
-			Kf = 1;
+			Kp = 0.01;
+			Ki = 0.001;
+			Kd = 0.001;
+			Kf = 0;
 			
 			// Initialize the PID controllers to use the PWM Talons
-			//leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.pwmTalonL);
-			//rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.pwmTalonR);
+			leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.pwmTalonL);
+			rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.pwmTalonR);
 			break;
 			
 		default:
@@ -64,8 +66,8 @@ public class DriveTrain {
 		}
 		
 		/** FIXME: Re-enable PID when it is available */
-		//leftPIDController.enable();
-		//rightPIDController.enable();
+		enablePID();
+		maxSpeed_inPs = 50;
 	}
 	
 	/**
@@ -74,9 +76,26 @@ public class DriveTrain {
 	 * @param right  value for right wheels, from -1 to 1
 	 */
 	public void drive(double left, double right){
-		//leftPIDController.setSetpoint(left);
-		//rightPIDController.setSetpoint(right);
-		drive.setLeftRightMotorOutputs(left, right);
+		if(pidEnabled) {
+		leftPIDController.setSetpoint(left*maxSpeed_inPs);
+		rightPIDController.setSetpoint(right*maxSpeed_inPs);
+		}
+		else {
+			drive.setLeftRightMotorOutputs(left, right);
+		}
+		
+	}
+	
+	public void disablePID() {
+		leftPIDController.disable();
+		rightPIDController.disable();
+		pidEnabled = false;
+	}
+	
+	public void enablePID() {
+		leftPIDController.enable();
+		rightPIDController.enable();
+		pidEnabled = true;
 	}
 	
 	/**
@@ -84,7 +103,7 @@ public class DriveTrain {
 	 * @param inches
 	 * FIXME: use the setDistancePerPulse() method to be able to accurately calculate distance
 	 */
-	/**
+	
 	
 	public void driveDistance(double inches){
 		RobotConfig.leftEncoder.reset();
@@ -106,20 +125,20 @@ public class DriveTrain {
 
 	
 
-/*
+
 	/**
 	 * @return the leftPIDController
-	 *
+	 */
 	public PIDController getLeftPIDController() {
 		return leftPIDController;
 	}
 
 	/**
 	 * @return the rightPIDController
-	 *
+	 */
 	public PIDController getRightPIDController() {
 		return rightPIDController;
 	}
-	*/
+	
 	
 }
