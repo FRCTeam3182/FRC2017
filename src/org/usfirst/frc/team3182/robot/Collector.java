@@ -58,6 +58,7 @@ public class Collector {
 	
 	public void arm() {
 		armMotorTalon.set(.2);
+		
 	}
 	
 	public void armReverse() {

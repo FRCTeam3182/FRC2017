@@ -190,17 +190,17 @@ public class Robot extends IterativeRobot {
 
 		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
 		
-		if (RobotConfig.joystickL.getRawButton(1)==true) {
+		if (driveControl.collectCommand()) {
 			collector.collect();
-		} else if (RobotConfig.joystickR.getRawButton(1)==true) {
+		} else if (driveControl.collectCommandReverse()) {
 			collector.collectReverse();
 		} else {
 			collector.collectStop();
 		}
 		
-		if (RobotConfig.joystickL.getRawButton(2)==true) {
+		if (driveControl.armCommand()==DriveControl.ArmState.movingDown) {
 			collector.arm();
-		} else if (RobotConfig.joystickR.getRawButton(2)==true) {
+		} else if (driveControl.armCommand()==DriveControl.ArmState.movingUp) {
 			collector.armReverse();
 		} else {
 			collector.armStop();
