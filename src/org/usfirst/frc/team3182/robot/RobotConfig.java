@@ -138,7 +138,11 @@ public class RobotConfig {
 			
 			robotDrive = new RobotDrive(pwmTalonL, pwmTalonR);
 			
+			
 			distancePerPulse = 0.008726646;
+			
+			LiveWindow.addActuator("DriveTrain", "Right Talon", pwmTalonR);
+			LiveWindow.addActuator("DriveTrain", "Left Talon",  pwmTalonL);
 			
 			break;
 			

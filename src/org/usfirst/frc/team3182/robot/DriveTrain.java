@@ -1,7 +1,9 @@
 package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /** 
  * Class for basic driving functions including basic drive and drive to distance
@@ -27,6 +29,10 @@ public class DriveTrain {
 		RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		
+		// Set the PID source for the drivetrain
+		RobotConfig.leftEncoder.setPIDSourceType(PIDSourceType.kRate);
+		RobotConfig.rightEncoder.setPIDSourceType(PIDSourceType.kRate);
+		
 		// Set the gains for the CompetitionBot
 		double Kp, Ki, Kd, Kf;
 
@@ -45,6 +51,7 @@ public class DriveTrain {
 			//Initialize the PID controllers to use the CAN Talons
 			leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.canTalonL);
 			rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.canTalonR);
+			
 			break;
 
 		// If we are the CompetitionBot, use the PWM-based Talons
@@ -65,9 +72,13 @@ public class DriveTrain {
 			throw new IllegalArgumentException("Unknown RobotConfig provided to the DriveTrain");
 		}
 		
-		/** FIXME: Re-enable PID when it is available */
+		LiveWindow.addActuator("PIDController", "Left", leftPIDController);
+		LiveWindow.addActuator("PIDController", "Right",  rightPIDController);
+		LiveWindow.addActuator("DriveTrain", "Right Encoder", RobotConfig.rightEncoder);
+		LiveWindow.addActuator("DriveTrain", "Left Encoder", RobotConfig.leftEncoder);
+		
 		enablePID();
-		maxSpeed_inPs = 50;
+		maxSpeed_inPs = 30;
 	}
 	
 	/**

@@ -142,26 +142,18 @@ public class Robot extends IterativeRobot {
 			driveTrain.getRightPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
 		else
 			driveTrain.getRightPIDController().setSetpoint(0);
-		
-		   
-		
-		
 	}
 
 	/**
 	 * This function is called when test is chosen. 
 	 */
 	public void testInit() {
-	
-		/*SmartDashboard.putData("left motor", driveTrain.getLeftController());
-		SmartDashboard.putData("right motor", driveTrain.getRightController());
-		SmartDashboard.putData("left encoder", driveTrain.getLeftEncoder());
-		SmartDashboard.putData("right encoder", driveTrain.getRightEncoder());
-		
-		//cameraServo.move();
-		 
-		 */
-		
+		LiveWindow.setEnabled(false);
+		driveTrain.enablePID();
+		SmartDashboard.putNumber("Left", 0);
+		SmartDashboard.putNumber("Right", 0);
+		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
+		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
 	}
 
 	/**
@@ -169,7 +161,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		LiveWindow.run();
+		//LiveWindow.run();
+		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
+		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+		driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
 	}
 	
 	/**
