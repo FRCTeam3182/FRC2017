@@ -1,10 +1,7 @@
 package org.usfirst.frc.team3182.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 
 /** 
  * Class for basic driving functions including basic drive and drive to distance
@@ -13,32 +10,62 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
  * 
  */
 public class DriveTrain {
-	private RobotDrive drive;
-	private Encoder leftEncoder, rightEncoder;
-	private Talon leftController, rightController;
 	private PIDController leftPIDController, rightPIDController;
+	private RobotDrive drive;
+	
 	
 	/**
 	 * DriveTrain constructor, creates a DriveTrain
 	 */
 	public DriveTrain(){
-		leftController = new Talon(RobotConfig.driveWheelL);
-		rightController = new Talon(RobotConfig.driveWheelR);
-		//leftController.setInverted(true);
-		//rightController.setInverted(true);
+		// Set this class's RobotDrive to the same from the RobotConfig
+		drive = RobotConfig.robotDrive;
 		
-		drive = new RobotDrive(leftController, rightController);
+		// This takes the value for distancePerPulse from the RobotConfig class
+		//RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		//RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		
-		leftEncoder = new Encoder(RobotConfig.encoderLA, RobotConfig.encoderLB, true);
-		rightEncoder = new Encoder(RobotConfig.encoderRA, RobotConfig.encoderRB);
-		//This takes the value for distancePerPulse from the RobotConfig class
-		leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
-		rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
+		// Set the gains for the CompetitionBot
+		double Kp, Ki, Kd, Kf;
+
+		// Depending on the Robot's configuration...
+		switch (RobotConfig.config) {
 		
-		leftPIDController = new PIDController(0, 0, 0, 1, leftEncoder, leftController);
-		rightPIDController = new PIDController(0, 0, 0, 1, rightEncoder, rightController);
-		leftPIDController.enable();
-		rightPIDController.enable();
+		// If we are the CompetitionBot, use the CAN-based Talons 
+		case CompetitionBot:
+
+			// Set the gains for the CompetitionBot
+			Kp = 0;
+			Ki = 0;
+			Kd = 0;
+			Kf = 1;
+			
+			//Initialize the PID controllers to use the CAN Talons
+			//leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.canTalonL);
+			//rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.canTalonR);
+			break;
+
+		// If we are the CompetitionBot, use the PWM-based Talons
+		case TestBot:
+			
+			// Set the gains for the TestBot
+			Kp = 0;
+			Ki = 0;
+			Kd = 0;
+			Kf = 1;
+			
+			// Initialize the PID controllers to use the PWM Talons
+			//leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.pwmTalonL);
+			//rightPIDController = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.rightEncoder, RobotConfig.pwmTalonR);
+			break;
+			
+		default:
+			throw new IllegalArgumentException("Unknown RobotConfig provided to the DriveTrain");
+		}
+		
+		/** FIXME: Re-enable PID when it is available */
+		//leftPIDController.enable();
+		//rightPIDController.enable();
 	}
 	
 	/**
@@ -47,8 +74,9 @@ public class DriveTrain {
 	 * @param right  value for right wheels, from -1 to 1
 	 */
 	public void drive(double left, double right){
-		leftPIDController.setSetpoint(left);
-		rightPIDController.setSetpoint(right);
+		//leftPIDController.setSetpoint(left);
+		//rightPIDController.setSetpoint(right);
+		drive.setLeftRightMotorOutputs(left, right);
 	}
 	
 	/**
@@ -56,52 +84,42 @@ public class DriveTrain {
 	 * @param inches
 	 * FIXME: use the setDistancePerPulse() method to be able to accurately calculate distance
 	 */
+	/**
+	
 	public void driveDistance(double inches){
-		leftEncoder.reset();
-		rightEncoder.reset();
+		RobotConfig.leftEncoder.reset();
+		RobotConfig.rightEncoder.reset();
 		while(getLDistance()<inches && getRDistance()<inches){
 			drive.setLeftRightMotorOutputs(.5,.5);
 			
 		}
 		drive.stopMotor();
 	}
-
-
-	public Talon getLeftController() {
-		return leftController;
-	}
-	
-	public Talon getRightController() {
-		return rightController;
-	}
-
-	public Encoder getRightEncoder() {
-		return rightEncoder;
-	}
-	
-	public Encoder getLeftEncoder() {
-		return leftEncoder;
-	}
 	
 	public double getLDistance() {
-		return leftEncoder.getDistance();
+		return RobotConfig.leftEncoder.getDistance();
 	}
 	
 	public double getRDistance() {
-		return rightEncoder.getDistance();
+		return RobotConfig.rightEncoder.getDistance();
 	}
 
+	
+
+/*
 	/**
 	 * @return the leftPIDController
-	 */
+	 *
 	public PIDController getLeftPIDController() {
 		return leftPIDController;
 	}
 
 	/**
 	 * @return the rightPIDController
-	 */
+	 *
 	public PIDController getRightPIDController() {
 		return rightPIDController;
 	}
+	*/
+	
 }
