@@ -6,18 +6,40 @@ import edu.wpi.cscore.*;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
+import org.opencv.core.*;
+import org.opencv.core.Core.*;
+import org.opencv.features2d.FeatureDetector;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.*;
+import org.opencv.objdetect.*;
+
+import org.opencv.videoio.*; // for camera capture
+
+import java.util.ArrayList;
+
+import pi3pipe.GripPipeline;
+
 public class Main {
   public static void main(String[] args) {
     // Loads our OpenCV library. This MUST be included
     System.loadLibrary("opencv_java310");
+
+    String dataNTname = "CameraData";
+
+    ArrayList<MatOfPoint> ContoursOutput = new ArrayList<MatOfPoint>();
+
+    NetworkTable PiCamTable;
 
     // Connect NetworkTables, and get access to the publishing table
     NetworkTable.setClientMode();
     // Set your team number here
     NetworkTable.setTeam(3182);
 
+    NetworkTable.setUpdateRate(20);
+
     NetworkTable.initialize();
 
+    NetworkTable nt = NetworkTable.getTable(dataNTname);
 
     // This is the network port you want to stream the raw received image to
     // By rules, this has to be between 1180 and 1190, so 1185 is a good choice
@@ -48,8 +70,6 @@ public class Main {
       inputStream.setSource(camera);
     }
     */
-    
-      
 
     /***********************************************/
 
@@ -68,14 +88,15 @@ public class Main {
 
     // This creates a CvSource to use. This will take in a Mat image that has had OpenCV operations
     // operations 
-    CvSource imageSource = new CvSource("CV Image Source", VideoMode.PixelFormat.kMJPEG, 640, 480, 30);
+    CvSource imageSource = new CvSource("CV Image Source", VideoMode.PixelFormat.kMJPEG, 1280, 720, 30);
     MjpegServer cvStream = new MjpegServer("CV Image Stream", 1186);
     cvStream.setSource(imageSource);
 
-	GripPipelineTargetJava processor = new GripPipelineTargetJava();
     // All Mats and Lists should be stored outside the loop to avoid allocations
     // as they are expensive to create
     Mat inputImage = new Mat();
+    Mat hsv = new Mat();
+    GripPipeline pipe = new GripPipeline();
 
     // Infinitely process image
     while (true) {
@@ -84,13 +105,27 @@ public class Main {
       long frameTime = imageSink.grabFrame(inputImage);
       if (frameTime == 0) continue;
 
+      pipe.process( inputImage );
+
       // Below is where you would do your OpenCV operations on the provided image
-	  processor.process(inputImage);
+      // The sample below just changes color source to HSV
+      // Imgproc.cvtColor(inputImage, hsv, Imgproc.COLOR_BGR2HSV);
 
       // Here is where you would write a processed image that you want to restreams
       // This will most likely be a marked up image of what the camera sees
       // For now, we are just going to stream the HSV image
-      imageSource.putFrame(inputImage);
+      // imageSource.putFrame(hsv);
+
+      ContoursOutput = pipe.filterContoursOutput();
+
+      nt.putNumber("NumOfContours", ContoursOutput.size());
+
+//    	org.opencv.core.Point[] points = ContoursOutput.toArray();
+//	    for (int i = 0; i < points.length; i++)
+//    	{
+//    		nt.putNumber("", points[i].x);
+//		    points[i].y;
+//    	}
     }
   }
 
@@ -140,3 +175,4 @@ public class Main {
     return camera;
   }
 }
+
