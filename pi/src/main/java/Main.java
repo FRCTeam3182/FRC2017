@@ -26,7 +26,7 @@ public class Main {
 
     String dataNTname = "CameraData";
 
-    ArrayList<MatOfPoint> ContoursOutput = new ArrayList<MatOfPoint>();
+    ArrayList<MatOfPoint> contoursOutput = new ArrayList<MatOfPoint>();
 
     NetworkTable PiCamTable;
 
@@ -97,6 +97,7 @@ public class Main {
     Mat inputImage = new Mat();
     Mat hsv = new Mat();
     GripPipeline pipe = new GripPipeline();
+    ArrayList<Double> outputArray = new ArrayList<Double>();
 
     // Infinitely process image
     while (true) {
@@ -111,21 +112,31 @@ public class Main {
       // The sample below just changes color source to HSV
       // Imgproc.cvtColor(inputImage, hsv, Imgproc.COLOR_BGR2HSV);
 
-      // Here is where you would write a processed image that you want to restreams
-      // This will most likely be a marked up image of what the camera sees
+      // Here is where you would write a processed image that you want to restream
       // For now, we are just going to stream the HSV image
       // imageSource.putFrame(hsv);
 
-      ContoursOutput = pipe.filterContoursOutput();
+      contoursOutput = pipe.filterContoursOutput();
 
-      nt.putNumber("NumOfContours", ContoursOutput.size());
+      // For each contour, grab the point coordinates and write to array
+      for( MatOfPoint mop: contoursOutput )
+      {
+        for( Point p: mop.toList() )
+        {
+          outputArray.add(p.x);
+          outputArray.add(p.y);
+        }
+      }
 
-//    	org.opencv.core.Point[] points = ContoursOutput.toArray();
-//	    for (int i = 0; i < points.length; i++)
-//    	{
-//    		nt.putNumber("", points[i].x);
-//		    points[i].y;
-//    	}
+      // Write the number of contours to the network table
+      nt.putNumber("NumOfContours", contoursOutput.size());
+
+      Double[] contourArray = new Double[outputArray.size()];
+      contourArray = outputArray.toArray(contourArray);
+
+      // Write countour point coordinates to network table
+      nt.putNumberArray("CountourPoints",contourArray);
+      outputArray.clear();
     }
   }
 
