@@ -24,7 +24,7 @@ public class POVCamera {
 		 * Using driveControlR for dpad
 		 * driveControlR is the joystick with the dpad(knob on top)
 		 */
-Joystick stick = new Joystick(RobotConfig.driveControlR);
+Joystick stick = new Joystick(RobotConfig.joystickRChannel);
 
 
 //Control
