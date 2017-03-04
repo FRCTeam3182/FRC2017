@@ -13,19 +13,17 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Collector {
 	
 	//private Ultrasonic ultrasonic;
-	//private Encoder upperEncoder;
-	//private Encoder lowerEncoder;
 	
 	Talon lowerMotorTalon = RobotConfig.lowerMotorTalon;
 	Talon upperMotorTalon = RobotConfig.upperMotorTalon;
 	Talon armMotorTalon = RobotConfig.armMotorTalon;
+	Encoder lowerEncoder = RobotConfig.lowerEncoder;
+	Encoder upperEncoder = RobotConfig.upperEncoder;
 
 	
 	public Collector() {
 		
 		//ultrasonic = new Ultrasonic(RobotConfig.ultrasonicPing, RobotConfig.ultrasonicEcho);
-		//upperEncoder = new Encoder(RobotConfig.encoderUpperA, RobotConfig.encoderUpperB);
-		//lowerEncoder = new Encoder(RobotConfig.encoderLowerA, RobotConfig.encoderLowerB);	
 
 		LiveWindow.addActuator("Collector", "lower motor", lowerMotorTalon);
 		LiveWindow.addActuator("Collector", "upper motor",  upperMotorTalon);
@@ -58,6 +56,7 @@ public class Collector {
 	
 	public void arm() {
 		armMotorTalon.set(.2);
+		
 	}
 	
 	public void armReverse() {
