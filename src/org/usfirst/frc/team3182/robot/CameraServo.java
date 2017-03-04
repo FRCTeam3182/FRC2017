@@ -16,7 +16,7 @@ public class CameraServo {
 	Servo tilt = new Servo(RobotConfig.servoT);
 	
 	//This is for when the joystick is moved
-	Joystick move = new Joystick(RobotConfig.cameraControl);
+	Joystick move = new Joystick(RobotConfig.cameraJoystickChannel);
 	
 	public void move() {
 		/*
