@@ -29,7 +29,7 @@ public class RobotConfig {
 	public static int joystickRChannel = 1;
 	public static Joystick joystickR = new Joystick(joystickRChannel);
 	public static int powerGloveChannel = 2;
-	public static PowerGlove powerGlove = new PowerGlove(powerGloveChannel);
+	//public static PowerGlove powerGlove = new PowerGlove(powerGloveChannel);
 	
 	public static int cameraJoystickChannel = 3;
 	public static Joystick cameraJoystick = new Joystick(cameraJoystickChannel);
@@ -98,7 +98,6 @@ public class RobotConfig {
 	public static Encoder upperEncoder = new Encoder(encoderUpperA, encoderUpperB); 
 	public static int laserChannel = 9; 
 	public static Counter laserCounter = new Counter(laserChannel);
-	
 	
 	/** The linear distance in inches traveled by the robot per pulse of the encoders */ 
 	public static double distancePerPulse;

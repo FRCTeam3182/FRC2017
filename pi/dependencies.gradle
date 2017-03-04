@@ -1,0 +1,80 @@
+ext.ntcoreDep = { ->
+    def classifier
+    if (buildType == "windows") {
+      classifier = "windows2015"
+    } else if (buildType == "linux") {
+      classifier = "desktop"
+    } else {
+      classifier = buildType
+    }
+    return "edu.wpi.first.wpilib.networktables.java:NetworkTables:+:$classifier"
+}
+
+ext.cscoreDep = { ->
+    def classifier
+    if (buildType == "windows") {
+      classifier = "windows2015"
+    } else {
+      classifier = buildType
+    }
+    return "edu.wpi.cscore.java:cscore:+:$classifier"
+}
+
+ext.getOpenCvPlatformPackage = { ->
+  if (buildType == "windows") {
+    if (System.getProperty("os.arch") == "amd64") {
+      return "windows-x86_64_2015"
+    } else {
+      return "windows-x86_2015"
+    }
+  } else if (buildType == "linux") {
+    if (System.getProperty("os.arch") == "amd64") {
+      return "linux-x86_64"
+    } else {
+      return "linux-x86"
+    }
+  } else if (buildType == "armhf") {
+    return "linux-armhf"
+  } else if (buildType == "arm-raspbian") {
+    return "linux-arm-raspbian"
+  } else {
+    return buildType
+  }
+}
+
+task downloadOpenCv() {
+    description = 'Downloads the OpenCV Native maven dependency.'
+    group = 'WPILib'
+    def depFolder = "$buildDir/dependencies"
+    def cvZip = file("$depFolder/opencv.zip")
+    outputs.file(cvZip)
+    def armOpenCv
+
+    doFirst {
+        def classifier = getOpenCvPlatformPackage()
+        def armOpenCvDependency = project.dependencies.create("org.opencv:opencv-jni:+:$classifier@jar")
+        def armOpenCvConfig = project.configurations.detachedConfiguration(armOpenCvDependency)
+        armOpenCvConfig.setTransitive(false)
+        armOpenCv = armOpenCvConfig.files[0].canonicalFile
+    }
+
+    doLast {
+        copy {
+            from armOpenCv
+            rename 'opencv(.+)', 'opencv.zip'
+            into depFolder
+        }
+    }
+}
+
+ext.openCvUnzipLocation = "$buildDir/opencv"
+
+// Create a task that will unzip the wpiutil files into a temporary build directory
+task unzipOpenCv(type: Copy) {
+    description = 'Unzips the wpiutil maven dependency so that the include files and libraries can be used'
+    group = 'WPILib'
+    dependsOn downloadOpenCv
+
+    from zipTree(downloadOpenCv.outputs.files.singleFile)
+    into openCvUnzipLocation
+}

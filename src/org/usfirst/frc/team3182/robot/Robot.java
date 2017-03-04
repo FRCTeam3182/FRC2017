@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -8,11 +9,21 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.usfirst.frc.team3182.robot.DriveControl;
 import org.usfirst.frc.team3182.robot.DriveTrain;
 import org.usfirst.frc.team3182.robot.RobotConfig;
+import org.usfirst.frc.team3182.robot.Collector;
 
-/**
+
+/** 
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
@@ -20,45 +31,34 @@ import org.usfirst.frc.team3182.robot.RobotConfig;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
-
-	DriveTrain driveTrain = new DriveTrain();
-	//public static DriveControl driveControl;
 	
-	final String customGear = "Gear Auto";
-	final String customLow = "High  Goal Auto";
-	final String customHigh = "Low Goal Auto";
+	DriveTrain driveTrain;
+	
+	final String auto4S = "4sec";
+	final String auto2S = "2sec";
 	String autoSelected;	
-	DriveControl driveControl = new DriveControl();
+	int currentTime;
+	int targetTime;
+	DriveControl driveControl;
+	Collector collector;
+	Winch winch;
+	int targetDistance;
 	/**trueKorea means the competition bot, falseKorea is the demobot
 	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
 	 */
-	String trueKorea = "trueKorea";
-	String falseKorea = "falseKorea";
-	String robotConfigSelected;
 	
-	//These are variables used in the distanceChooser sendable chooser
-	String distanceA = "distanceA";
-	String distanceB = "distanceB";
-	String distanceC = "distanceC";
-	String distanceD = "distanceD";
+	
+	
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-	SendableChooser<String> configChooser = new SendableChooser<>();
-	SendableChooser<String> distanceChooser = new SendableChooser<>();
 
-
-
-	CameraServo cameraServo = new CameraServo();
+	//CameraServo cameraServo;
 	
-	public static boolean usesPowerGlove = true;
+	//public static boolean usesPowerGlove = true;
 	
-	Command autonomousCommand;
+	//public static CameraServer server;
 	
-	public static CameraServer server;
-	
-	DriverStation ds;
-	//private double warningTime=0;
+	Timer timer;
   
 	/**        
 	 * This function is run when the robot is first started up and should be
@@ -67,49 +67,46 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		/*driveTrain=new Drivetrain();
-		 * driveControl=new DriveControl;
-		 */
+
+		//We started trying to read the contents of the botType.txt
+		//file from the roboRIO.
+		Path path = Paths.get("/home/lvuser/botType.txt");
+		String botType; 
+		try{
+			botType = Files.readAllLines(path).get(0);
+			if(botType.equals("testBot")){
+				System.out.println("We set the variable botType to testBot!");
+				RobotConfig.configureRobot(RobotConfig.Configs.TestBot);
+			}
+			else{
+				System.out.println("WHAT?!");
+				RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
+			}
+		}
+		catch(IOException ex){
+			System.out.println("The variable botType does not have the correct value");
+			RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
+		}
 		
-		/**
-		 * FIXME: Uncomment when camera is installed
-		server=CameraServer.getInstance();
-		server.startAutomaticCapture();
-		*/
-		server = CameraServer.getInstance();
-		server.startAutomaticCapture();
 		
-		//autoChooser=new SendableChoooser();
-		//autoChooser.addDefault("Default", new driveDistance(96));
-		/**autoChooser.addObject("Gear Auto", customGear);
-		autoChooser.addObject("High Goal Auto", customHigh);
-		autoChooser.addObject("Low Goal Auto", customLow);
+		driveTrain = new DriveTrain();
+		driveControl = new DriveControl();
+		//cameraServo = new CameraServo();
+		collector = new Collector();
+		winch = new Winch();
+		timer = new Timer();
+		targetDistance = 72;
+		
+		//server = CameraServer.getInstance();
+		//server.startAutomaticCapture();
+		
+		
+		autoChooser.addDefault("Do nothing", null);
+		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4S);
+		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2S);
 		
 		SmartDashboard.putData("Auto choices", autoChooser);
 		
-		configChooser.addObject("falseKorea", falseKorea);
-		configChooser.addDefault("default", trueKorea);
-		
-		SmartDashboard.putData("RobotChoice", configChooser);
-		
-		distanceChooser.addDefault("Drive 0ft", distanceA);
-		distanceChooser.addObject("Drive 2ft", distanceB);
-		distanceChooser.addObject("Drive 50% Power", distanceC);
-		distanceChooser.addObject("Joystick Drive", distanceD);
-		
-		SmartDashboard.putData("Distancechoice", distanceChooser);
-			
-		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
-		*/
-		
-		LiveWindow.addActuator("DriveTrain", "left motor", driveTrain.getLeftController());
-		LiveWindow.addActuator("DriveTrain", "right motor", driveTrain.getRightController());
-		LiveWindow.addActuator("Encoders", "left encoder", driveTrain.getLeftEncoder());
-		LiveWindow.addActuator("Encoders", "right encoder", driveTrain.getRightEncoder());
-		LiveWindow.addActuator("PID", "Left Drivetrain", driveTrain.getLeftPIDController());
-		LiveWindow.addActuator("PID", "Right Drivetrain", driveTrain.getRightPIDController());
-
 	}
 	
 	public void disabledInit() {
@@ -118,13 +115,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 
-		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
 		autoSelected = autoChooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
-		if (autonomousCommand !=null) autonomousCommand.start();
+		if(autoSelected==null)	targetTime = 0;
+		else if (autoSelected.equals("4sec"))	targetTime = 4;
+		else if (autoSelected.equals("2sec"))	targetTime = 2;
+		else targetTime = 0;
+		timer.reset();
+		timer.start();
+		RobotConfig.leftEncoder.reset();
+		RobotConfig.rightEncoder.reset();			
+			
+
 	}
 
 	/**
@@ -132,44 +133,34 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customGear:
-			// Put custom auto code here
-			break;
-		case customHigh:
-			// Put custom auto code here
-			break;
-		case customLow:
-			// Put custom auto code here
-			break;
-		}
+
+		if(driveTrain.getLDistance()<targetDistance)	
+			driveTrain.getLeftPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
+		else
+			driveTrain.getLeftPIDController().setSetpoint(0);
+		if(driveTrain.getRDistance()<targetDistance)	
+			driveTrain.getRightPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
+		else
+			driveTrain.getRightPIDController().setSetpoint(0);
+		
+		   
+		
+		
 	}
 
 	/**
 	 * This function is called when test is chosen. 
 	 */
 	public void testInit() {
-		//String driveType = distanceChooser.getSelected();
-		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		//RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
-
-		
+	
 		/*SmartDashboard.putData("left motor", driveTrain.getLeftController());
 		SmartDashboard.putData("right motor", driveTrain.getRightController());
 		SmartDashboard.putData("left encoder", driveTrain.getLeftEncoder());
 		SmartDashboard.putData("right encoder", driveTrain.getRightEncoder());
 		
-
-		if(driveType == "distanceB") {
-			driveTrain.driveDistance(24);
-		}
-		else if(driveType == "distanceC")
-			driveTrain.drive(.5, .5);
-		else if(driveType == "distanceD")
-			driveTrain.drive(driveControl.getL(), driveControl.getR());
-		*/
-		
 		//cameraServo.move();
+		 
+		 */
 		
 	}
 
@@ -178,32 +169,55 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-
-		driveTrain.drive(driveControl.getL(), driveControl.getR());
-		cameraServo.move();
 		LiveWindow.run();
-		/*SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
-		SmartDashboard.putNumber("RightStickVal", driveControl.getR());
-		SmartDashboard.putNumber("Left Distance", driveTrain.getLDistance());
-		SmartDashboard.putNumber("Right Distance", driveTrain.getRDistance());
-		*/
 	}
 	
 	/**
 	 * This function is called when teleop begins.
 	 */
 	public void teleopInit() {
-		//runs the chooseDistancePerPulse method in RobotConfig with the correct parameter
-		RobotConfig.chooseDistancePerPulse(configChooser.getSelected());
+		
+		
 	}
 	
 	/**
 	 * This function is called during teleop mode
 	 */
 	public void teleopPeriodic() {
-		driveTrain.drive(driveControl.getR(), driveControl.getL());
-		SmartDashboard.putNumber("LeftStickVal", driveControl.getL());
-		SmartDashboard.putNumber("RightStickVal", driveControl.getR());
+
+		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
+
+		if (driveControl.collectCommand()) {
+			collector.collect();
+		} else if (driveControl.collectCommandReverse()) {
+			collector.collectReverse();
+		} else {
+			collector.collectStop();
+		}
+
+		if (driveControl.armCommand()==DriveControl.ArmState.movingDown) {
+			collector.arm();
+		} else if (driveControl.armCommand()==DriveControl.ArmState.movingUp) {
+			collector.armReverse();
+		} else {
+			collector.armStop();
+		}
+		
+		if (RobotConfig.joystickR.getRawButton(3)) {
+			//adding 1 and dividing by 2 makes the scale from 0 to 1 instead of -1 to 1
+			winch.climb(false, driveControl.getClimbSpeed());
+		} else if (RobotConfig.joystickR.getRawButton(4)) {
+			winch.climb(true, driveControl.getClimbSpeed());
+		} else {
+			winch.climbStop();
+		}
+		
+		if (RobotConfig.joystickR.getRawButton(7)) {
+			if(driveTrain.pidEnabled)
+				driveTrain.disablePID();
+			else
+				driveTrain.enablePID();
+		}
 	}
 }
 

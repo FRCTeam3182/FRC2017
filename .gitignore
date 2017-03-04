@@ -16,5 +16,7 @@ bin
 desktop.ini
 .project
 .repaired
+.gradle
 build.properties
 build.xml
+build
