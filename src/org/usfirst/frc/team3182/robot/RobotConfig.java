@@ -28,7 +28,7 @@ public class RobotConfig {
 	public static Joystick joystickL = new Joystick(joystickLChannel);
 	public static int joystickRChannel = 1;
 	public static Joystick joystickR = new Joystick(joystickRChannel);
-	public static int powerGloveChannel = 2;
+	//public static int powerGloveChannel = 2;
 	//public static PowerGlove powerGlove = new PowerGlove(powerGloveChannel);
 	
 	public static int cameraJoystickChannel = 3;
@@ -126,6 +126,7 @@ public class RobotConfig {
 			LiveWindow.addActuator("DriveTrain", "Right Sl. Talon",  canTalonRSlave);
 			LiveWindow.addActuator("DriveTrain", "Left Pri. Talon",  canTalonL);
 			LiveWindow.addActuator("DriveTrain", "Left Sl. Talon",   canTalonLSlave);
+
 			
 			//We may not be able to use this constructor when we have PID and follower can talons
 			robotDrive = new RobotDrive(canTalonL, canTalonLSlave, canTalonR, canTalonRSlave);

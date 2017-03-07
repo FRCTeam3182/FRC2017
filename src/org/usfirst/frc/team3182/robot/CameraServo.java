@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Servo;
 
 /**
- * @author Team3182  
+ * @author Team3182 
  *
  */
 public class CameraServo {

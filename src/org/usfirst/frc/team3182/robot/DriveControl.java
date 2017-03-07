@@ -32,7 +32,7 @@ public class DriveControl {
 	}
 	
 	/**
-	 * The standard get left power method, linear with .15 deadzone
+	 * The standard get left power method, linear with .15 deadzone 
 	 */
 	public double getL() {
 		//Inverses the joystick output to make forward positive
@@ -118,11 +118,12 @@ public class DriveControl {
 	/**
 	 * The roll of the powerglove is the motion that you would make to steer a car
 	 * @return the Y value of the power glove
-	 */
+	 *
 	public double getPowerGloveRoll() {
 		return RobotConfig.powerGlove.getRoll();
 		
 	}
+	*/
 	
 	//Converts the throttle from 1 to -1 to 1 to 0. -1 is top, 1 is bottom.
 	public double getClimbSpeed() {
