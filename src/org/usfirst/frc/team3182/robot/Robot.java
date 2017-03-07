@@ -154,6 +154,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Right", 0);
 		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+		driveTrain.drive(0, 0);
 	}
 
 	/**

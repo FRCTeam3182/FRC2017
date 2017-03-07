@@ -126,7 +126,7 @@ public class RobotConfig {
 			LiveWindow.addActuator("DriveTrain", "Left Sl. Talon",   canTalonLSlave);
 			
 			//We may not be able to use this constructor when we have PID and follower can talons
-			robotDrive = new RobotDrive(canTalonL, canTalonLSlave, canTalonR, canTalonRSlave);
+			robotDrive = new RobotDrive(canTalonL, canTalonR);
 			
 			distancePerPulse = 0.013089969;
 			

@@ -43,10 +43,10 @@ public class DriveTrain {
 		case CompetitionBot:
 
 			// Set the gains for the CompetitionBot
-			Kp = 0;
-			Ki = 0;
-			Kd = 0;
-			Kf = 1;
+			Kp = 0.01;
+			Ki = 0.001;
+			Kd = 0.001;
+			Kf = 0;
 			
 			//Initialize the PID controllers to use the CAN Talons
 			leftPIDController  = new PIDController(Kp, Ki, Kd, Kf, RobotConfig.leftEncoder, RobotConfig.canTalonL);
@@ -88,8 +88,8 @@ public class DriveTrain {
 	 */
 	public void drive(double left, double right){
 		if(pidEnabled) {
-		leftPIDController.setSetpoint(left*maxSpeed_inPs);
-		rightPIDController.setSetpoint(right*maxSpeed_inPs);
+			leftPIDController.setSetpoint(left*maxSpeed_inPs);
+			rightPIDController.setSetpoint(right*maxSpeed_inPs);
 		}
 		else {
 			drive.setLeftRightMotorOutputs(left, right);
