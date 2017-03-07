@@ -31,46 +31,46 @@ Joystick stick = new Joystick(RobotConfig.joystickRChannel);
 public void dpadMove() {
 	
 	if (stick.getPOV() == 0){
-		tilt.set(0.7);
+		tilt.set(tilt.get() + 0.05);
 		}
 	//up
 	
 	if (stick.getPOV() == 45){
-		tilt.set(0.65);
-		pan.set(0.65);
+		tilt.set(tilt.get() + 0.05);
+		pan.set(pan.get() + 0.05);
 		}
 	//up right
 	
 	if (stick.getPOV() == 90){
-			pan.set(0.7);
+			pan.set(pan.get() + 0.05);
 		}
 	//right
 	
 	if (stick.getPOV() == 135){
-				tilt.set(0.35);
-				pan.set(0.65);
+				tilt.set(tilt.get() - 0.05);
+				pan.set(pan.get() + 0.05);
 		}
 	//down right
 	
 	if (stick.getPOV() == 180){
-		tilt.set(0.3);
+		tilt.set(tilt.get() - 0.05);
 		}
 	//down
 	
 	if (stick.getPOV() == 225){
-		tilt.set(0.35);
-		pan.set(0.35);
+		tilt.set(tilt.get() - 0.05);
+		pan.set(pan.get() - 0.05);
 		}
 	//down left
 	
 	if (stick.getPOV() == 270){
-		pan.set(0.3);
+		pan.set(pan.get() - 0.05);
 		}
 	//left
 	
 	if (stick.getPOV() == 315){
-		tilt.set(0.65);
-		pan.set(0.35);
+		tilt.set(tilt.get() + 0.05);
+		pan.set(pan.get() - 0.05);
 		}
 	//up left
 	
