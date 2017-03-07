@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3182.robot;
 
-import com.ctre.CANTalon;
+import com.ctre.CANTalon; 
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;

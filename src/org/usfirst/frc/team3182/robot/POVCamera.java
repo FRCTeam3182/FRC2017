@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.Servo;
 public class POVCamera {
 	
 	//Pan servo of camera mount
-		//Servo pan = new Servo(RobotConfig.servoP);
+		Servo pan = RobotConfig.pan;
 		
 		//Tilt servo of camera mount
-		//Servo tilt = new Servo(RobotConfig.servoT);
+		Servo tilt = RobotConfig.pan;
 	
 		
 		
@@ -31,46 +31,62 @@ Joystick stick = new Joystick(RobotConfig.joystickRChannel);
 public void dpadMove() {
 	
 	if (stick.getPOV() == 0){
-		RobotConfig.tilt.set(0.7);
+
+		tilt.set(tilt.get() + 0.05);
+
 		}
 	//up
 	
 	if (stick.getPOV() == 45){
-		RobotConfig.tilt.set(0.65);
-		RobotConfig.pan.set(0.65);
+
+		tilt.set(tilt.get() + 0.05);
+		pan.set(pan.get() + 0.05);
+
 		}
 	//up right
 	
 	if (stick.getPOV() == 90){
-		RobotConfig.pan.set(0.7);
+
+			pan.set(pan.get() + 0.05);
+
 		}
 	//right
 	
 	if (stick.getPOV() == 135){
-		RobotConfig.tilt.set(0.35);
-		RobotConfig.pan.set(0.65);
+
+				tilt.set(tilt.get() - 0.05);
+				pan.set(pan.get() + 0.05);
+
 		}
 	//down right
 	
 	if (stick.getPOV() == 180){
-		RobotConfig.tilt.set(0.3);
+
+		tilt.set(tilt.get() - 0.05);
+
 		}
 	//down
 	
 	if (stick.getPOV() == 225){
-		RobotConfig.tilt.set(0.35);
-		RobotConfig.pan.set(0.35);
+
+		tilt.set(tilt.get() - 0.05);
+		pan.set(pan.get() - 0.05);
+
 		}
 	//down left
 	
 	if (stick.getPOV() == 270){
-		RobotConfig.pan.set(0.3);
+
+		pan.set(pan.get() - 0.05);
+
 		}
 	//left
 	
 	if (stick.getPOV() == 315){
-		RobotConfig.tilt.set(0.65);
-		RobotConfig.pan.set(0.35);
+
+		tilt.set(tilt.get() + 0.05);
+		pan.set(pan.get() - 0.05);
+
 		}
 	//up left
 	
