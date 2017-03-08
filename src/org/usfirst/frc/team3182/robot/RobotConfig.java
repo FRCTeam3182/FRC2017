@@ -27,8 +27,6 @@ public class RobotConfig {
 	public static Joystick joystickL = new Joystick(joystickLChannel);
 	public static int joystickRChannel = 1;
 	public static Joystick joystickR = new Joystick(joystickRChannel);
-	public static int powerGloveChannel = 2;
-	public static PowerGlove powerGlove = new PowerGlove(powerGloveChannel);
 	
 	public static int cameraJoystickChannel = 3;
 	public static Joystick cameraJoystick = new Joystick(cameraJoystickChannel);
