@@ -4,15 +4,9 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,20 +37,8 @@ public class Robot extends IterativeRobot {
 	Collector collector;
 	Winch winch;
 	int targetDistance;
-	/**trueKorea means the competition bot, falseKorea is the demobot
-	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
-	 */
 	
-	
-	
-
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-
-	//CameraServo cameraServo;
-	
-	//public static boolean usesPowerGlove = true;
-	
-	//public static CameraServer server;
 	
 	Timer timer;
   
@@ -142,26 +124,19 @@ public class Robot extends IterativeRobot {
 			driveTrain.getRightPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
 		else
 			driveTrain.getRightPIDController().setSetpoint(0);
-		
-		   
-		
-		
 	}
 
 	/**
 	 * This function is called when test is chosen. 
 	 */
 	public void testInit() {
-	
-		/*SmartDashboard.putData("left motor", driveTrain.getLeftController());
-		SmartDashboard.putData("right motor", driveTrain.getRightController());
-		SmartDashboard.putData("left encoder", driveTrain.getLeftEncoder());
-		SmartDashboard.putData("right encoder", driveTrain.getRightEncoder());
-		
-		//cameraServo.move();
-		 
-		 */
-		
+		LiveWindow.setEnabled(false);
+		driveTrain.enablePID();
+		SmartDashboard.putNumber("Left", 0);
+		SmartDashboard.putNumber("Right", 0);
+		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
+		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+		driveTrain.drive(0, 0);
 	}
 
 	/**
@@ -169,7 +144,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		LiveWindow.run();
+		//LiveWindow.run();
+		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
+		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+		driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
 	}
 	
 	/**
