@@ -37,20 +37,8 @@ public class Robot extends IterativeRobot {
 	Collector collector;
 	Winch winch;
 	int targetDistance;
-	/**trueKorea means the competition bot, falseKorea is the demobot
-	 * This is for the sendable autoChooser we are making that allows you to choose between bots.
-	 */
 	
-	
-	
-
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-
-	//CameraServo cameraServo;
-	
-	//public static boolean usesPowerGlove = true;
-	
-	//public static CameraServer server;
 	
 	Timer timer;
   
