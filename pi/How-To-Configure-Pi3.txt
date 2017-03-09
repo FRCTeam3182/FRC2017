@@ -71,6 +71,12 @@ gradlew build --info
 
 // Verify the code builds successfully: BUILD SUCCESSFUL.
 
+// The code writes to a network table named 'CameraData'.
+// 3 types of data are written to the table:
+// 'FrameTime'         <-- this should be non-zero when the camera is active
+// 'NumOfContours'     <-- the number of contours detected in the image
+//  'ContourPoints'    <-- the x and y coordinates of every contour
+
 
 ///////////////////////////////////
 // To clone the Pi micro SD card //
