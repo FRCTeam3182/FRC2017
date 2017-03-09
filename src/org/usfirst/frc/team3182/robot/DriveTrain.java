@@ -114,8 +114,6 @@ public class DriveTrain {
 	 * @param inches
 	 * FIXME: use the setDistancePerPulse() method to be able to accurately calculate distance
 	 */
-	
-	
 	public void driveDistance(double inches){
 		RobotConfig.leftEncoder.reset();
 		RobotConfig.rightEncoder.reset();

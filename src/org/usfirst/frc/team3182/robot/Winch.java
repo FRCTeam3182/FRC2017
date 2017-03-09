@@ -8,15 +8,12 @@ public class Winch {
 	Talon winchTalon = RobotConfig.winchTalon;
 	
 	public Winch() {
-		
 		LiveWindow.addActuator("Collector", "winch", winchTalon);
-		
 	}
 	
 	//Method for climbing, takes a boolean indicating direction and a speed double
 	public void climb(boolean clockwise, double speed) {
-		
-		if(clockwise==true){
+		if(clockwise){
 			winchTalon.set(speed);
 		}
 		else {

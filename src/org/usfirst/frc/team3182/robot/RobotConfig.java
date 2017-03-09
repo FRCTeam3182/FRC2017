@@ -71,16 +71,7 @@ public class RobotConfig {
 	
 	/** The left primary drivetrain PWM Talon. This will be NULL for the CompetitionBot. */
 	public static Talon pwmTalonL;
-	
-	/*
-	//Analog In
-	public static int gyroscope = 0;
-	public static int ultrasonicPing = 1;
-	public static int ultrasonicEcho = 2;
-	public static int potentiometer = 3;
-	*/
-	
-	
+		
 	//DIO
 	public static int encoderLA = 0;
 	public static int encoderRA = 1;
