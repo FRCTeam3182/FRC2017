@@ -1,9 +1,6 @@
 package org.usfirst.frc.team3182.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class DriveControl {
@@ -32,7 +29,7 @@ public class DriveControl {
 	}
 	
 	/**
-	 * The standard get left power method, linear with .15 deadzone
+	 * The standard get left power method, linear with .15 deadzone 
 	 */
 	public double getL() {
 		//Inverses the joystick output to make forward positive
@@ -117,15 +114,7 @@ public class DriveControl {
         if (getR() > 0) return Math.pow(getR(), 2);
         else return -Math.abs(Math.pow(getR(), 2));
     }
-	
-	/**
-	 * The roll of the powerglove is the motion that you would make to steer a car
-	 * @return the Y value of the power glove
-	 */
-	public double getPowerGloveRoll() {
-		return RobotConfig.powerGlove.getRoll();
-		
-	}
+
 	
 	//Converts the throttle from 1 to -1 to 1 to 0. -1 is top, 1 is bottom.
 	public double getClimbSpeed() {

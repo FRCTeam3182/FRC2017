@@ -3,6 +3,7 @@ package org.usfirst.frc.team3182.robot;
 import com.ctre.CANTalon; 
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
@@ -27,8 +28,6 @@ public class RobotConfig {
 	public static Joystick joystickL = new Joystick(joystickLChannel);
 	public static int joystickRChannel = 1;
 	public static Joystick joystickR = new Joystick(joystickRChannel);
-	public static int powerGloveChannel = 2;
-	public static PowerGlove powerGlove = new PowerGlove(powerGloveChannel);
 	
 	public static int cameraJoystickChannel = 3;
 	public static Joystick cameraJoystick = new Joystick(cameraJoystickChannel);
@@ -94,8 +93,9 @@ public class RobotConfig {
 	public static int encoderUpperA = 6;
 	public static int encoderUpperB = 7;
 	public static Encoder lowerEncoder = new Encoder(encoderLowerA, encoderLowerB);
-	public static Encoder upperEncoder = new Encoder(encoderUpperA, encoderUpperB);
-	
+	public static Encoder upperEncoder = new Encoder(encoderUpperA, encoderUpperB); 
+	public static int laserChannel = 9; 
+	public static Counter laserCounter = new Counter(laserChannel);
 	
 	/** The linear distance in inches traveled by the robot per pulse of the encoders */ 
 	public static double distancePerPulse;
@@ -124,9 +124,10 @@ public class RobotConfig {
 			LiveWindow.addActuator("DriveTrain", "Right Sl. Talon",  canTalonRSlave);
 			LiveWindow.addActuator("DriveTrain", "Left Pri. Talon",  canTalonL);
 			LiveWindow.addActuator("DriveTrain", "Left Sl. Talon",   canTalonLSlave);
+
 			
 			//We may not be able to use this constructor when we have PID and follower can talons
-			robotDrive = new RobotDrive(canTalonL, canTalonLSlave, canTalonR, canTalonRSlave);
+			robotDrive = new RobotDrive(canTalonL, canTalonR);
 			
 			distancePerPulse = 0.013089969;
 			
@@ -138,7 +139,11 @@ public class RobotConfig {
 			
 			robotDrive = new RobotDrive(pwmTalonL, pwmTalonR);
 			
+			
 			distancePerPulse = 0.008726646;
+			
+			LiveWindow.addActuator("DriveTrain", "Right Talon", pwmTalonR);
+			LiveWindow.addActuator("DriveTrain", "Left Talon",  pwmTalonL);
 			
 			break;
 			
