@@ -61,6 +61,7 @@ public class DriveControl {
 	}
 	
 	public ArmState armCommand() {
+		double timerValue=timer.get();
 		switch(state){
 		case movingUp:
 			if(timer.get()>armDuration){
@@ -75,12 +76,14 @@ public class DriveControl {
 		case up:
 			if(RobotConfig.joystickR.getRawButton(2)){
 				timer.reset();
+				timer.start();
 				state=ArmState.movingDown;
 			}
 			break;
 		case down:
 			if(RobotConfig.joystickR.getRawButton(2)){
 				timer.reset();
+				timer.start();
 				state=ArmState.movingUp;
 			}
 			break;

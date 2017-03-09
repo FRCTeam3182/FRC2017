@@ -25,7 +25,7 @@ import org.usfirst.frc.team3182.robot.Collector;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	
+	POVCamera povCamera;
 	DriveTrain driveTrain;
 	
 	final String auto4S = "4sec";
@@ -88,6 +88,8 @@ public class Robot extends IterativeRobot {
 		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2S);
 		
 		SmartDashboard.putData("Auto choices", autoChooser);
+		
+		povCamera = new POVCamera();
 		
 	}
 	
@@ -196,6 +198,8 @@ public class Robot extends IterativeRobot {
 			else
 				driveTrain.enablePID();
 		}
+		
+		povCamera.dpadMove();
 	}
 }
 
