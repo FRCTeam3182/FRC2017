@@ -87,7 +87,6 @@ public class Main {
     imageSink.setSource(camera);
 
     // This creates a CvSource to use. This will take in a Mat image that has had OpenCV operations
-    // operations 
     CvSource imageSource = new CvSource("CV Image Source", VideoMode.PixelFormat.kMJPEG, 1280, 720, 30);
     MjpegServer cvStream = new MjpegServer("CV Image Stream", 1186);
     cvStream.setSource(imageSource);
@@ -106,7 +105,10 @@ public class Main {
       long frameTime = imageSink.grabFrame(inputImage);
       if (frameTime == 0) continue;
 
-      pipe.process( inputImage );
+      // Write the frame time to the network table
+      nt.putNumber("FrameTime",frameTime);
+
+      pipe.process(inputImage);
 
       // Below is where you would do your OpenCV operations on the provided image
       // The sample below just changes color source to HSV
@@ -137,6 +139,9 @@ public class Main {
       // Write countour point coordinates to network table
       nt.putNumberArray("CountourPoints",contourArray);
       outputArray.clear();
+
+      // Stream the (unprocessed) camera image
+      imageSource.putFrame(inputImage);
     }
   }
 

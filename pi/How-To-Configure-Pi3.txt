@@ -1,0 +1,93 @@
+
+////////////////////
+// Pi 3 OS config //
+////////////////////
+// March 9, 2017 //
+
+// ********************************************************************************* //
+// *** The Pi 3 ethernet port is statically configured to IP address 10.31.82.11 *** //
+// ********************************************************************************* //
+
+// set root password to 'admin'
+sudo passwd root
+admin
+admin
+
+// Log in as root:
+su root
+admin
+
+// Set static IP for Wired ethernet ( refer to http://wpilib.screenstepslive.com/s/4485/m/24193/l/319135-ip-networking-at-the-event )
+cd /etc
+nano dhcpcd.conf
+
+// Add to end of file:
+interface eth0
+static ip_address=10.31.82.11/24
+
+// Save and exit file, then reboot.
+reboot
+
+// Install vision java code to any directory under user 'pi' e.g. /home/pi/FRC-2017/FRC-vision
+// The vision code can be manually started with e.g.
+cd /home/pi/FRC-2017/FRC-vision/pi/output
+sh runCameraVision
+
+// To automatically start the vision code when the Pi is powered on:
+// As user 'root':
+cd /etc
+nano rc.local
+
+// Before the final 'exit 0' line, insert:
+cd /home/pi/FRC-2017/FRC-vision/pi/output
+sh runCameraVision &
+
+// Save and exit file. Reboot.
+reboot
+
+// To verify the vision code is running, use command 'top'
+top
+
+// That sorts the running processes by CPU usage.
+// If the USB camera is connected, expect to see 'java' in the COMMAND column at the head of the listing when the vision code is running.
+// Note the top 'java' process PID number in the 1st column.
+// You shouldn't need to stop the vision process, unless changing the java code.
+// The vision process can be killed by a 'root' user:
+kill -9 PID-number    <-- replace PID-number by the actual PID number. Be careful! Don't kill the wrong process.
+
+
+/////////////////
+// Vision Code //
+/////////////////
+//
+// Generating java code out of GRIP:
+// Deselect "Implement WPILib VisionPipeline"
+// Pipeline Class Name use 'GripPipeline'
+// Package name use 'pi3pipe'
+
+// Put the GRIP generated GripPipeline.java code into the same directory as Main.java
+// To build the Pi3 java code on a PC:
+gradlew build --info
+
+// Verify the code builds successfully: BUILD SUCCESSFUL.
+
+
+///////////////////////////////////
+// To clone the Pi micro SD card //
+///////////////////////////////////
+//
+// Power down the Pi and remove the micro SD card
+// Insert Pi micro SD card to PC (use SD adapter if necessary)
+// Start win32diskimager ( http://sourceforge.net/projects/win32diskimager/ )
+// Make sure the micro SD card is referenced by win32diskimager (look under 'Device' at top right)
+// In win32diskimager, 'Read' and save the image to the PC
+// In the PC File Manager, 'Eject' the micro SD card
+// Insert new micro SD card to PC (use SD adapter if necessary)
+// Make sure the micro SD card is referenced by win32diskimager (look under 'Device' at top right)
+// In win32diskimager, 'Write' the file saved above and wait for completion.
+// In the PC File Manager, 'Eject' the micro SD card
+
+// Both micro SD cards are now programmed identically.
+// Insert either SD card into the Pi, the other SD card is a backup.
+// Note: put the image file into github.
+// This will save a lot of time if the SD card gets corrupted for any reason, just replace it with a re-imaged SD card.
