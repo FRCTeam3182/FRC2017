@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3182.robot;
 
 /**
- * @author Team3182  
+ * @author Team3182 
  *
  */
 public class CameraServo {

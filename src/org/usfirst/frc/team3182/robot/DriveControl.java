@@ -29,7 +29,7 @@ public class DriveControl {
 	}
 	
 	/**
-	 * The standard get left power method, linear with .15 deadzone
+	 * The standard get left power method, linear with .15 deadzone 
 	 */
 	public double getL() {
 		//Inverses the joystick output to make forward positive

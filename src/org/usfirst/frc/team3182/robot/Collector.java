@@ -1,7 +1,10 @@
 package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
+
+
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -18,6 +21,7 @@ public class Collector {
 	Talon armMotorTalon = RobotConfig.armMotorTalon;
 	Encoder lowerEncoder = RobotConfig.lowerEncoder;
 	Encoder upperEncoder = RobotConfig.upperEncoder;
+	Counter laserCounter = RobotConfig.laserCounter;
 
 	
 	public Collector() {
@@ -27,6 +31,7 @@ public class Collector {
 		LiveWindow.addActuator("Collector", "lower motor", lowerMotorTalon);
 		LiveWindow.addActuator("Collector", "upper motor",  upperMotorTalon);
 		LiveWindow.addActuator("Collector", "arm",  armMotorTalon);
+		LiveWindow.addSensor("Collector", "laser", laserCounter);
 	}
 	
 	/**
@@ -47,6 +52,7 @@ public class Collector {
 	public void collectReverse() {
 		upperMotorTalon.set(0.3);
 		lowerMotorTalon.set(0.4);
+		
 	}
 
 	public void armStop() {
@@ -57,7 +63,7 @@ public class Collector {
 		armMotorTalon.set(.2);
 		
 	}
-	
+
 	public void armReverse() {
 		armMotorTalon.set(-.2);
 	}
