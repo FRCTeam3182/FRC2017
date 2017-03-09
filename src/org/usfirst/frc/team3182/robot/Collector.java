@@ -63,6 +63,7 @@ public class Collector {
 		armMotorTalon.set(-.2);
 	}
 	
+	
 	/**
 	 * Determines if the robot has a gear.
 	 * 

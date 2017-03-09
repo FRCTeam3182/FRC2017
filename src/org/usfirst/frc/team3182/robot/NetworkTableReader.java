@@ -6,14 +6,21 @@ public class NetworkTableReader {
 
 	NetworkTable table;
 
-	public void robotInit() {
-		table = NetworkTable.getTable("dataTable");
-	}
-
 	//public void
 
 	public NetworkTableReader() {
+		table = NetworkTable.getTable("CameraData");
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void read() {
+		double[] defaultValue = new double[0];
+		double[] contours = table.getNumberArray("ContourPoints", defaultValue);
+		System.out.print("Contours: ");
+		for (double contour : contours) {
+			System.out.print(contours + " ");
+		}
+		System.out.println();
 	}
 
 }

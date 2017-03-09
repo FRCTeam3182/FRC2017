@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3182.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -37,7 +38,9 @@ public class Robot extends IterativeRobot {
 	DriveControl driveControl;
 	Collector collector;
 	Winch winch;
+	CameraServer server;
 	int targetDistance;
+	NetworkTableReader networkTableReader;
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 
@@ -76,9 +79,12 @@ public class Robot extends IterativeRobot {
 		collector = new Collector();
 		winch = new Winch();
 		timer = new Timer();
+		networkTableReader = new NetworkTableReader();
 
-		//server = CameraServer.getInstance();
-		//server.startAutomaticCapture();
+		server = CameraServer.getInstance();
+		server.startAutomaticCapture();
+		
+		
 
 
 		autoChooser.addDefault("Do nothing", null);
@@ -156,6 +162,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
 		driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
+		//networkTableReader.read();
+		System.out.println(collector.laserCounter.get());
 	}
 
 	/**
