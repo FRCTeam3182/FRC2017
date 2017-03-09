@@ -1,8 +1,5 @@
 package org.usfirst.frc.team3182.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Servo;
-
 /**
  * @author Team3182 
  *

@@ -28,8 +28,6 @@ public class RobotConfig {
 	public static Joystick joystickL = new Joystick(joystickLChannel);
 	public static int joystickRChannel = 1;
 	public static Joystick joystickR = new Joystick(joystickRChannel);
-	//public static int powerGloveChannel = 2;
-	//public static PowerGlove powerGlove = new PowerGlove(powerGloveChannel);
 	
 	public static int cameraJoystickChannel = 3;
 	public static Joystick cameraJoystick = new Joystick(cameraJoystickChannel);
@@ -129,7 +127,7 @@ public class RobotConfig {
 
 			
 			//We may not be able to use this constructor when we have PID and follower can talons
-			robotDrive = new RobotDrive(canTalonL, canTalonLSlave, canTalonR, canTalonRSlave);
+			robotDrive = new RobotDrive(canTalonL, canTalonR);
 			
 			distancePerPulse = 0.013089969;
 			
@@ -141,7 +139,11 @@ public class RobotConfig {
 			
 			robotDrive = new RobotDrive(pwmTalonL, pwmTalonR);
 			
+			
 			distancePerPulse = 0.008726646;
+			
+			LiveWindow.addActuator("DriveTrain", "Right Talon", pwmTalonR);
+			LiveWindow.addActuator("DriveTrain", "Left Talon",  pwmTalonL);
 			
 			break;
 			
