@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3182.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -27,21 +28,24 @@ import org.usfirst.frc.team3182.robot.Collector;
 public class Robot extends IterativeRobot {
 	POVCamera povCamera;
 	DriveTrain driveTrain;
-	
-	final String auto4S = "4sec";
-	final String auto2S = "2sec";
+
+	final String auto4s = "4sec";
+	final String auto2s = "2sec";
+	final String auto12ft = "12ft";
 	String autoSelected;	
 	int currentTime;
 	int targetTime;
 	DriveControl driveControl;
 	Collector collector;
 	Winch winch;
+	CameraServer server;
 	int targetDistance;
-	
+	NetworkTableReader networkTableReader;
+
 	SendableChooser<String> autoChooser = new SendableChooser<>();
-	
+
 	Timer timer;
-  
+
 	/**        
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -69,46 +73,47 @@ public class Robot extends IterativeRobot {
 			System.out.println("The variable botType does not have the correct value");
 			RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
 		}
-		
-		
+
 		driveTrain = new DriveTrain();
 		driveControl = new DriveControl();
-		//cameraServo = new CameraServo();
 		collector = new Collector();
 		winch = new Winch();
 		timer = new Timer();
-		targetDistance = 72;
+		networkTableReader = new NetworkTableReader();
+
+		server = CameraServer.getInstance();
+		server.startAutomaticCapture();
 		
-		//server = CameraServer.getInstance();
-		//server.startAutomaticCapture();
 		
-		
+
+
 		autoChooser.addDefault("Do nothing", null);
-		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4S);
-		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2S);
-		
+		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4s);
+		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2s);
+		autoChooser.addObject("Forward 12 ft", auto12ft);
+
 		SmartDashboard.putData("Auto choices", autoChooser);
-		
+
 		povCamera = new POVCamera();
-		
+
 	}
-	
+
 	public void disabledInit() {
 	}
 
 	@Override
 	public void autonomousInit() {
-
+		targetDistance = 0;
+		targetTime = 0;
 		autoSelected = autoChooser.getSelected();
-		if(autoSelected==null)	targetTime = 0;
-		else if (autoSelected.equals("4sec"))	targetTime = 4;
+		if (autoSelected.equals("4sec"))	targetTime = 4;
 		else if (autoSelected.equals("2sec"))	targetTime = 2;
-		else targetTime = 0;
+		else if (autoSelected.equals("auto12ft"))	targetDistance = 144;
 		timer.reset();
 		timer.start();
 		RobotConfig.leftEncoder.reset();
 		RobotConfig.rightEncoder.reset();			
-			
+
 
 	}
 
@@ -117,15 +122,22 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-
-		if(driveTrain.getLDistance()<targetDistance)	
-			driveTrain.getLeftPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
-		else
-			driveTrain.getLeftPIDController().setSetpoint(0);
-		if(driveTrain.getRDistance()<targetDistance)	
-			driveTrain.getRightPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
-		else
-			driveTrain.getRightPIDController().setSetpoint(0);
+		if(targetTime>0) {
+			if(timer.get()<targetTime)	
+				driveTrain.drive(.25, .25);
+			else
+				driveTrain.drive(0, 0);
+		}
+		else if(targetDistance>0){
+			if(driveTrain.getLDistance()<targetDistance)	
+				driveTrain.getLeftPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
+			else
+				driveTrain.getLeftPIDController().setSetpoint(0);
+			if(driveTrain.getRDistance()<targetDistance)	
+				driveTrain.getRightPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
+			else
+				driveTrain.getRightPIDController().setSetpoint(0);
+		}
 	}
 
 	/**
@@ -150,16 +162,18 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
 		driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
+		//networkTableReader.read();
+		System.out.println(collector.laserCounter.get());
 	}
-	
+
 	/**
 	 * This function is called when teleop begins.
 	 */
 	public void teleopInit() {
-		
-		
+
+
 	}
-	
+
 	/**
 	 * This function is called during teleop mode
 	 */
@@ -182,23 +196,22 @@ public class Robot extends IterativeRobot {
 		} else {
 			collector.armStop();
 		}
-		
+
 		if (RobotConfig.joystickR.getRawButton(3)) {
-			//adding 1 and dividing by 2 makes the scale from 0 to 1 instead of -1 to 1
-			winch.climb(false, driveControl.getClimbSpeed());
+			winch.climb(false, 1);
 		} else if (RobotConfig.joystickR.getRawButton(4)) {
-			winch.climb(true, driveControl.getClimbSpeed());
+			winch.climb(true, 1);
 		} else {
 			winch.climbStop();
 		}
-		
+
 		if (RobotConfig.joystickR.getRawButton(7)) {
 			if(driveTrain.pidEnabled)
 				driveTrain.disablePID();
 			else
 				driveTrain.enablePID();
 		}
-		
+
 		povCamera.dpadMove();
 	}
 }
