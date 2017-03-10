@@ -22,6 +22,10 @@ public class POVCamera {
 	Joystick stick = RobotConfig.joystickR;
 
 	public POVCamera() {
+		center();
+	}
+	
+	public void center() {
 		tilt.set(0.5);
 		pan.set(0.5);
 	}
@@ -35,17 +39,17 @@ public class POVCamera {
 		}
     
 		//up right
-    if (stick.getPOV() == 45) {
+		if (stick.getPOV() == 45) {
 			tilt.set(tilt.get() + 0.01);
 			pan.set(pan.get() + 0.01);
 		}
 
-    //right
+		//right
 		if (stick.getPOV() == 90) {
 			pan.set(pan.get() + 0.01);
-    }
+		}
 
-    //down right
+		//down right
 		if (stick.getPOV() == 135) {
 			tilt.set(tilt.get() - 0.01);
 			pan.set(pan.get() + 0.01);
@@ -57,26 +61,20 @@ public class POVCamera {
 		}
 
 		//down left
-    if (stick.getPOV() == 225) {
+		if (stick.getPOV() == 225) {
 			tilt.set(tilt.get() - 0.01);
 			pan.set(pan.get() - 0.01);
 		}
 		
-    //left
+		//left
 		if (stick.getPOV() == 270) {
 			pan.set(pan.get() - 0.01);
 		}
 		
-    //up left
+		//up left
 		if (stick.getPOV() == 315) {
 			tilt.set(tilt.get() + 0.01);
 			pan.set(pan.get() - 0.01);
-		}
-		
-    //when let go recenter camera
-		if (stick.getPOV() == -1) {
-			tilt.set(0.5);
-			pan.set(0.5);
 		}
 	}
 }

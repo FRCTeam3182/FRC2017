@@ -29,8 +29,9 @@ public class RobotConfig {
 	public static int joystickRChannel = 1;
 	public static Joystick joystickR = new Joystick(joystickRChannel);
 	
-	public static int cameraJoystickChannel = 3;
-	public static Joystick cameraJoystick = new Joystick(cameraJoystickChannel);
+	// FIXME: This appears to be unused in our robot [PB, 2017-03-10]
+	//public static int cameraJoystickChannel = 3;
+	//public static Joystick cameraJoystick = new Joystick(cameraJoystickChannel);
 			
 	// CAN Identifiers
 	public static int canTalonRNumber = 0;
