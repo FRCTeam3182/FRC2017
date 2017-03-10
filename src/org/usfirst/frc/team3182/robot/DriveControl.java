@@ -18,18 +18,14 @@ public class DriveControl {
 	private ArmState state;
 	
 	public DriveControl() {
-		
 		System.out.println("Drive Control Initialized");
-		//this tells Robot that the robot is using power glove
-		//Robot.usesPowerGlove = true; //Implement this in Robot class
-		System.out.println("PowerGlove used");
 		timer=new Timer();
 		armDuration= 2;
 		state=ArmState.up;
 	}
 	
 	/**
-	 * The standard get left power method, linear with .15 deadzone 
+	 * The standard get left power method
 	 */
 	public double getL() {
 		//Inverses the joystick output to make forward positive
@@ -37,7 +33,7 @@ public class DriveControl {
 		
 	}
 	/**
-	 * The standard get right power method, linear with .15 deadzone
+	 * The standard get right power method
 	 */
 	public double getR() {
 		//Inverses the joystick output to make forward positive
@@ -46,7 +42,7 @@ public class DriveControl {
 	
 	//Collect getter
 	public boolean collectCommand() {
-		if((RobotConfig.joystickL.getRawButton(1)==true) && RobotConfig.joystickR.getRawButton(1)==false)
+		if(RobotConfig.joystickL.getRawButton(1) && !RobotConfig.joystickR.getRawButton(1))
 			return true;
 		else
 			return false;
@@ -54,14 +50,13 @@ public class DriveControl {
 	
 	//Reverse collect getter
 	public boolean collectCommandReverse() {
-		if((RobotConfig.joystickR.getRawButton(1)==true) && RobotConfig.joystickL.getRawButton(1)==false)
+		if(RobotConfig.joystickR.getRawButton(1) && !RobotConfig.joystickL.getRawButton(1))
 			return true;
 		else
 			return false;
 	}
 	
 	public ArmState armCommand() {
-		double timerValue=timer.get();
 		switch(state){
 		case movingUp:
 			if(timer.get()>armDuration){
@@ -114,15 +109,6 @@ public class DriveControl {
         if (getR() > 0) return Math.pow(getR(), 2);
         else return -Math.abs(Math.pow(getR(), 2));
     }
-
-	
-	//Converts the throttle from 1 to -1 to 1 to 0. -1 is top, 1 is bottom.
-	public double getClimbSpeed() {
-
-		System.out.println((1-RobotConfig.joystickL.getThrottle())/2.0);
-		return (1.0-RobotConfig.joystickL.getThrottle())/2.0;
-	}
-	
 	
 
 }

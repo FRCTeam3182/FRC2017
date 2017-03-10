@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class Collector {
 	
-	//private Ultrasonic ultrasonic;
-	
 	Talon lowerMotorTalon = RobotConfig.lowerMotorTalon;
 	Talon upperMotorTalon = RobotConfig.upperMotorTalon;
 	Talon armMotorTalon = RobotConfig.armMotorTalon;
@@ -26,8 +24,6 @@ public class Collector {
 	
 	public Collector() {
 		
-		//ultrasonic = new Ultrasonic(RobotConfig.ultrasonicPing, RobotConfig.ultrasonicEcho);
-
 		LiveWindow.addActuator("Collector", "lower motor", lowerMotorTalon);
 		LiveWindow.addActuator("Collector", "upper motor",  upperMotorTalon);
 		LiveWindow.addActuator("Collector", "arm",  armMotorTalon);
@@ -66,6 +62,7 @@ public class Collector {
 	public void armReverse() {
 		armMotorTalon.set(-.2);
 	}
+	
 	
 	/**
 	 * Determines if the robot has a gear.

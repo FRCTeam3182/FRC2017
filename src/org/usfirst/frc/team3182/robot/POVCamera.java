@@ -11,87 +11,86 @@ import edu.wpi.first.wpilibj.Servo;
 
 
 public class POVCamera {
-	
+
 	//Pan servo of camera mount
-		Servo pan = RobotConfig.pan;
-		
-		//Tilt servo of camera mount
-		Servo tilt = RobotConfig.pan;
-	
-		
-		
-		/* 
-		 * Using driveControlR for dpad
-		 * driveControlR is the joystick with the dpad(knob on top)
-		 */
-Joystick stick = new Joystick(RobotConfig.joystickRChannel);
+	Servo pan = RobotConfig.pan;
+
+	//Tilt servo of camera mount
+	Servo tilt = RobotConfig.tilt;
 
 
-//Control
-public void dpadMove() {
-	
-	if (stick.getPOV() == 0){
 
-		tilt.set(tilt.get() + 0.05);
+	/* 
+	 * Using driveControlR for dpad
+	 * driveControlR is the joystick with the dpad(knob on top)
+	 */
+	Joystick stick = RobotConfig.joystickR;
 
-		}
-	//up
-	
-	if (stick.getPOV() == 45){
+	//Control
+	public void dpadMove() {
 
-		tilt.set(tilt.get() + 0.05);
-		pan.set(pan.get() + 0.05);
+		if (stick.getPOV() == 0){
+
+			tilt.set(tilt.get() + 0.05);
 
 		}
-	//up right
-	
-	if (stick.getPOV() == 90){
+		//up
+
+		if (stick.getPOV() == 45){
+
+			tilt.set(tilt.get() + 0.05);
+			pan.set(pan.get() + 0.05);
+
+		}
+		//up right
+
+		if (stick.getPOV() == 90){
 
 			pan.set(pan.get() + 0.05);
 
 		}
-	//right
-	
-	if (stick.getPOV() == 135){
+		//right
 
-				tilt.set(tilt.get() - 0.05);
-				pan.set(pan.get() + 0.05);
+		if (stick.getPOV() == 135){
 
-		}
-	//down right
-	
-	if (stick.getPOV() == 180){
-
-		tilt.set(tilt.get() - 0.05);
+			tilt.set(tilt.get() - 0.05);
+			pan.set(pan.get() + 0.05);
 
 		}
-	//down
-	
-	if (stick.getPOV() == 225){
+		//down right
 
-		tilt.set(tilt.get() - 0.05);
-		pan.set(pan.get() - 0.05);
+		if (stick.getPOV() == 180){
 
-		}
-	//down left
-	
-	if (stick.getPOV() == 270){
-
-		pan.set(pan.get() - 0.05);
+			tilt.set(tilt.get() - 0.05);
 
 		}
-	//left
-	
-	if (stick.getPOV() == 315){
+		//down
 
-		tilt.set(tilt.get() + 0.05);
-		pan.set(pan.get() - 0.05);
+		if (stick.getPOV() == 225){
+
+			tilt.set(tilt.get() - 0.05);
+			pan.set(pan.get() - 0.05);
 
 		}
-	//up left
-	
+		//down left
+
+		if (stick.getPOV() == 270){
+
+			pan.set(pan.get() - 0.05);
+
+		}
+		//left
+
+		if (stick.getPOV() == 315){
+
+			tilt.set(tilt.get() + 0.05);
+			pan.set(pan.get() - 0.05);
+
+		}
+		//up left
+
 	}
-	
+
 
 
 	public POVCamera() {
