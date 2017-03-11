@@ -171,6 +171,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Right", 0);
 			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+			SmartDashboard.putNumber("Left Encoder Distance", RobotConfig.leftEncoder.getDistance());
+			SmartDashboard.putNumber("Right Encoder  Distance", RobotConfig.rightEncoder.getDistance());
 			driveTrain.drive(0, 0);
 		}
 	}
