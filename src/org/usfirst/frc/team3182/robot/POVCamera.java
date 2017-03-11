@@ -8,19 +8,24 @@ import edu.wpi.first.wpilibj.Servo;
  * @author Alex
  */
 public class POVCamera {
-
+	
+	
 	//Pan servo of camera mount
 	Servo pan = RobotConfig.pan;
 
 	//Tilt servo of camera mount
 	Servo tilt = RobotConfig.tilt;
-
+	
+	
+	
 	/* 
 	 * Using driveControlR for dpad
 	 * driveControlR is the joystick with the dpad(knob on top)
 	 */
 	Joystick stick = RobotConfig.joystickR;
 
+	
+	
 	public POVCamera() {
 		center();
 	}
@@ -75,6 +80,8 @@ public class POVCamera {
 		if (stick.getPOV() == 315) {
 			tilt.set(tilt.get() + 0.01);
 			pan.set(pan.get() - 0.01);
+			
+		if ()
 		}
 	}
 }
