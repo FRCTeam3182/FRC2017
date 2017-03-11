@@ -29,10 +29,16 @@ public class Robot extends IterativeRobot {
 	POVCamera povCamera;
 	DriveTrain driveTrain;
 
+	// Auto selector keys
 	final String auto4s = "4sec";
 	final String auto2s = "2sec";
 	final String auto12ft = "12ft";
-	String autoSelected;	
+	
+	// Test selector keys
+	final String liveWindowKey = "lw";
+	
+	String autoSelected;
+	String testSelected;
 	int currentTime;
 	int targetTime;
 	DriveControl driveControl;
@@ -42,7 +48,9 @@ public class Robot extends IterativeRobot {
 	int targetDistance;
 	NetworkTableReader networkTableReader;
 
+	// A couple state selectors for the robot
 	SendableChooser<String> autoChooser = new SendableChooser<>();
+	SendableChooser<String> testChooser = new SendableChooser<>();
 
 	Timer timer;
 
@@ -58,18 +66,18 @@ public class Robot extends IterativeRobot {
 		//file from the roboRIO.
 		Path path = Paths.get("/home/lvuser/botType.txt");
 		String botType; 
-		try{
+		try {
 			botType = Files.readAllLines(path).get(0);
-			if(botType.equals("testBot")){
+			if (botType.equals("testBot")) {
 				System.out.println("We set the variable botType to testBot!");
 				RobotConfig.configureRobot(RobotConfig.Configs.TestBot);
 			}
-			else{
+			else {
 				System.out.println("WHAT?!");
 				RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
 			}
 		}
-		catch(IOException ex){
+		catch (IOException ex) {
 			System.out.println("The variable botType does not have the correct value");
 			RobotConfig.configureRobot(RobotConfig.Configs.CompetitionBot);
 		}
@@ -83,16 +91,18 @@ public class Robot extends IterativeRobot {
 
 		server = CameraServer.getInstance();
 		server.startAutomaticCapture();
-		
-		
 
-
-		autoChooser.addDefault("Do nothing", null);
 		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4s);
 		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2s);
 		autoChooser.addObject("Forward 12 ft", auto12ft);
+		autoChooser.addDefault("Do nothing", "");
 
 		SmartDashboard.putData("Auto choices", autoChooser);
+
+		testChooser.addObject("LiveWindow", liveWindowKey);
+		testChooser.addDefault("Standard", "");
+		
+		SmartDashboard.putData("Test Modes", testChooser);
 
 		povCamera = new POVCamera();
 
@@ -144,13 +154,19 @@ public class Robot extends IterativeRobot {
 	 * This function is called when test is chosen. 
 	 */
 	public void testInit() {
-		LiveWindow.setEnabled(false);
-		driveTrain.enablePID();
-		SmartDashboard.putNumber("Left", 0);
-		SmartDashboard.putNumber("Right", 0);
-		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
-		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
-		driveTrain.drive(0, 0);
+		testSelected = testChooser.getSelected();
+		if (testSelected.equals(liveWindowKey)) {
+			LiveWindow.setEnabled(true);
+		}
+		else {
+			LiveWindow.setEnabled(false);
+			driveTrain.enablePID();
+			SmartDashboard.putNumber("Left", 0);
+			SmartDashboard.putNumber("Right", 0);
+			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
+			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+			driveTrain.drive(0, 0);
+		}
 	}
 
 	/**
@@ -158,15 +174,21 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		//LiveWindow.run();
-		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
-		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
-		driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
-		
-		//networkTableReader.read();
-		
-		// The opto works! The issue was with the wiring on the sensor. [PB, 2017-03-10] 
-		//System.out.println(collector.laserCounter.get());
+		if (testSelected.equals(liveWindowKey)) {
+			LiveWindow.run();
+		}
+		else {
+			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
+			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+			driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
+			
+			// FIXME: I wasn't able to test this on day 0. I couldn't
+			// start the server on the PI without an HDMI monitor!
+			//networkTableReader.read();
+			
+			// The opto works! The issue was with the wiring on the sensor. [PB, 2017-03-10] 
+			//System.out.println(collector.laserCounter.get());
+		}
 	}
 
 	/**
