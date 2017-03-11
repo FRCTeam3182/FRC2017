@@ -81,7 +81,6 @@ public class POVCamera {
 			tilt.set(tilt.get() + 0.01);
 			pan.set(pan.get() - 0.01);
 			
-		if ()
 		}
 	}
 }
