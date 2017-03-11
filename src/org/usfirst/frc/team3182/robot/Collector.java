@@ -23,7 +23,6 @@ public class Collector {
 
 	
 	public Collector() {
-		
 		LiveWindow.addActuator("Collector", "lower motor", lowerMotorTalon);
 		LiveWindow.addActuator("Collector", "upper motor",  upperMotorTalon);
 		LiveWindow.addActuator("Collector", "arm",  armMotorTalon);
@@ -55,47 +54,51 @@ public class Collector {
 	}
 	
 	public void arm() {
-		armMotorTalon.set(.2);
-		
+		armMotorTalon.set(.2);	
 	}
 
 	public void armReverse() {
 		armMotorTalon.set(-.2);
 	}
 	
-	
 	/**
 	 * Determines if the robot has a gear.
 	 * 
-	 * @return True id the robot has a motor.
+	 * @return True if the robot has a motor.
 	 */
-	/*
+	
 	public boolean detectGear() {
-		//FIXME find ultrasonic value for gear
+		return false;
+		// FIXME: Update this code to use the opto sensor
+		// FIXME: Remove the return above when this function is implemented
+		
+		/* 
 		double distanceToGear = 0;
 		ultrasonic.ping();
 		if (ultrasonic.getRangeInches() == distanceToGear) {
 			return(true);
 		} else {
 			return(false);
-		}
+		}*/
 	}
-	*/
 	
 	/**
 	 * Determines if the motor is jammed.
 	 * 
 	 * @return True if the motor is jammed.
 	 */
-	/*
 	public boolean detectMotorJammed() {
-		//FIXME find encoder value for jammed motor
+		return false;
+		// FIXME: Connect the encoder from the upper motor to roboRio
+		// FIXME: Update this code to use the encoder to check for a stuck gear
+		// FIXME: Remove the return above when this function is implemented
+		
+		/*
 		if (upperMotor.getSpeed() != 0 && upperEncoder.getStopped() == true) {
 			return true;
 		} else {
 			return false;
 		}
+		*/
 	}
-	*/
-	
 }

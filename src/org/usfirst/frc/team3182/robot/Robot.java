@@ -162,8 +162,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 		SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
 		driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
+		
 		//networkTableReader.read();
-		System.out.println(collector.laserCounter.get());
+		
+		// The opto works! The issue was with the wiring on the sensor. [PB, 2017-03-10] 
+		//System.out.println(collector.laserCounter.get());
 	}
 
 	/**
