@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3182.robot;
+	package org.usfirst.frc.team3182.robot;
 
 import com.ctre.CANTalon; 
 
@@ -109,8 +109,8 @@ public class RobotConfig {
 			canTalonRSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
 			canTalonLSlave.changeControlMode(CANTalon.TalonControlMode.Follower);
 			
-			canTalonRSlave.set(canTalonR.getDeviceID());
-			canTalonLSlave.set(canTalonL.getDeviceID());
+			canTalonRSlave.set(canTalonRNumber);
+			canTalonLSlave.set(canTalonLNumber);
 
 			LiveWindow.addActuator("DriveTrain", "Right Pri. Talon", canTalonR);
 			LiveWindow.addActuator("DriveTrain", "Right Sl. Talon",  canTalonRSlave);
