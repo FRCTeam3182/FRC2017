@@ -92,7 +92,7 @@ public class DriveTrain {
 	public void drive(double left, double right){
 		if(pidEnabled) {
 			leftPIDController.setSetpoint(left*maxSpeed_inPs);
-			rightPIDController.setSetpoint(right*maxSpeed_inPs);
+			rightPIDController.setSetpoint(-right*maxSpeed_inPs);
 		}
 		else {
 			drive.setLeftRightMotorOutputs(left, right);

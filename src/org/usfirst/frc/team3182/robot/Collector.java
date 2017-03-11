@@ -40,12 +40,12 @@ public class Collector {
 	}
 	
 	public void collect() {
-		upperMotorTalon.set(-0.5);
+		upperMotorTalon.set(-0.8);
 		lowerMotorTalon.set(-1.0);
 	}
 	
 	public void collectReverse() {
-		upperMotorTalon.set(0.3);
+		upperMotorTalon.set(0.8);
 		lowerMotorTalon.set(1.0);
 	}
 
@@ -54,7 +54,7 @@ public class Collector {
 	}
 	
 	public void arm() {
-		armMotorTalon.set(.2);	
+		armMotorTalon.set(.3);	
 	}
 
 	public void armReverse() {

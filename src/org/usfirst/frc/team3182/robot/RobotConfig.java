@@ -28,6 +28,8 @@ public class RobotConfig {
 	public static Joystick joystickL = new Joystick(joystickLChannel);
 	public static int joystickRChannel = 1;
 	public static Joystick joystickR = new Joystick(joystickRChannel);
+	public static int joystickAppChannel = 2;
+	public static Joystick joystickApp = new Joystick(joystickAppChannel);
 	
 	// FIXME: This appears to be unused in our robot [PB, 2017-03-10]
 	//public static int cameraJoystickChannel = 3;

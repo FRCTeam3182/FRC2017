@@ -96,8 +96,8 @@ public class Robot extends IterativeRobot {
 		// FIXME: It seems that when the camera is not connected, this cause
 		// the robot to run really slowly
 		//
-		// server = CameraServer.getInstance();
-		// server.startAutomaticCapture();
+		server = CameraServer.getInstance();
+		server.startAutomaticCapture();
 
 		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4s);
 		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2s);
@@ -146,11 +146,11 @@ public class Robot extends IterativeRobot {
 		}
 		else if(targetDistance>0){
 			if(driveTrain.getLDistance()<targetDistance)	
-				driveTrain.getLeftPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
+				driveTrain.getLeftPIDController().setSetpoint(.5*driveTrain.maxSpeed_inPs);
 			else
 				driveTrain.getLeftPIDController().setSetpoint(0);
 			if(driveTrain.getRDistance()<targetDistance)	
-				driveTrain.getRightPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
+				driveTrain.getRightPIDController().setSetpoint(.5*driveTrain.maxSpeed_inPs);
 			else
 				driveTrain.getRightPIDController().setSetpoint(0);
 		}
@@ -188,6 +188,8 @@ public class Robot extends IterativeRobot {
 		else {
 			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+			SmartDashboard.putNumber("Left Encoder Distance", RobotConfig.leftEncoder.getDistance());
+			SmartDashboard.putNumber("Right Encoder  Distance", RobotConfig.rightEncoder.getDistance());
 			driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
 
 			povCamera.dpadMove();
@@ -215,7 +217,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called during teleop mode
 	 */
 	public void teleopPeriodic() {
-		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
+		driveTrain.drive(driveControl.getL(), driveControl.getR());
 
 		if (driveControl.collectCommand()) {
 			collector.collect();
@@ -231,17 +233,17 @@ public class Robot extends IterativeRobot {
 			collector.armReverse();
 		} else {
 			collector.armStop();
-		}
+		}	
 
-		if (RobotConfig.joystickR.getRawButton(3)) {
+		if (RobotConfig.joystickApp.getRawButton(4)) {
 			winch.climb(false, 1);
-		} else if (RobotConfig.joystickR.getRawButton(4)) {
+		} else if (RobotConfig.joystickApp.getRawButton(5)) {
 			winch.climb(true, 1);
 		} else {
 			winch.climbStop();
 		}
 
-		if (RobotConfig.joystickR.getRawButton(7)) {
+		if (RobotConfig.joystickR.getRawButton(9)) {
 			if(driveTrain.pidEnabled)
 				driveTrain.disablePID();
 			else
