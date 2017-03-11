@@ -247,5 +247,8 @@ public class Robot extends IterativeRobot {
 		}
 		
 		povCamera.dpadMove();
+		if (RobotConfig.joystickR.getRawButton(5)) {
+			povCamera.center();
+		}
 	}
 }
