@@ -37,8 +37,11 @@ public class Robot extends IterativeRobot {
 	// Test selector keys
 	final String liveWindowKey = "lw";
 	
+	final String pidOnKey = "on";
+	
 	String autoSelected;
 	String testSelected;
+	String pidSelected;
 	int currentTime;
 	int targetTime;
 	DriveControl driveControl;
@@ -51,6 +54,7 @@ public class Robot extends IterativeRobot {
 	// A couple state selectors for the robot
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	SendableChooser<String> testChooser = new SendableChooser<>();
+	SendableChooser<String> pidChooser  = new SendableChooser<>();
 
 	Timer timer;
 
@@ -89,8 +93,11 @@ public class Robot extends IterativeRobot {
 		timer = new Timer();
 		networkTableReader = new NetworkTableReader();
 
-		server = CameraServer.getInstance();
-		server.startAutomaticCapture();
+		// FIXME: It seems that when the camera is not connected, this cause
+		// the robot to run really slowly
+		//
+		// server = CameraServer.getInstance();
+		// server.startAutomaticCapture();
 
 		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4s);
 		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2s);
@@ -104,11 +111,12 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData("Test Modes", testChooser);
 
+		pidChooser.addObject("Linear Drive", "");
+		pidChooser.addDefault("PID Drive", pidOnKey);
+		
+		SmartDashboard.putData("Drive Modes", pidChooser);
+
 		povCamera = new POVCamera();
-
-	}
-
-	public void disabledInit() {
 	}
 
 	@Override
@@ -116,15 +124,13 @@ public class Robot extends IterativeRobot {
 		targetDistance = 0;
 		targetTime = 0;
 		autoSelected = autoChooser.getSelected();
-		if (autoSelected.equals("4sec"))	targetTime = 4;
-		else if (autoSelected.equals("2sec"))	targetTime = 2;
+		if (autoSelected.equals("4sec"))			targetTime = 4;
+		else if (autoSelected.equals("2sec"))		targetTime = 2;
 		else if (autoSelected.equals("auto12ft"))	targetDistance = 144;
 		timer.reset();
 		timer.start();
 		RobotConfig.leftEncoder.reset();
-		RobotConfig.rightEncoder.reset();			
-
-
+		RobotConfig.rightEncoder.reset();
 	}
 
 	/**
@@ -181,6 +187,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
 			driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
+
+			povCamera.dpadMove();
 			
 			// FIXME: I wasn't able to test this on day 0. I couldn't
 			// start the server on the PI without an HDMI monitor!
@@ -190,20 +198,21 @@ public class Robot extends IterativeRobot {
 			//System.out.println(collector.laserCounter.get());
 		}
 	}
-
-	/**
-	 * This function is called when teleop begins.
-	 */
+	
 	public void teleopInit() {
-
-
+		pidSelected = pidChooser.getSelected();
+		if (pidSelected.equals(pidOnKey)) {
+			driveTrain.enablePID();
+		}
+		else {
+			driveTrain.disablePID();
+		}
 	}
 
 	/**
 	 * This function is called during teleop mode
 	 */
 	public void teleopPeriodic() {
-
 		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
 
 		if (driveControl.collectCommand()) {
@@ -236,8 +245,7 @@ public class Robot extends IterativeRobot {
 			else
 				driveTrain.enablePID();
 		}
-
+		
 		povCamera.dpadMove();
 	}
 }
-

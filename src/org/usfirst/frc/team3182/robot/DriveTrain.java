@@ -25,6 +25,9 @@ public class DriveTrain {
 		// Set this class's RobotDrive to the same from the RobotConfig
 		drive = RobotConfig.robotDrive;
 		
+		// This will get rid of a nonsense warning in the DriverStation :)
+		drive.setSafetyEnabled(false);
+		
 		// This takes the value for distancePerPulse from the RobotConfig class
 		RobotConfig.leftEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
 		RobotConfig.rightEncoder.setDistancePerPulse(RobotConfig.distancePerPulse);
