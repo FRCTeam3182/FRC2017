@@ -3,6 +3,7 @@
 import com.ctre.CANTalon; 
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
@@ -92,7 +93,10 @@ public class RobotConfig {
 	
 	//Analog In
 	public static int potNumber = 0;
-	public static AnalogPotentiometer analogPot = new AnalogPotentiometer(potNumber);
+	//public static AnalogPotentiometer analogPot = new AnalogPotentiometer(potNumber, (.034-.011), .011);
+	//public static AnalogPotentiometer analogPot = new AnalogPotentiometer(potNumber);
+	public static AnalogInput analogPot = new AnalogInput(potNumber);
+	
 	
 	/** The linear distance in inches traveled by the robot per pulse of the encoders */ 
 	public static double distancePerPulse;
@@ -147,6 +151,10 @@ public class RobotConfig {
 		default:
 			throw new IllegalArgumentException("Unknown robot configuration provided to the configureRobot() method.");
 		}
+		analogPot.setOversampleBits(8);
+		analogPot.setAverageBits(4);
+		AnalogInput.setGlobalSampleRate(62500);
+		
 	}
 
 

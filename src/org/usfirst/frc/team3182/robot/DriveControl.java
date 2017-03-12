@@ -59,26 +59,25 @@ public class DriveControl {
 	public ArmState armCommand() {
 		switch(state){
 		case movingUp:
-			if(timer.get()>armDuration){
+			if(RobotConfig.analogPot.getAverageVoltage()>.010){
 				state=ArmState.up; 
+				
+				//0.11255739966796875
+				//0.056033128722656256
 			}
 			break;
 		case movingDown:
-			if(timer.get()>armDuration){
+			if(RobotConfig.analogPot.getAverageVoltage()<.058){
 				state=ArmState.down; 
 			}
 			break;
 		case up:
 			if(RobotConfig.joystickR.getRawButton(2)){
-				timer.reset();
-				timer.start();
 				state=ArmState.movingDown;
 			}
 			break;
 		case down:
 			if(RobotConfig.joystickR.getRawButton(2)){
-				timer.reset();
-				timer.start();
 				state=ArmState.movingUp;
 			}
 			break;

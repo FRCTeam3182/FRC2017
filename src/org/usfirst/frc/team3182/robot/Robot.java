@@ -173,6 +173,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
 			SmartDashboard.putNumber("Left Encoder Distance", RobotConfig.leftEncoder.getDistance());
 			SmartDashboard.putNumber("Right Encoder  Distance", RobotConfig.rightEncoder.getDistance());
+			SmartDashboard.putNumber("Potentiometer", RobotConfig.analogPot.getVoltage());
+			SmartDashboard.putNumber("Potentiometer average voltage", RobotConfig.analogPot.getAverageVoltage());
 			driveTrain.drive(0, 0);
 		}
 	}
@@ -188,7 +190,8 @@ public class Robot extends IterativeRobot {
 		else {
 			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
-			SmartDashboard.putNumber("Potentiometer", RobotConfig.analogPot.get());
+			SmartDashboard.putNumber("Potentiometer", RobotConfig.analogPot.getVoltage());
+			SmartDashboard.putNumber("Potentiometer average voltage", RobotConfig.analogPot.getAverageVoltage());
 			driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
 
 			povCamera.dpadMove();
