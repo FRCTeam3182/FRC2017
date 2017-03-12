@@ -58,12 +58,14 @@ public class Collector {
 	}
 	
 	public void arm() {
-		armMotorTalon.set(.3);	
+		armMotorTalon.set(0);	
 	}
 
 	public void armReverse() {
-		armMotorTalon.set(-.2);
+		armMotorTalon.set(-1);
 	}
+	
+	
 	
 	/**
 	 * Determines if the robot has a gear.
