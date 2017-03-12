@@ -188,6 +188,7 @@ public class Robot extends IterativeRobot {
 		else {
 			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+			SmartDashboard.putNumber("Potentiometer", RobotConfig.analogPot.get());
 			driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
 
 			povCamera.dpadMove();

@@ -3,6 +3,7 @@
 import com.ctre.CANTalon; 
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -88,6 +89,10 @@ public class RobotConfig {
 	public static Encoder upperEncoder = new Encoder(encoderUpperA, encoderUpperB); 
 	public static int laserChannel = 9; 
 	public static Counter laserCounter = new Counter(laserChannel);
+	
+	//Analog In
+	public static int potNumber = 0;
+	public static AnalogPotentiometer analogPot = new AnalogPotentiometer(potNumber);
 	
 	/** The linear distance in inches traveled by the robot per pulse of the encoders */ 
 	public static double distancePerPulse;
