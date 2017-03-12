@@ -94,8 +94,8 @@ public class RobotConfig {
 	public static Counter laserCounter = new Counter(laserChannel);
 	
 	//Analog In
-	public static int potPort = 0;
-	public static AnalogPotentiometer pot = new AnalogPotentiometer(potPort);
+	public static int potNumber = 0;
+	public static AnalogPotentiometer analogPot = new AnalogPotentiometer(potNumber);
 	
 	/** The linear distance in inches traveled by the robot per pulse of the encoders */ 
 	public static double distancePerPulse;

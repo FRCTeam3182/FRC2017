@@ -233,6 +233,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
 			SmartDashboard.putNumber("Left Encoder Distance", RobotConfig.leftEncoder.getDistance());
 			SmartDashboard.putNumber("Right Encoder  Distance", RobotConfig.rightEncoder.getDistance());
+			SmartDashboard.putNumber("Potentiometer", RobotConfig.analogPot.get());
 			driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
 			
 			collector.upperMotorTalon.set(SmartDashboard.getNumber("Upper Collector", 0));
