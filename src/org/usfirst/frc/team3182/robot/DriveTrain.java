@@ -16,6 +16,8 @@ public class DriveTrain {
 	private RobotDrive drive;
 	public int maxSpeed_inPs;
 	boolean pidEnabled;
+	boolean speedHigh;
+	double speedCoefficient;
 	
 	
 	/**
@@ -81,7 +83,9 @@ public class DriveTrain {
 		LiveWindow.addActuator("DriveTrain", "Left Encoder", RobotConfig.leftEncoder);
 		
 		enablePID();
+		speedHigh = true;
 		maxSpeed_inPs = 30;
+		speedCoefficient = 1;
 	}
 	
 	/**
@@ -91,8 +95,8 @@ public class DriveTrain {
 	 */
 	public void drive(double left, double right){
 		if(pidEnabled) {
-			leftPIDController.setSetpoint(left*maxSpeed_inPs);
-			rightPIDController.setSetpoint(-right*maxSpeed_inPs);
+			leftPIDController.setSetpoint(left*maxSpeed_inPs*speedCoefficient);
+			rightPIDController.setSetpoint(-right*maxSpeed_inPs*speedCoefficient);
 		}
 		else {
 			drive.setLeftRightMotorOutputs(left, right);
@@ -110,6 +114,18 @@ public class DriveTrain {
 		leftPIDController.enable();
 		rightPIDController.enable();
 		pidEnabled = true;
+	}
+	
+	public void toggleSpeed() {
+		if(speedHigh){
+			speedHigh = false;
+			speedCoefficient = .5;
+			
+		}
+		else {
+			speedHigh = true;
+			speedCoefficient = 1;
+		}
 	}
 	
 	/**

@@ -3,11 +3,13 @@
 import com.ctre.CANTalon; 
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class RobotConfig {
@@ -90,6 +92,10 @@ public class RobotConfig {
 	public static Encoder upperEncoder = new Encoder(encoderUpperA, encoderUpperB); 
 	public static int laserChannel = 9; 
 	public static Counter laserCounter = new Counter(laserChannel);
+	
+	//Analog In
+	public static int potPort = 0;
+	public static AnalogPotentiometer pot = new AnalogPotentiometer(potPort);
 	
 	/** The linear distance in inches traveled by the robot per pulse of the encoders */ 
 	public static double distancePerPulse;
