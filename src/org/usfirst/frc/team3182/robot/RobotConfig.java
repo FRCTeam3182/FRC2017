@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class RobotConfig {
@@ -25,11 +26,13 @@ public class RobotConfig {
 	
 	public static Configs config;
 	
-	//Joystick inputs USB
+	//Joystick inputs USB 
 	public static int joystickLChannel = 0;
 	public static Joystick joystickL = new Joystick(joystickLChannel);
 	public static int joystickRChannel = 1;
 	public static Joystick joystickR = new Joystick(joystickRChannel);
+	public static int joystickAppChannel = 2;
+	public static Joystick joystickApp = new Joystick(joystickAppChannel);
 	
 	// FIXME: This appears to be unused in our robot [PB, 2017-03-10]
 	//public static int cameraJoystickChannel = 3;

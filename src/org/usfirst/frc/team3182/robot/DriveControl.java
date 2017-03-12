@@ -42,7 +42,7 @@ public class DriveControl {
 	
 	//Collect getter
 	public boolean collectCommand() {
-		if(RobotConfig.joystickL.getRawButton(1) && !RobotConfig.joystickR.getRawButton(1))
+		if(RobotConfig.joystickApp.getRawButton(1))
 			return true;
 		else
 			return false;
@@ -50,7 +50,7 @@ public class DriveControl {
 	
 	//Reverse collect getter
 	public boolean collectCommandReverse() {
-		if(RobotConfig.joystickR.getRawButton(1) && !RobotConfig.joystickL.getRawButton(1))
+		if(RobotConfig.joystickApp.getRawButton(3))
 			return true;
 		else
 			return false;
@@ -72,11 +72,13 @@ public class DriveControl {
 			}
 			break;
 		case up:
+
 			if(RobotConfig.joystickR.getRawButton(2)){
 				state=ArmState.movingDown;
 			}
 			break;
 		case down:
+
 			if(RobotConfig.joystickR.getRawButton(2)){
 				state=ArmState.movingUp;
 			}

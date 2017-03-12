@@ -32,13 +32,24 @@ public class Robot extends IterativeRobot {
 	// Auto selector keys
 	final String auto4s = "4sec";
 	final String auto2s = "2sec";
+	final String autoBackward = "autoBack";
 	final String auto12ft = "12ft";
-	
+	final String autoGearDump = "autoGearDump";
+	boolean isAutoBackwards = false;
+
+	static enum AutoState{
+		invalid,
+		forward,
+		deploy,
+		reverse,
+		stop,
+	}
+
 	// Test selector keys
 	final String liveWindowKey = "lw";
-	
+
 	final String pidOnKey = "on";
-	
+
 	String autoSelected;
 	String testSelected;
 	String pidSelected;
@@ -96,11 +107,15 @@ public class Robot extends IterativeRobot {
 		// FIXME: It seems that when the camera is not connected, this cause
 		// the robot to run really slowly
 		//
-		// server = CameraServer.getInstance();
-		// server.startAutomaticCapture();
+		server = CameraServer.getInstance();
+		server.startAutomaticCapture(0);
+		server.startAutomaticCapture(1);
 
 		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4s);
 		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2s);
+		autoChooser.addObject("Backward, 2 sec, .25 speed", autoBackward);
+		autoChooser.addObject("Auto Gear Dump", autoGearDump);
+
 		autoChooser.addObject("Forward 12 ft", auto12ft);
 		autoChooser.addDefault("Do nothing", "");
 
@@ -108,12 +123,12 @@ public class Robot extends IterativeRobot {
 
 		testChooser.addObject("LiveWindow", liveWindowKey);
 		testChooser.addDefault("Standard", "");
-		
+
 		SmartDashboard.putData("Test Modes", testChooser);
 
 		pidChooser.addObject("Linear Drive", "");
 		pidChooser.addDefault("PID Drive", pidOnKey);
-		
+
 		SmartDashboard.putData("Drive Modes", pidChooser);
 
 		povCamera = new POVCamera();
@@ -124,13 +139,25 @@ public class Robot extends IterativeRobot {
 		targetDistance = 0;
 		targetTime = 0;
 		autoSelected = autoChooser.getSelected();
-		if (autoSelected.equals("4sec"))			targetTime = 4;
+		if (autoSelected.equals("4sec"))			targetTime = 5;
 		else if (autoSelected.equals("2sec"))		targetTime = 2;
 		else if (autoSelected.equals("auto12ft"))	targetDistance = 144;
+		else if (autoSelected.equals("autoBack"))	{
+			targetTime = 2;
+			isAutoBackwards = true;
+		}
 		timer.reset();
 		timer.start();
 		RobotConfig.leftEncoder.reset();
 		RobotConfig.rightEncoder.reset();
+		pidSelected = pidChooser.getSelected();
+		if (pidSelected.equals(pidOnKey)) {
+			driveTrain.enablePID();
+		}
+		else {
+			driveTrain.disablePID();
+		}
+
 	}
 
 	/**
@@ -138,21 +165,36 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		if(targetTime>0) {
-			if(timer.get()<targetTime)	
-				driveTrain.drive(.25, .25);
-			else
+		if(autoSelected.equals(autoGearDump)) {
+			if(timer.get()<2) driveTrain.drive(-.25, -.25);
+			else if(timer.get()>2 && timer.get()<4)	{
 				driveTrain.drive(0, 0);
+				collector.armReverse();
+			}
+			
+			else if(timer.get()>4 && timer.get()<8)	driveTrain.drive(.1, .1);
+			else if(timer.get()>8)	driveTrain.drive(0, 0);
 		}
-		else if(targetDistance>0){
-			if(driveTrain.getLDistance()<targetDistance)	
-				driveTrain.getLeftPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
-			else
-				driveTrain.getLeftPIDController().setSetpoint(0);
-			if(driveTrain.getRDistance()<targetDistance)	
-				driveTrain.getRightPIDController().setSetpoint(.25*driveTrain.maxSpeed_inPs);
-			else
-				driveTrain.getRightPIDController().setSetpoint(0);
+		else {
+			if(targetTime>0) {
+				if(timer.get()<targetTime)
+					if(isAutoBackwards)
+						driveTrain.drive(-.25, -.25);
+					else
+						driveTrain.drive(.25, .25);
+				else
+					driveTrain.drive(0, 0);
+			}
+			else if(targetDistance>0){
+				if(driveTrain.getLDistance()<targetDistance)	
+					driveTrain.getLeftPIDController().setSetpoint(.5*driveTrain.maxSpeed_inPs);
+				else
+					driveTrain.getLeftPIDController().setSetpoint(0);
+				if(driveTrain.getRDistance()<targetDistance)	
+					driveTrain.getRightPIDController().setSetpoint(.5*driveTrain.maxSpeed_inPs);
+				else
+					driveTrain.getRightPIDController().setSetpoint(0);
+			}
 		}
 	}
 
@@ -169,6 +211,7 @@ public class Robot extends IterativeRobot {
 			driveTrain.enablePID();
 			SmartDashboard.putNumber("Left", 0);
 			SmartDashboard.putNumber("Right", 0);
+			SmartDashboard.putNumber("Upper Collector", 0);
 			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
 			SmartDashboard.putNumber("Left Encoder Distance", RobotConfig.leftEncoder.getDistance());
@@ -190,21 +233,29 @@ public class Robot extends IterativeRobot {
 		else {
 			SmartDashboard.putNumber("Left Encoder Rate", RobotConfig.leftEncoder.getRate());
 			SmartDashboard.putNumber("Right Encoder Rate", RobotConfig.rightEncoder.getRate());
+
 			SmartDashboard.putNumber("Potentiometer", RobotConfig.analogPot.getVoltage());
 			SmartDashboard.putNumber("Potentiometer average voltage", RobotConfig.analogPot.getAverageVoltage());
-			driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
 
-			povCamera.dpadMove();
+			SmartDashboard.putNumber("Left Encoder Distance", RobotConfig.leftEncoder.getDistance());
+			SmartDashboard.putNumber("Right Encoder  Distance", RobotConfig.rightEncoder.getDistance());
+
+
+			driveTrain.drive(SmartDashboard.getNumber("Left", 0), SmartDashboard.getNumber("Right", 0));
 			
+			collector.upperMotorTalon.set(SmartDashboard.getNumber("Upper Collector", 0));
+			
+			povCamera.dpadMove();
+
 			// FIXME: I wasn't able to test this on day 0. I couldn't
 			// start the server on the PI without an HDMI monitor!
 			//networkTableReader.read();
-			
+
 			// The opto works! The issue was with the wiring on the sensor. [PB, 2017-03-10] 
 			//System.out.println(collector.laserCounter.get());
 		}
 	}
-	
+
 	public void teleopInit() {
 		pidSelected = pidChooser.getSelected();
 		if (pidSelected.equals(pidOnKey)) {
@@ -235,26 +286,29 @@ public class Robot extends IterativeRobot {
 			collector.armReverse();
 		} else {
 			collector.armStop();
-		}
+		}	
 
-		if (RobotConfig.joystickR.getRawButton(3)) {
+		if (RobotConfig.joystickApp.getRawButton(4)) {
 			winch.climb(false, 1);
-		} else if (RobotConfig.joystickR.getRawButton(4)) {
+		} else if (RobotConfig.joystickApp.getRawButton(5)) {
 			winch.climb(true, 1);
 		} else {
 			winch.climbStop();
 		}
 
-		if (RobotConfig.joystickR.getRawButton(7)) {
+		if (RobotConfig.joystickR.getRawButton(9)) {
 			if(driveTrain.pidEnabled)
 				driveTrain.disablePID();
 			else
 				driveTrain.enablePID();
 		}
-		
+		RobotConfig.upperMotorTalon.set(RobotConfig.joystickApp.getThrottle());
+
 		povCamera.dpadMove();
 		if (RobotConfig.joystickR.getRawButton(5)) {
 			povCamera.center();
 		}
+		if (RobotConfig.joystickApp.getRawButton(7))	RobotConfig.upperMotorTalon.set(-1);
+		if(RobotConfig.joystickR.getRawButton(1))	driveTrain.toggleSpeed();
 	}
 }
