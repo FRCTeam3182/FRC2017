@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Talon;
@@ -77,6 +78,10 @@ public class RobotConfig {
 	
 	/** The left primary drivetrain PWM Talon. This will be NULL for the CompetitionBot. */
 	public static Talon pwmTalonL;
+	
+	//Relay
+	public static int spikeLedNumber = 0;
+	public static Relay spikeLed = new Relay(spikeLedNumber);
 		
 	//DIO
 	public static int encoderLA = 0;

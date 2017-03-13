@@ -2,6 +2,7 @@ package org.usfirst.frc.team3182.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -107,9 +108,9 @@ public class Robot extends IterativeRobot {
 		// FIXME: It seems that when the camera is not connected, this cause
 		// the robot to run really slowly
 		//
-		server = CameraServer.getInstance();
-		server.startAutomaticCapture(0);
-		server.startAutomaticCapture(1);
+		//server = CameraServer.getInstance();
+		//server.startAutomaticCapture(0);
+		//server.startAutomaticCapture(1);
 
 		autoChooser.addObject("Forward, 4 sec, .25 speed", auto4s);
 		autoChooser.addObject("Forward, 2 sec, .25 speed", auto2s);
@@ -157,6 +158,7 @@ public class Robot extends IterativeRobot {
 		else {
 			driveTrain.disablePID();
 		}
+		RobotConfig.spikeLed.set(Relay.Value.kForward);
 
 	}
 
@@ -220,6 +222,8 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Potentiometer average voltage", RobotConfig.analogPot.getAverageVoltage());
 			driveTrain.drive(0, 0);
 		}
+		RobotConfig.spikeLed.set(Relay.Value.kForward);
+		
 	}
 
 	/**
@@ -249,7 +253,7 @@ public class Robot extends IterativeRobot {
 
 			// FIXME: I wasn't able to test this on day 0. I couldn't
 			// start the server on the PI without an HDMI monitor!
-			//networkTableReader.read();
+			networkTableReader.read();
 
 			// The opto works! The issue was with the wiring on the sensor. [PB, 2017-03-10] 
 			//System.out.println(collector.laserCounter.get());
@@ -257,6 +261,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		RobotConfig.spikeLed.set(Relay.Value.kForward);
 		pidSelected = pidChooser.getSelected();
 		if (pidSelected.equals(pidOnKey)) {
 			driveTrain.enablePID();
@@ -284,7 +289,9 @@ public class Robot extends IterativeRobot {
 			collector.arm();
 		} else if (driveControl.armCommand()==DriveControl.ArmState.movingUp) {
 			collector.armReverse();
-		} else {
+		} 
+		else {
+		
 			collector.armStop();
 		}	
 
