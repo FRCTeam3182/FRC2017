@@ -13,28 +13,61 @@
  This example code is in the public domain.
  */
 
-int led = 9;           // the PWM pin the LED is attached to
+
+int pinRed = 9;
+int pinGreen = 10;
+int pinBlue = 11;
+// the PWM pin the LED is attached to
+
 int brightness = 0;    // how bright the LED is
 int fadeAmount = 5;    // how many points to fade the LED by
 
 // the setup routine runs once when you press reset:
 void setup() {
   // declare pin 9 to be an output:
-  pinMode(led, OUTPUT);
+  pinMode(pinRed, OUTPUT);
+  pinMode(pinGreen, OUTPUT);
+  pinMode(pinBlue, OUTPUT);
 }
 
+void climb(){
+  //lights displayed when climbing(yellow?)
+  analogWrite(pinRed, 255);
+  analogWrite(pinGreen, 255);
+}
+
+void stationary(){
+  //lights displayed when stationary(purple?)
+  analogWrite(pinRed, 255);
+  analogWrite(pinBlue, 255);
+}
+
+void collect(){
+  //lights displayed when collecting(orange?)
+  analogWrite(pinRed, 255);
+  analogWrite(pinGreen, 127);
+}
+
+void arm(){
+  //lights displayed when using arm(pink?)
+  analogWrite(pinRed, 255);
+  analogWrite(pinBlue, 100);
+}
 // the loop routine runs over and over again forever:
 void loop() {
+ 
+  climb();
+  
   // set the brightness of pin 9:
-  analogWrite(led, brightness);
+  //analogWrite(led, brightness);
 
   // change the brightness for next time through the loop:
-  brightness = brightness + fadeAmount;
+  //brightness = brightness + fadeAmount;
 
   // reverse the direction of the fading at the ends of the fade:
   if (brightness == 0 || brightness == 255) {
-    fadeAmount = -fadeAmount ;
+    //fadeAmount = -fadeAmount ;
   }
   // wait for 30 milliseconds to see the dimming effect
-  delay(30);
+  //delay(30);
 }
