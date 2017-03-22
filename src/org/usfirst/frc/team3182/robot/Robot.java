@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot {
 	final String autoBackward = "autoBack";
 	final String auto12ft = "12ft";
 	final String autoGearDump = "autoGearDump";
+	final String arcade = "arcade";
+	final String tank = "tank";
 	boolean isAutoBackwards = false;
 
 	static enum AutoState{
@@ -54,6 +56,7 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	String testSelected;
 	String pidSelected;
+	String arcadeSelected;
 	int currentTime;
 	int targetTime;
 	DriveControl driveControl;
@@ -67,6 +70,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 	SendableChooser<String> testChooser = new SendableChooser<>();
 	SendableChooser<String> pidChooser  = new SendableChooser<>();
+	SendableChooser<String> arcadeChooser  = new SendableChooser<>();
 
 	Timer timer;
 
@@ -129,8 +133,14 @@ public class Robot extends IterativeRobot {
 
 		pidChooser.addObject("Linear Drive", "");
 		pidChooser.addDefault("PID Drive", pidOnKey);
+		
 
 		SmartDashboard.putData("Drive Modes", pidChooser);
+		
+		arcadeChooser.addDefault("Arcade", arcade);
+		arcadeChooser.addObject("Tank", tank);
+		
+		SmartDashboard.putData("Arcade Selector", arcadeChooser);
 
 		povCamera = new POVCamera();
 	}
@@ -263,12 +273,17 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		RobotConfig.spikeLed.set(Relay.Value.kForward);
 		pidSelected = pidChooser.getSelected();
+		arcadeSelected = arcadeChooser.getSelected();
 		if (pidSelected.equals(pidOnKey)) {
 			driveTrain.enablePID();
 		}
 		else {
 			driveTrain.disablePID();
 		}
+		if(arcadeSelected.equals(arcade))
+			driveTrain.arcadeEnabled = true;
+		else
+			driveTrain.arcadeEnabled = false;
 	}
 
 	/**
@@ -276,6 +291,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
+		networkTableReader.read();
 
 		if (driveControl.collectCommand()) {
 			collector.collect();
@@ -316,6 +332,8 @@ public class Robot extends IterativeRobot {
 			povCamera.center();
 		}
 		if (RobotConfig.joystickApp.getRawButton(7))	RobotConfig.upperMotorTalon.set(-1);
-		if(RobotConfig.joystickR.getRawButton(1))	driveTrain.toggleSpeed();
+		if(RobotConfig.joystickR.getRawButton(1))	driveTrain.toggleArcade();
+		
+		
 	}
 }
