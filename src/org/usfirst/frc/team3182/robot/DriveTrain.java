@@ -98,18 +98,22 @@ public class DriveTrain {
 	 * @param right  value for right wheels, from -1 to 1
 	 */
 	public void drive(double left, double right){
-		if(pidEnabled && !arcadeEnabled) {
-			leftPIDController.setSetpoint(-left*maxSpeed_inPs*speedCoefficient);
+		// PID and Tank
+		if(pidEnabled && !arcadeEnabled) { 
+			leftPIDController.setSetpoint(left*maxSpeed_inPs*speedCoefficient);
 			rightPIDController.setSetpoint(right*maxSpeed_inPs*speedCoefficient);
 		}
+		// PID and Arcade
 		else if(pidEnabled && arcadeEnabled){
-			leftPIDController.setSetpoint(-pidArcadeL()*maxSpeed_inPs*speedCoefficient);
+			leftPIDController.setSetpoint(pidArcadeL()*maxSpeed_inPs*speedCoefficient);
 			rightPIDController.setSetpoint(pidArcadeR()*maxSpeed_inPs*speedCoefficient);
 		}
-		else if (!pidEnabled & arcadeEnabled) {
+		// Linear and Arcade
+		else if (!pidEnabled && arcadeEnabled) {
 			drive.arcadeDrive(RobotConfig.joystickR.getY(), -RobotConfig.joystickR.getX());
 		}
-		else {
+		// Linear and Tank
+		else{
 			drive.setLeftRightMotorOutputs(left, right);
 		}
 	}
@@ -189,72 +193,72 @@ public class DriveTrain {
 
 
 	public double pidArcadeL() {
-		if (joystickR.getY()>0){
-			if (joystickR.getX()>0) {
-				if (joystickR.getY()>joystickR.getX()) {
-					return joystickR.getX();
+		if (-joystickR.getY()>0){
+			if (-joystickR.getX()>0) {
+				if (-joystickR.getY()>-joystickR.getX()) {
+					return -joystickR.getX();
 				}
 				else {
-					return joystickR.getY();
+					return -joystickR.getY();
 				}}
 			else {
-				if(joystickR.getY()>-joystickR.getX()) {
-					return joystickR.getY()+joystickR.getX();
+				if(-joystickR.getY()>joystickR.getX()) {
+					return -joystickR.getY()-joystickR.getX();
 				}
 				else {
-					return joystickR.getY()+joystickR.getX();
+					return -joystickR.getY()-joystickR.getX();
 				}
 			}
 		}
 		else {
-			if(joystickR.getX()<0) {
-				if(joystickR.getY()>joystickR.getX()) {
-					return joystickR.getX();
+			if(-joystickR.getX()<0) {
+				if(-joystickR.getY()>-joystickR.getX()) {
+					return -joystickR.getX();
 				}
 				else {
-					return joystickR.getY();
+					return -joystickR.getY();
 				}}
 			else {
-				if (joystickR.getY()<joystickR.getX())
-					return joystickR.getY()+joystickR.getX();
+				if (-joystickR.getY()<-joystickR.getX())
+					return -joystickR.getY()-joystickR.getX();
 				else {
-					return joystickR.getY()+joystickR.getX();
+					return -joystickR.getY()-joystickR.getX();
 				}
 			}
 		}
 	}
 
 	public double pidArcadeR() {
-		if (joystickR.getY()>0){
-			if (joystickR.getX()>0) {
-				if (joystickR.getY()>joystickR.getX()) {
-					return joystickR.getY()-joystickR.getX();
+		if (-joystickR.getY()>0){
+			if (-joystickR.getX()>0) {
+				if (-joystickR.getY()>-joystickR.getX()) {
+					return -joystickR.getY()+joystickR.getX();
 				}
 				else {
-					return joystickR.getY()-joystickR.getX();
+					return -joystickR.getY()+joystickR.getX();
 				}}
 			else {
-				if(joystickR.getY()>-joystickR.getX()) {
-					return joystickR.getY();
+				if(-joystickR.getY()>+joystickR.getX()) {
+					return -joystickR.getY();
 				}
 				else {
-					return -joystickR.getX();
+					return joystickR.getX();
 				}
 			}
 		}
 		else {
-			if(joystickR.getX()<0) {
-				if(joystickR.getY()>joystickR.getX()) {
-					return joystickR.getY() - joystickR.getX();
+			if(-joystickR.getX()<0) {
+				if(-joystickR.getY()>-joystickR.getX()) {
+					return -joystickR.getY() + joystickR.getX();
 				}
 				else {
-					return joystickR.getY() - joystickR.getX();
+					return -joystickR.getY() + joystickR.getX();
 				}}
 			else {
-				if (joystickR.getY()<joystickR.getX())
-					return joystickR.getY();
+				if (-joystickR.getY()<-joystickR.getX())
+					return -joystickR.getY();
 				else {
-					return joystickR.getX();
+					return -joystickR.getX();
 				}
 			}
 		}

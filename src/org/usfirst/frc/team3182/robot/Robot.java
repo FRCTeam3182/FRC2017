@@ -220,7 +220,7 @@ public class Robot extends IterativeRobot {
 		}
 		else {
 			LiveWindow.setEnabled(false);
-			driveTrain.enablePID();
+			driveTrain.disablePID();
 			SmartDashboard.putNumber("Left", 0);
 			SmartDashboard.putNumber("Right", 0);
 			SmartDashboard.putNumber("Upper Collector", 0);
@@ -275,6 +275,8 @@ public class Robot extends IterativeRobot {
 		pidSelected = pidChooser.getSelected();
 		arcadeSelected = arcadeChooser.getSelected();
 		if (pidSelected.equals(pidOnKey)) {
+			driveTrain.getLeftPIDController().reset();
+			driveTrain.getRightPIDController().reset();
 			driveTrain.enablePID();
 		}
 		else {
@@ -284,6 +286,11 @@ public class Robot extends IterativeRobot {
 			driveTrain.arcadeEnabled = true;
 		else
 			driveTrain.arcadeEnabled = false;
+		//RobotConfig.leftEncoder.reset();
+		//RobotConfig.rightEncoder.reset();
+		driveTrain.getLeftPIDController().setSetpoint(0);
+		driveTrain.getRightPIDController().setSetpoint(0);
+		
 	}
 
 	/**
