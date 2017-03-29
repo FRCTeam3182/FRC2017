@@ -61,6 +61,11 @@ void arm(){
   analogWrite(pinRed, 255);
   analogWrite(pinBlue, 100);
 }
+void gearCollected() {
+  // lights displayed when a gear is collected
+  analogWrite(pinRed, 255);
+  
+}
 // the loop routine runs over and over again forever:
 void loop() {
  
