@@ -181,7 +181,7 @@ public class Robot extends IterativeRobot {
 			if(timer.get()<2) driveTrain.drive(-.25, -.25);
 			else if(timer.get()>2 && timer.get()<4)	{
 				driveTrain.drive(0, 0);
-				collector.armReverse();
+				collector.armUp();
 			}
 			
 			else if(timer.get()>4 && timer.get()<8)	driveTrain.drive(.1, .1);
@@ -297,6 +297,10 @@ public class Robot extends IterativeRobot {
 	 * This function is called during teleop mode
 	 */
 	public void teleopPeriodic() {
+		// Read the network table for data on the camera
+		//networkTableReader.read();
+		
+		// Communicate the driver's commands to the DriveTrain
 		// PID and Tank
 		if(driveTrain.pidEnabled && !driveTrain.arcadeEnabled) { 
 			driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
@@ -313,26 +317,14 @@ public class Robot extends IterativeRobot {
 		else {
 			driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
 		}
-		
-		networkTableReader.read();
 
-		if (driveControl.collectCommand()) {
-			collector.collect();
-		} else if (driveControl.collectCommandReverse()) {
-			collector.collectReverse();
-		} else {
-			collector.collectStop();
-		}
-
-		if (driveControl.armCommand()==DriveControl.ArmState.movingDown) {
-			collector.arm();
-		} else if (driveControl.armCommand()==DriveControl.ArmState.movingUp) {
-			collector.armReverse();
-		} 
-		else {
-		
-			collector.armStop();
-		}	
+		// Communicate the driver's commands to the collector
+		if      (driveControl.collectCommand() == DriveControl.CollectState.in)  {collector.collect();}
+		else if (driveControl.collectCommand() == DriveControl.CollectState.out) {collector.collectReverse();}
+		else                                                                     {collector.collectStop();}
+		if      (driveControl.armCommand() == DriveControl.ArmState.down) {collector.armDown();}
+		else if (driveControl.armCommand() == DriveControl.ArmState.up)   {collector.armUp();} 
+		else                                                              {collector.armStop();}	
 
 		if (RobotConfig.joystickApp.getRawButton(4)) {
 			winch.climb(false, 1);

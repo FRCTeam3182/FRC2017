@@ -1,30 +1,24 @@
 package org.usfirst.frc.team3182.robot;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Joystick;
-
 
 public class DriveControl {
 
 	static enum ArmState{
 		invalid,
-		down,
 		up,
-		movingDown,
-		movingUp,
+		down,
+		idle
 	}
-
-	private Timer timer;
-	private double armDuration;
-	private ArmState state;
-	private Joystick joystickR;
+	
+	static enum CollectState{
+		invalid,
+		in,
+		out,
+		idle
+	}
 
 	public DriveControl() {
 		System.out.println("Drive Control Initialized");
-		timer=new Timer();
-		armDuration= 2;
-		state=ArmState.up;
-		joystickR = RobotConfig.joystickR; 
 	}
 
 	/**
@@ -57,56 +51,17 @@ public class DriveControl {
 	}
 
 
-	//Collect getter
-	public boolean collectCommand() {
-		if(RobotConfig.joystickApp.getRawButton(1))
-			return true;
-		else
-			return false;
-	}
-
-	//Reverse collect getter
-	public boolean collectCommandReverse() {
-		if(RobotConfig.joystickApp.getRawButton(3))
-			return true;
-		else
-			return false;
+	// What should the collector on the arm do?
+	public CollectState collectCommand() {
+		if      (RobotConfig.joystickApp.getRawButton(1)) {return CollectState.in;}
+		else if (RobotConfig.joystickApp.getRawButton(3)) {return CollectState.out;}
+		else                                              {return CollectState.idle;}
 	}
 
 	public ArmState armCommand() {
-		switch(state){
-		case movingUp:
-			if(RobotConfig.analogPot.getAverageVoltage()>.010){
-				state=ArmState.up; 
-
-				//0.11255739966796875
-				//0.056033128722656256
-			}
-			break;
-		case movingDown:
-			if(RobotConfig.analogPot.getAverageVoltage()<.058){
-				state=ArmState.down; 
-			}
-			break;
-		case up:
-
-			if(RobotConfig.joystickR.getRawButton(2)){
-				state=ArmState.movingDown;
-			}
-			break;
-		case down:
-
-			if(RobotConfig.joystickR.getRawButton(2)){
-				state=ArmState.movingUp;
-			}
-			break;
-		case invalid:
-			System.out.println("Oops! Something went wrong...");
-			break;
-		default:
-			break;
-		}
-		return state;
+		if      (RobotConfig.joystickApp.getRawButton(6)) {return ArmState.down;}
+		else if (RobotConfig.joystickApp.getRawButton(7)) {return ArmState.up;}
+		else                                              {return ArmState.idle;}
 	}
 
 	/**

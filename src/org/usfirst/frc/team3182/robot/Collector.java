@@ -57,11 +57,11 @@ public class Collector {
 		armMotorTalon.set(0);
 	}
 	
-	public void arm() {
+	public void armDown() {
 		armMotorTalon.set(0);	
 	}
 
-	public void armReverse() {
+	public void armUp() {
 		armMotorTalon.set(-1);
 	}
 	

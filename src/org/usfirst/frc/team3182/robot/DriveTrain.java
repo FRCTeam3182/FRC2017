@@ -1,7 +1,6 @@
 
 package org.usfirst.frc.team3182.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -21,7 +20,6 @@ public class DriveTrain {
 	boolean speedHigh;
 	double speedCoefficient;
 	public boolean arcadeEnabled;
-	private Joystick joystickR;
 
 	/**
 	 * DriveTrain constructor, creates a DriveTrain
@@ -29,7 +27,6 @@ public class DriveTrain {
 	public DriveTrain(){
 		// Set this class's RobotDrive to the same from the RobotConfig
 		drive = RobotConfig.robotDrive;
-		joystickR = RobotConfig.joystickR; 
 
 		// This will get rid of a nonsense warning in the DriverStation :)
 		drive.setSafetyEnabled(false);

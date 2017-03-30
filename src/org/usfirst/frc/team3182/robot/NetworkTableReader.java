@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3182.robot;
 
-import java.util.Set;
+//import java.util.Set;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
@@ -12,7 +12,7 @@ public class NetworkTableReader {
 
 	public NetworkTableReader() {
 		table = NetworkTable.getTable("CameraData");
-		Set<String> keys = table.getKeys();
+		//Set<String> keys = table.getKeys();
 	}
 	
 	public void read() {
