@@ -144,7 +144,6 @@ public class RobotConfig {
 			
 		case TestBot:
 			pwmTalonR = new Talon(pwmTalonRNumber);
-			pwmTalonR.setInverted(true);
 			pwmTalonL = new Talon(pwmTalonLNumber);
 			
 			robotDrive = new RobotDrive(pwmTalonL, pwmTalonR);

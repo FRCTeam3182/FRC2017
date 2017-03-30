@@ -297,7 +297,23 @@ public class Robot extends IterativeRobot {
 	 * This function is called during teleop mode
 	 */
 	public void teleopPeriodic() {
-		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
+		// PID and Tank
+		if(driveTrain.pidEnabled && !driveTrain.arcadeEnabled) { 
+			driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
+		}
+		// PID and Arcade
+		else if(driveTrain.pidEnabled && driveTrain.arcadeEnabled) {
+			driveTrain.drive(driveControl.pidArcadeL(), driveControl.pidArcadeR());
+		}
+		// Linear and Arcade
+		else if (!driveTrain.pidEnabled && driveTrain.arcadeEnabled) {
+			driveTrain.arcadeDrive(RobotConfig.joystickR.getY(), RobotConfig.joystickR.getX());
+		}
+		// Linear and Tank
+		else {
+			driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
+		}
+		
 		networkTableReader.read();
 
 		if (driveControl.collectCommand()) {
