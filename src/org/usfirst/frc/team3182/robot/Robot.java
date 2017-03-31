@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 	CameraServer server;
 	int targetDistance;
 	NetworkTableReader networkTableReader;
+	LEDWrite ledWrite;
 
 	SendableChooser<String> autoChooser = new SendableChooser<>();
 
@@ -178,6 +179,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called during teleop mode
 	 */
 	public void teleopPeriodic() {
+		boolean isLedCommanded = false;
 
 		driveTrain.drive(driveControl.getLExp(), driveControl.getRExp());
 
@@ -195,12 +197,16 @@ public class Robot extends IterativeRobot {
 			collector.armReverse();
 		} else {
 			collector.armStop();
+			ledWrite.armLights();
+			isLedCommanded = true;
 		}
 
 		if (RobotConfig.joystickR.getRawButton(3)) {
 			winch.climb(false, 1);
 		} else if (RobotConfig.joystickR.getRawButton(4)) {
 			winch.climb(true, 1);
+			ledWrite.climbLights();
+			isLedCommanded = true;
 		} else {
 			winch.climbStop();
 		}
@@ -210,9 +216,15 @@ public class Robot extends IterativeRobot {
 				driveTrain.disablePID();
 			else
 				driveTrain.enablePID();
+			ledWrite.drivingLights();
+			isLedCommanded = true;
 		}
 
 		povCamera.dpadMove();
+		
+		if (! isLedCommanded) {
+			ledWrite.stationaryLights();
+		}
 	}
 }
 
